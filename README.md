@@ -164,22 +164,7 @@ yukino0.8/
 
 这是普通 JSON 文件资料库，不需要安装数据库服务。`verify.py` 检查公共文件哈希和演示库结构，不请求模型；运行库变化不影响发布文件校验。
 
-## 上传 GitHub
 
-推荐仓库名 **`yukino`**，版本标签 **`v0.8`**；不要把整个私人 ai4everything 副本当成这个公共壳提交。
-
-在当前目录初始化 Git，并先查看待提交内容：
-
-```powershell
-git init
-git add .
-git status --short
-git commit -m "Prepare Yukino v0.8 public shell"
-```
-
-然后创建自己的 GitHub 仓库，按 GitHub 给出的远程地址设置 remote 并 push。也可上传本目录的公共文件，或把 ZIP 放在 Release 中。本交付没有替你创建仓库、提交或上传。
-
-后续自己的存档、上传图片、凭据与任务日志位于被忽略的 `database/`。不要强制添加该目录；要分享一个新演示，应另行整理脱敏、独立的例子放入 `examples/`，并检查相关素材来源。
 
 ## 来源与许可
 
