@@ -1,0 +1,4 @@
+interface:
+  display_name: "剧本与角色扮演"
+  short_description: "对话导入剧本、世界观和人物卡，在浏览器群像剧场游玩并保存独立分支"
+  default_prompt: "使用 $sillytavern-roleplay 导入或构建一个世界观与设定集组成的剧本，并在浏览器选择开场和存档开始游戏。"

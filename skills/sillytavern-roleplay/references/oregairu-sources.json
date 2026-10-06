@@ -1,0 +1,86 @@
+{
+  "cards": [
+    {
+      "name": "雪之下雪乃",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara02.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "由比滨结衣",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara03.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "一色彩羽",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara04.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "比企谷小町",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara05.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "川崎沙希",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara06.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "雪之下阳乃",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara07.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "叶山隼人",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara08.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "平冢静",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara09.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "户冢彩加",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara10.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "户部翔",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara11.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "材木座义辉",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara13.html",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "三浦优美子",
+      "source": "https://www.tbs.co.jp/anime/oregairu/1st/chara/",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "海老名姬菜",
+      "source": "https://gagagabunko.jp/special/oregairu/15th/",
+      "mode": "authored compatible card from public references"
+    },
+    {
+      "name": "比企谷八幡",
+      "source": "https://www.tbs.co.jp/anime/oregairu/character/chara01.html",
+      "mode": "authored compatible card from public references"
+    }
+  ],
+  "external_card_candidate": {
+    "url": "https://character-tavern.com/character/8man/yukinoshita_yukino",
+    "status": "public card located; not substituted for user card"
+  },
+  "openings": "Original scenes based on Oregairu setting, not copied episode scripts.",
+  "season_one_baselines": {
+    "character_source": "https://www.tbs.co.jp/anime/oregairu/1st/chara/",
+    "story_source": "https://www.tbs.co.jp/anime/oregairu/1st/story/",
+    "score_status": "authored game design inference; not official numerical affection",
+    "age_policy": "start-of-school-year ages; Haruno 19–20 range, Hiratsuka adult with exact age undisclosed",
+    "timeline": "known opening relationships only; no later-season friendship or revelations"
+  }
+}

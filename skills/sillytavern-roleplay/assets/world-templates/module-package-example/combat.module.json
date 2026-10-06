@@ -1,0 +1,12 @@
+{
+  "id": "training-battle",
+  "name": "练习战斗",
+  "version": "1.0.0",
+  "api_version": 1,
+  "runtime": "python-restricted-v1",
+  "capabilities": [
+    "time"
+  ],
+  "config": {},
+  "code_file": "combat.py"
+}

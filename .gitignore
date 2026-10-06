@@ -1,0 +1,19 @@
+# Private runtime state is created from the public demo seed.
+/database/
+**/__pycache__/
+*.py[cod]
+**/credentials/
+.env
+.env.*
+!.env.example
+*.dpapi.json
+*.key
+*.pem
+*.log
+*.lock
+server.json
+.DS_Store
+Thumbs.db
+.venv/
+venv/
+/dist/

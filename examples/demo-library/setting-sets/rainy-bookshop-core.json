@@ -1,0 +1,96 @@
+{
+  "id": "rainy-bookshop-core",
+  "name": "雨后书屋 · 人物与小镇设定",
+  "description": "原创人物、小镇空间、旧书和日常委托。",
+  "cards": [
+    {
+      "id": "lin-deng",
+      "kind": "character",
+      "name": "林灯",
+      "aliases": [
+        "店员",
+        "林同学"
+      ],
+      "card_id": "rainy-bookshop-lin-deng",
+      "age": 22,
+      "short_personality": "温和细致，认真而有主见。",
+      "biography": "旧书屋的年轻店员，在小镇长大，熟悉旧书的分类和常来的客人。喜欢在安静的时候修补磨损的书脊，遇到有趣的题记会留心询问来历。",
+      "personality": "温和、细心，话语克制，有自己的判断。",
+      "description": "林灯负责旧书屋日常事务，会先弄清委托缘由，尊重客人隐私，也重视书籍原主人的意愿。",
+      "appearance": "年轻女性，深棕短发、琥珀色眼睛，米色针织衫和深色围裙。",
+      "initial_affinity": {
+        "default": {
+          "score": 25,
+          "relationship": "初次见面，礼貌而保持距离。",
+          "basis": "原创演示开篇双方尚不相识。",
+          "version": 1
+        }
+      },
+      "avatar": "/images/demo/lin-neutral.svg"
+    },
+    {
+      "id": "a-che",
+      "kind": "character",
+      "name": "阿澈",
+      "aliases": [
+        "邻居阿澈"
+      ],
+      "card_id": "rainy-bookshop-a-che",
+      "age": 23,
+      "short_personality": "直率爽朗，热心而不鲁莽。",
+      "biography": "住在旧书屋附近的青年，平日修理自行车，偶尔帮邻居搬东西或给书店送书。熟悉镇上的街巷，喜欢把问题直接说清楚。",
+      "personality": "直率、爽朗、乐于帮忙，重视承诺。",
+      "description": "邻居阿澈平时经营自行车修理摊，常来书店。他热心但不会替他人作出涉及隐私和财物的决定。",
+      "appearance": "年轻男性，短黑发，深蓝工作衬衫和灰色长裤，身形结实。",
+      "initial_affinity": {
+        "default": {
+          "score": 25,
+          "relationship": "初次见面，礼貌而保持距离。",
+          "basis": "原创演示开篇双方尚不相识。",
+          "version": 1
+        }
+      },
+      "avatar": "/images/demo/ache-neutral.svg"
+    },
+    {
+      "id": "bookshop",
+      "kind": "location",
+      "name": "旧书屋",
+      "aliases": [
+        "书店",
+        "柜台"
+      ],
+      "description": "一间有两个书架通道的小店，柜台靠窗，后方仓库不对客人开放。营业到19时，到车站步行约十分钟。",
+      "appearance": ""
+    },
+    {
+      "id": "inscribed-book",
+      "kind": "item",
+      "name": "带题记的旧书",
+      "aliases": [
+        "题记",
+        "旧书"
+      ],
+      "description": "阿澈经原持有人许可带来的旧书，页边有短题记。题记作者和背景尚未确认，不能直接断定为恋情或秘密证据。只在实际出现该书的开场或事件中成为当前物品。",
+      "appearance": ""
+    },
+    {
+      "id": "daily-logic",
+      "kind": "rule",
+      "name": "日常逻辑与人物自主",
+      "description": "行动需要时间、位置和物品条件；人物只能知道实际听见、看见或有合理来源的事情。玩家的台词、行动和内心由玩家决定。人物态度和拒绝方式符合各自性格，好感调整亲疏，不使人物服从所有请求。世界设定不等于已经发生的分支记忆。",
+      "appearance": ""
+    },
+    {
+      "id": "book-origin",
+      "kind": "event",
+      "name": "旧书来历的询问",
+      "aliases": [
+        "来历",
+        "题记"
+      ],
+      "description": "若当前剧情有带题记的旧书且参与者愿意调查，可以询问持有人、核对日期和相关地点。线索可能有限，相关人可以保留隐私；不预先确定题记作者、恋情、转折或结局。",
+      "appearance": ""
+    }
+  ]
+}

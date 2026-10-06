@@ -1,0 +1,99 @@
+{
+  "id": "rainy-bookshop",
+  "name": "雨后书屋",
+  "background": "现代海边小镇，初夏的一个周六。旧书屋位于靠近车站的商店街，营业到19时。林灯在店里负责整理旧书，阿澈是常来帮忙的邻居。书店到车站步行约十分钟。人物有自己的工作安排、判断和边界，事件需要时间、地点、知识和物品条件。玩家与他们的关系由当前故事的实际相处形成；背景资料不是已经发生的玩家经历。整体基调温暖、克制，有小镇日常和旧书委托，可以遇到误会、分歧及信息变化，未确定结局。",
+  "setting_set_ids": [
+    "rainy-bookshop-core"
+  ],
+  "revision": 2,
+  "world_gameplay": [],
+  "visual_locations": {
+    "bookshop-rain": [
+      "旧书屋",
+      "旧书店",
+      "书店",
+      "柜台",
+      "海边小镇旧书屋柜台"
+    ],
+    "bookshop-after-rain": [
+      "雨后旧书屋"
+    ],
+    "street": [
+      "商店街",
+      "车站"
+    ]
+  },
+  "description": "海边小镇的旧书店里，一场雨让陌生人有了交谈的机会。两位人物，两个开场，由你的选择继续故事。",
+  "primary_card_id": "rainy-bookshop-lin-deng",
+  "default_protagonist_id": "visitor",
+  "opening_scenes": [
+    {
+      "id": "rain-at-door",
+      "title": "雨停之前",
+      "description": "傍晚的雨还没停，书店门口挂着营业中的牌子，店员正在整理还书。",
+      "background": "bookshop-rain",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "雨水从门檐落下，旧书店的窗里透出柔和的灯光。柜台旁的还书车上堆着几本有些旧的书。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "林灯",
+          "text": "欢迎。店里还有一会儿才关门，你可以慢慢看。",
+          "expression": "soft"
+        }
+      ],
+      "choices": [
+        {
+          "label": "问问书店",
+          "text": "【语言】这里主要收什么样的旧书？"
+        },
+        {
+          "label": "先看看",
+          "text": "【动作】先查看门边书架上的书名。"
+        }
+      ],
+      "scene": "周六17:30 · 海边小镇旧书屋门口 · 小雨"
+    },
+    {
+      "id": "returned-book",
+      "title": "归还的旧书",
+      "description": "阿澈带来一本页边写有旧题记的书，店员还没判断它的来历。",
+      "background": "bookshop-after-rain",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "街上的雨刚停。一个年轻人把包着纸的旧书放在柜台上，林灯将桌灯转向封面。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "阿澈",
+          "text": "这本书是我帮邻居整理柜子时找到的。她说可以送过来，不过这段题记要不要先弄清楚？",
+          "expression": "serious"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "林灯",
+          "text": "先看看吧。仅凭一句题记，还不能确定是谁写的。",
+          "expression": "thinking"
+        }
+      ],
+      "choices": [
+        {
+          "label": "询问题记",
+          "text": "【语言】如果方便的话，我可以看看那段题记吗？"
+        },
+        {
+          "label": "了解来意",
+          "text": "【语言】你们是在查这本书的来历？"
+        }
+      ],
+      "scene": "周六18:10 · 海边小镇旧书屋柜台 · 雨后"
+    }
+  ]
+}

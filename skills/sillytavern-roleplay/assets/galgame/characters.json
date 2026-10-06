@@ -1,0 +1,285 @@
+{
+  "rainy-bookshop-lin-deng": {
+    "name": "林灯",
+    "bio": "旧书屋的年轻店员，在小镇长大，熟悉旧书的分类和常来的客人。喜欢在安静的时候修补磨损的书脊，遇到有趣的题记会留心询问来历。",
+    "scene_intro": "海边小镇的旧书店里，一场雨让陌生人有了交谈的机会。两位人物，两个开场，由你的选择继续故事。",
+    "default_background": "bookshop-rain",
+    "default_appearance": "everyday",
+    "backgrounds": {
+      "bookshop-rain": "/images/demo/bookshop-rain.svg",
+      "bookshop-after-rain": "/images/demo/bookshop-after-rain.svg",
+      "street": "/images/demo/street.svg"
+    },
+    "background_descriptions": {
+      "bookshop-rain": "雨中的旧书屋",
+      "bookshop-after-rain": "雨后的旧书屋",
+      "street": "雨后的商店街"
+    },
+    "sprites": {
+      "neutral": "/images/demo/lin-neutral.svg",
+      "soft": "/images/demo/lin-soft.svg",
+      "serious": "/images/demo/lin-serious.svg",
+      "thinking": "/images/demo/lin-thinking.svg"
+    },
+    "avatar": "/images/demo/lin-neutral.svg",
+    "reference": "images/demo/lin-neutral.svg",
+    "world_ids": [
+      "rainy-bookshop"
+    ]
+  },
+  "rainy-bookshop-a-che": {
+    "name": "阿澈",
+    "bio": "住在旧书屋附近的青年，平日修理自行车，偶尔帮邻居搬东西或给书店送书。熟悉镇上的街巷，喜欢把问题直接说清楚。",
+    "scene_intro": "海边小镇的旧书店里，一场雨让陌生人有了交谈的机会。两位人物，两个开场，由你的选择继续故事。",
+    "default_background": "bookshop-rain",
+    "default_appearance": "everyday",
+    "backgrounds": {
+      "bookshop-rain": "/images/demo/bookshop-rain.svg",
+      "bookshop-after-rain": "/images/demo/bookshop-after-rain.svg",
+      "street": "/images/demo/street.svg"
+    },
+    "background_descriptions": {
+      "bookshop-rain": "雨中的旧书屋",
+      "bookshop-after-rain": "雨后的旧书屋",
+      "street": "雨后的商店街"
+    },
+    "sprites": {
+      "neutral": "/images/demo/ache-neutral.svg",
+      "soft": "/images/demo/ache-soft.svg",
+      "serious": "/images/demo/ache-serious.svg",
+      "thinking": "/images/demo/ache-thinking.svg"
+    },
+    "avatar": "/images/demo/ache-neutral.svg",
+    "reference": "images/demo/ache-neutral.svg",
+    "world_ids": [
+      "rainy-bookshop"
+    ]
+  },
+  "oregairu-core-yukino": {
+    "name": "雪之下雪乃",
+    "aliases": [
+      "雪乃",
+      "雪ノ下雪乃",
+      "Yukino Yukinoshita"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中二年级，侍奉部部长。理性、直率，常指出事情的本质，不热衷迎合群体。",
+    "sprites": {},
+    "avatar": "/images/oregairu/yukino-label.svg",
+    "default_appearance": "school-uniform",
+    "selection_image": "/images/oregairu/script-cover.svg",
+    "backgrounds": {
+      "clubroom": "/images/oregairu/clubroom.svg",
+      "clubroom-rain": "/images/oregairu/clubroom-rain.svg",
+      "courtyard": "/images/oregairu/courtyard.svg"
+    },
+    "background_descriptions": {
+      "clubroom": "放学后的侍奉部 · 示意背景",
+      "clubroom-rain": "雨天的侍奉部 · 示意背景",
+      "courtyard": "黄昏校园庭院 · 示意背景"
+    }
+  },
+  "oregairu-core-yui": {
+    "name": "由比滨结衣",
+    "aliases": [
+      "结衣",
+      "由比滨",
+      "由比ヶ浜結衣",
+      "Yui Yuigahama"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中学生，侍奉部成员。开朗，敏感于群体气氛，常会顾及他人的想法。",
+    "sprites": {},
+    "avatar": "/images/oregairu/yui-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-iroha": {
+    "name": "一色彩羽",
+    "aliases": [
+      "一色",
+      "彩羽",
+      "一色いろは",
+      "Iroha Isshiki"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中一年级学生，足球部经理。擅长根据对象调整交谈方式，也会主动寻求前辈的帮助。",
+    "sprites": {},
+    "avatar": "/images/oregairu/iroha-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-komachi": {
+    "name": "比企谷小町",
+    "aliases": [
+      "小町",
+      "Komachi Hikigaya"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "比企谷八幡的妹妹，中学三年级。活泼机灵，时常打趣哥哥，也认真关心家人的日常。",
+    "sprites": {},
+    "avatar": "/images/oregairu/komachi-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-saki": {
+    "name": "川崎沙希",
+    "aliases": [
+      "沙希",
+      "川崎",
+      "Saki Kawasaki"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中学生，外表有些不好接近，重视家人。",
+    "sprites": {},
+    "avatar": "/images/oregairu/saki-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-haruno": {
+    "name": "雪之下阳乃",
+    "aliases": [
+      "阳乃",
+      "雪ノ下陽乃",
+      "Haruno Yukinoshita"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "雪之下雪乃的姐姐，大学生。举止从容，善于交谈，常在轻松的气氛中观察他人的反应。",
+    "sprites": {},
+    "avatar": "/images/oregairu/haruno-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-hayama": {
+    "name": "叶山隼人",
+    "aliases": [
+      "叶山",
+      "隼人",
+      "葉山隼人",
+      "Hayato Hayama"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中学生，足球部成员，在同学中受欢迎。",
+    "sprites": {},
+    "avatar": "/images/oregairu/hayama-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-shizuka": {
+    "name": "平冢静",
+    "aliases": [
+      "平冢老师",
+      "平塚静",
+      "平塚 静",
+      "Shizuka Hiratsuka"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中女性教师，负责生活指导，也是侍奉部顾问。",
+    "sprites": {},
+    "avatar": "/images/oregairu/shizuka-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-saika": {
+    "name": "户冢彩加",
+    "aliases": [
+      "彩加",
+      "戸塚彩加",
+      "Saika Totsuka"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中男学生，网球部成员。温和，外貌秀气，但明确是男性。",
+    "sprites": {},
+    "avatar": "/images/oregairu/saika-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-tobe": {
+    "name": "户部翔",
+    "aliases": [
+      "户部",
+      "戸部翔",
+      "戸部 翔",
+      "Kakeru Tobe"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中学生，足球部成员，叶山同学圈中的活跃者。",
+    "sprites": {},
+    "avatar": "/images/oregairu/tobe-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-zaimokuza": {
+    "name": "材木座义辉",
+    "aliases": [
+      "材木座",
+      "材木座義輝",
+      "Yoshiteru Zaimokuza"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中男学生，爱以幻想色彩浓厚的口吻讲话，自称剑豪将军。",
+    "sprites": {},
+    "avatar": "/images/oregairu/zaimokuza-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-yumiko": {
+    "name": "三浦优美子",
+    "aliases": [
+      "三浦",
+      "优美子",
+      "三浦優美子",
+      "Yumiko Miura"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中学生，在同学群体中有影响力，表达直接，重视自己的朋友。",
+    "sprites": {},
+    "avatar": "/images/oregairu/yumiko-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-hina": {
+    "name": "海老名姬菜",
+    "aliases": [
+      "海老名",
+      "姬菜",
+      "海老名姫菜",
+      "Hina Ebina"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中学生，与结衣、三浦等同学来往。喜欢围绕自己的兴趣开玩笑，也会观察群体关系。",
+    "sprites": {},
+    "avatar": "/images/oregairu/hina-label.svg",
+    "default_appearance": "school-uniform"
+  },
+  "oregairu-core-hachiman": {
+    "name": "比企谷八幡",
+    "aliases": [
+      "八幡",
+      "比企谷",
+      "Hachiman Hikigaya"
+    ],
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "bio": "总武高中二年级学生，惯于独来独往。观察群体时常带怀疑与自嘲，对人际关系有自己的判断。",
+    "sprites": {},
+    "avatar": "/images/oregairu/hachiman-label.svg",
+    "default_appearance": "school-uniform"
+  }
+}

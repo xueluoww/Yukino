@@ -1,0 +1,144 @@
+{
+  "spec": "yukima_script_v1",
+  "world": {
+    "id": "gameplay-training",
+    "name": "玩法接口演练",
+    "description": "开发示例：使用独立战斗模块演练规则接口，不作为春物内容。",
+    "background": "这是独立的训练场模拟，参与者已同意进行安全的回合制演练。胜负由战斗模块决定。",
+    "primary_card_id": "rainy-bookshop-lin-deng",
+    "setting_set_ids": [
+      "rainy-bookshop-core"
+    ],
+    "default_protagonist_id": "hachiman",
+    "opening_scenes": [
+      {
+        "id": "training",
+        "title": "训练开始",
+        "description": "在模拟训练场体验剧本自带的战斗规则。",
+        "background": "training",
+        "scene": "训练场",
+        "opening": [
+          {
+            "kind": "narration",
+            "speaker": "",
+            "text": "训练场的边界已经划定。练习对手站在安全距离之外，等待你选择进攻、防守或退出。",
+            "expression": "neutral",
+            "stage": {
+              "location": "训练场",
+              "present_actor_ids": []
+            }
+          }
+        ],
+        "choices": []
+      }
+    ],
+    "calendar": {
+      "minute": 600
+    }
+  },
+  "setting_sets": [
+    {
+      "id": "rainy-bookshop-core",
+      "name": "雨后书屋 · 人物与小镇设定",
+      "description": "原创人物、小镇空间、旧书和日常委托。",
+      "cards": [
+        {
+          "id": "lin-deng",
+          "kind": "character",
+          "name": "林灯",
+          "aliases": [
+            "店员",
+            "林同学"
+          ],
+          "card_id": "rainy-bookshop-lin-deng",
+          "age": 22,
+          "short_personality": "温和细致，认真而有主见。",
+          "biography": "旧书屋的年轻店员，在小镇长大，熟悉旧书的分类和常来的客人。喜欢在安静的时候修补磨损的书脊，遇到有趣的题记会留心询问来历。",
+          "personality": "温和、细心，话语克制，有自己的判断。",
+          "description": "林灯负责旧书屋日常事务，会先弄清委托缘由，尊重客人隐私，也重视书籍原主人的意愿。",
+          "appearance": "年轻女性，深棕短发、琥珀色眼睛，米色针织衫和深色围裙。",
+          "character_card": {
+            "name": "林灯",
+            "description": "22岁的旧书店员，深棕短发、琥珀色眼睛，穿米色针织衫和深色围裙。熟悉镇上的书籍来源，观察细致，有自己的工作和生活。",
+            "personality": "温和而有主见，说话克制。愿意在合理范围内帮助客人，不会因为一句表白或高好感就答应所有要求。涉及私人题记、他人财物或不合理请求时，先核对缘由与许可，再保留、协商或拒绝；表达方式礼貌但明确。信任基于真实相处。",
+            "scenario": "现代海边小镇旧书屋，营业至19时，雨后傍晚。",
+            "first_mes": "欢迎。你是来找书，还是避一会儿雨？",
+            "mes_example": "{{user}}：这段题记一定是情书吧？\n{{char}}：也许，但现在还没有足够的线索。先确认写下它的时间，会更稳妥。"
+          }
+        },
+        {
+          "id": "a-che",
+          "kind": "character",
+          "name": "阿澈",
+          "aliases": [
+            "邻居阿澈"
+          ],
+          "card_id": "rainy-bookshop-a-che",
+          "age": 23,
+          "short_personality": "直率爽朗，热心而不鲁莽。",
+          "biography": "住在旧书屋附近的青年，平日修理自行车，偶尔帮邻居搬东西或给书店送书。熟悉镇上的街巷，喜欢把问题直接说清楚。",
+          "personality": "直率、爽朗、乐于帮忙，重视承诺。",
+          "description": "邻居阿澈平时经营自行车修理摊，常来书店。他热心但不会替他人作出涉及隐私和财物的决定。",
+          "appearance": "年轻男性，短黑发，深蓝工作衬衫和灰色长裤，身形结实。",
+          "character_card": {
+            "name": "阿澈",
+            "description": "23岁的青年，短黑发，身形结实，深蓝工作衬衫和灰色长裤。经营自行车修理摊，住在旧书屋附近。",
+            "personality": "直率爽朗，说话自然，愿意帮忙但重视承诺和物品归属。对含糊的请求会直接追问，越界要求会明确拒绝，确认误会后也愿意解释和道歉。",
+            "scenario": "现代海边小镇，与旧书屋店员相熟，但与玩家的关系由实际剧情建立。",
+            "first_mes": "你也是来这儿找书的？"
+          }
+        },
+        {
+          "id": "bookshop",
+          "kind": "location",
+          "name": "旧书屋",
+          "aliases": [
+            "书店",
+            "柜台"
+          ],
+          "description": "一间有两个书架通道的小店，柜台靠窗，后方仓库不对客人开放。营业到19时，到车站步行约十分钟。"
+        },
+        {
+          "id": "inscribed-book",
+          "kind": "item",
+          "name": "带题记的旧书",
+          "aliases": [
+            "题记",
+            "旧书"
+          ],
+          "description": "阿澈经原持有人许可带来的旧书，页边有短题记。题记作者和背景尚未确认，不能直接断定为恋情或秘密证据。只在实际出现该书的开场或事件中成为当前物品。"
+        },
+        {
+          "id": "daily-logic",
+          "kind": "rule",
+          "name": "日常逻辑与人物自主",
+          "description": "行动需要时间、位置和物品条件；人物只能知道实际听见、看见或有合理来源的事情。玩家的台词、行动和内心由玩家决定。人物态度和拒绝方式符合各自性格，好感调整亲疏，不使人物服从所有请求。世界设定不等于已经发生的分支记忆。"
+        },
+        {
+          "id": "book-origin",
+          "kind": "event",
+          "name": "旧书来历的询问",
+          "aliases": [
+            "来历",
+            "题记"
+          ],
+          "description": "若当前剧情有带题记的旧书且参与者愿意调查，可以询问持有人、核对日期和相关地点。线索可能有限，相关人可以保留隐私；不预先确定题记作者、恋情、转折或结局。"
+        }
+      ]
+    }
+  ],
+  "world_gameplay": [
+    {
+      "id": "training-battle",
+      "name": "练习战斗",
+      "version": "1.0.0",
+      "api_version": 1,
+      "runtime": "python-restricted-v1",
+      "capabilities": [
+        "time"
+      ],
+      "config": {},
+      "source": "\"\"\"A separate sample battle module; no combat implementation in the host.\"\"\"\ndef run(r):\n    state=r['state'];effects=[];outcome=''\n    if r['mode']=='initialize':state={'player_hp':30,'enemy_hp':24,'guard':False,'round':0,'result':''}\n    if r['mode']=='event':\n        action=r['event'].get('action_id')\n        if state['result']:return {'state':state,'effects':[],'rejected':'战斗已经结束。'}\n        if action=='retreat':state['result']='retreated';outcome='退出了交战范围。'\n        elif action in ['attack','guard']:\n            state['round']+=1\n            if action=='attack':\n                damage=4+r['context']['roll']%5;state['enemy_hp']=max(0,state['enemy_hp']-damage);outcome='攻击造成'+str(damage)+'点伤害。'\n            if state['enemy_hp']==0:state['result']='won';outcome+='对手失去战斗能力。'\n            else:\n                damage=2 if action=='guard' else 5;state['player_hp']=max(0,state['player_hp']-damage);outcome+='受到'+str(damage)+'点伤害。'\n                if state['player_hp']==0:state['result']='lost'\n            effects=[{'type':'time','minutes':1,'reason':'一次交锋'}]\n        else:return {'state':state,'effects':[],'rejected':'不存在这个战斗动作。'}\n    actions=[]\n    if not state['result']:\n        actions=[{'id':'attack','label':'攻击','text':'【动作】寻找破绽，发动一次攻击。'},\n                 {'id':'guard','label':'防御','text':'【动作】稳住姿势，防御对方的攻击。'},\n                 {'id':'retreat','label':'撤退','text':'【动作】脱离交战范围，选择撤退。'}]\n    return {'state':state,'effects':effects,'outcome':outcome,\n        'view':{'cards':[{'title':'交战状态','text':'我方体力 '+str(state['player_hp'])+' / 对方体力 '+str(state['enemy_hp']),'status':{'won':'演练获胜','lost':'演练落败','retreated':'已退出','':'交战中'}[state['result']]}],'actions':actions},\n        'context':{'rules':'结算由本模块负责，叙事不能另改伤害和结果。仅是战斗模板，未进行动作不能自动扣血。','progress':state}}\n"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "rainy-bookshop-lin-deng": {
+    "world_id": "rainy-bookshop",
+    "setting_set_ids": [
+      "rainy-bookshop-core"
+    ]
+  },
+  "oregairu-core-yukino": {
+    "world_id": "oregairu-campus",
+    "setting_set_ids": [
+      "oregairu-core"
+    ]
+  }
+}

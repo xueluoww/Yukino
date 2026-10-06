@@ -1,0 +1,95 @@
+{
+  "default": "calm",
+  "tracks": [
+    {
+      "id": "calm",
+      "moods": [
+        "calm"
+      ],
+      "title": "Gymnopedie No. 1",
+      "label": "日常 · 静谧",
+      "url": "/music/calm.mp3",
+      "duration": "00:03:07",
+      "artist": "Kevin MacLeod",
+      "composer": "Erik Satie",
+      "source": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100787",
+      "download_source": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Gymnopedie%20No%201.mp3",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "sha256": "8cba6bb3da51066ad39520ec218a327bb6222d8fb32bc52f28a1e90b67756f70",
+      "bytes": 7487656
+    },
+    {
+      "id": "tense",
+      "moods": [
+        "tense"
+      ],
+      "title": "Comfortable Mystery",
+      "label": "悬疑 · 不安",
+      "url": "/music/tense.mp3",
+      "duration": "00:03:56",
+      "artist": "Kevin MacLeod",
+      "composer": "Kevin MacLeod",
+      "source": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100287",
+      "download_source": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Comfortable%20Mystery.mp3",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "sha256": "43cea2c91a80524d3fdaee00c0823d8e3b001a40332253f8d0b3ea8b36ff73a4",
+      "bytes": 7808360
+    },
+    {
+      "id": "reflective",
+      "moods": [
+        "reflective"
+      ],
+      "title": "Evening Fall (Piano)",
+      "label": "沉思 · 雨夜",
+      "url": "/music/reflective.mp3",
+      "duration": "00:02:45",
+      "artist": "Kevin MacLeod",
+      "composer": "Kevin MacLeod",
+      "source": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100235",
+      "download_source": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Evening%20Fall%20-%20Piano.mp3",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "sha256": "5195c266275c694f9186dceb23e667c45ed74767d97f6615df01021fed3f048e",
+      "bytes": 5397796
+    },
+    {
+      "id": "sad",
+      "moods": [
+        "sad"
+      ],
+      "title": "Heartbreaking",
+      "label": "失落 · 悲伤",
+      "url": "/music/sad.mp3",
+      "duration": "00:01:36",
+      "artist": "Kevin MacLeod",
+      "composer": "Kevin MacLeod",
+      "source": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100208",
+      "download_source": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Heartbreaking.mp3",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "sha256": "b888fa087b580959d5bd49e61340b44dc0b9f85cd3b4c2d35042d47edea77ae8",
+      "bytes": 3947252
+    },
+    {
+      "id": "warm",
+      "moods": [
+        "warm"
+      ],
+      "title": "Heartwarming",
+      "label": "温暖 · 心动",
+      "url": "/music/warm.mp3",
+      "duration": "00:01:12",
+      "artist": "Kevin MacLeod",
+      "composer": "Kevin MacLeod",
+      "source": "https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1100207",
+      "download_source": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Heartwarming.mp3",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "sha256": "a621a943ab940567f4136060e0f1f0637038b8a03c10ff8926f956e1b2ef34e7",
+      "bytes": 2971312
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "visitor",
+  "name": "旅人",
+  "age": 24,
+  "appearance": "24岁的成年旅人，短黑发，深灰外套，米色衬衫和深色长裤。",
+  "description": "来到海边小镇的旅人。",
+  "avatar": "/images/demo/visitor-neutral.svg",
+  "reference": "/images/demo/visitor-neutral.svg",
+  "display_profile": {
+    "biography": "在初夏来到海边小镇，喜欢逛旧书店，暂时没有固定的旅行计划。",
+    "summary": "观察细致，喜欢旧书与安静的地方。",
+    "personality": "观察细致，喜欢旧书与安静的地方。"
+  }
+}

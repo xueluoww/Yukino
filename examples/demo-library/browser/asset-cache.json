@@ -1,0 +1,9 @@
+{
+  "demo-request-cg": {
+    "kind": "cg",
+    "card_id": "oregairu-core-yukino",
+    "url": "/images/oregairu/request-cg.svg",
+    "name": "尚待补全的申请单 · 示意 CG",
+    "speculative": false
+  }
+}

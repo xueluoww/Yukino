@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="900" viewBox="0 0 440 900"><title>阿澈 · neutral · 原创示意立绘</title>
+<defs><linearGradient id="cloth" x2="1" y2="1"><stop stop-color="#607a89"/><stop offset="1" stop-color="#635d59"/></linearGradient></defs>
+<path d="M95 865L91 437Q87 308 180 282H260Q354 302 349 435L345 865Z" fill="url(#cloth)" stroke="#453e3d" stroke-width="4"/>
+<path d="M160 290L220 390L280 290" fill="#e9dbc6"/><path d="M177 337L142 430L155 850H285L298 430L263 337L242 382H198Z" fill="#39484b"/>
+<path d="M123 189Q92 47 220 52Q352 48 317 230L300 300L140 296Z" fill="#272f36"/>
+<path d="M190 247V295Q220 325 250 295V247" fill="#edc5a8"/><ellipse cx="220" cy="177" rx="89" ry="109" fill="#f2d3b8"/>
+<path d="M128 159Q113 52 221 54Q320 47 313 150L278 113L250 143L197 101L173 143Z" fill="#272f36"/>
+<ellipse cx="183" cy="189" rx="8" ry="12" fill="#735037"/><ellipse cx="257" cy="189" rx="8" ry="12" fill="#735037"/><path d="M216 192L211 209H224" fill="none" stroke="#ccaa94" stroke-width="3"/><path d="M204 222 Q220 226 236 222" fill="none" stroke="#925e58" stroke-width="3" stroke-linecap="round"/>
+<path d="M94 430Q72 548 112 657L148 639L136 470 M347 435Q363 551 326 650L290 631L310 470" fill="#607a89" stroke="#635d59" stroke-width="4"/>
+<path d="M151 614L300 614L300 703L151 703Z" fill="#728e86" stroke="#d7c7a8" stroke-width="5"/><path d="M166 632H287M166 649H287M166 668H268" stroke="#cad7c7" stroke-width="3"/>
+</svg>

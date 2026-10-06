@@ -1,0 +1,36 @@
+{
+  "id": "gameplay-training",
+  "name": "玩法接口演练",
+  "description": "开发示例：使用独立战斗模块演练规则接口，不作为春物内容。",
+  "background": "这是独立的训练场模拟，参与者已同意进行安全的回合制演练。胜负由战斗模块决定。",
+  "primary_card_id": "rainy-bookshop-lin-deng",
+  "setting_set_ids": [
+    "rainy-bookshop-core"
+  ],
+  "default_protagonist_id": "hachiman",
+  "opening_scenes": [
+    {
+      "id": "training",
+      "title": "训练开始",
+      "description": "在模拟训练场体验剧本自带的战斗规则。",
+      "background": "training",
+      "scene": "训练场",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "训练场的边界已经划定。练习对手站在安全距离之外，等待你选择进攻、防守或退出。",
+          "expression": "neutral",
+          "stage": {
+            "location": "训练场",
+            "present_actor_ids": []
+          }
+        }
+      ],
+      "choices": []
+    }
+  ],
+  "calendar": {
+    "minute": 600
+  }
+}

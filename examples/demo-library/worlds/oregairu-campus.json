@@ -1,0 +1,193 @@
+{
+  "id": "oregairu-campus",
+  "name": "春物 · 放学后的侍奉部",
+  "background": "现代日本的千叶校园背景，主要舞台是总武高中与侍奉部。平冢静负责生活指导并担任顾问，雪之下雪乃主持侍奉部，人物各自的社团与家庭关系见设定集。基调是克制的校园日常、不同立场的碰撞以及人际关系中的真实选择。每个开场是基于原作背景的原创故事入口，不复刻原作逐字对白或强制原作结局。时间、天气和当前人物以所选开场为准。默认主角选择比企谷八幡时，采用第一季开篇已存在的家庭、师生与同学关系，初见人物不继承后续事件；剧情仍由玩家自由决定。导入替换主角时只采用其自己的设定，不继承八幡的关系。剧情可从真实委托、误会或个人目标展开，通过信息揭示、分歧、决定与后果推进；不为推进情节强行产生恋爱、极端事件或未选行为。",
+  "setting_set_ids": [
+    "oregairu-core"
+  ],
+  "revision": 3,
+  "world_gameplay": [
+    {
+      "id": "service-commissions",
+      "name": "委托簿",
+      "version": "1.0.0",
+      "sha256": "63d9fd1da68fb90788e479669519f86752f2e7a879259009cd15d38e0a7cf647",
+      "script_id": "oregairu-campus"
+    }
+  ],
+  "calendar": {
+    "minute": 960
+  },
+  "initial_items": {
+    "player-notebook": {
+      "id": "player-notebook",
+      "name": "随身笔记本",
+      "owner": "player",
+      "quantity": 1,
+      "location": "书包"
+    }
+  },
+  "visual_revision": "oregairu-anime-v1",
+  "visual_locations": {
+    "clubroom": [
+      "侍奉部活动室",
+      "侍奉社活动室",
+      "侍奉部",
+      "service-club"
+    ],
+    "club-door": [
+      "侍奉部门口",
+      "侍奉部门前走廊",
+      "侍奉部门口走廊"
+    ],
+    "corridor": [
+      "走廊",
+      "校内走廊",
+      "hallway"
+    ],
+    "playground": [
+      "操场",
+      "学校操场",
+      "school-ground"
+    ],
+    "courtyard": [
+      "庭院",
+      "校园庭院",
+      "中庭"
+    ],
+    "station": [
+      "车站"
+    ],
+    "shopping-street": [
+      "商店街"
+    ]
+  },
+  "description": "总武高中、侍奉部与日常委托。14 位人物资料，三个原创开场；由你的选择发展关系与群像故事。",
+  "primary_card_id": "oregairu-core-yukino",
+  "default_protagonist_id": "hachiman",
+  "opening_scenes": [
+    {
+      "id": "club-first-visit",
+      "title": "放学后 · 半掩的门",
+      "description": "初次来访侍奉部。门口仍有安静的走廊，雪乃独自在桌边读书。是否留下、交谈或离开，由你决定。",
+      "background": "clubroom",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "放学后的脚步声渐渐远去。写着侍奉部的门半掩着，窗边还留有一片暖光。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "雪之下雪乃合上书，将目光投向门口。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "雪之下雪乃",
+          "text": "有事吗？如果只是找一间空教室，这里已经有人了。",
+          "expression": "serious"
+        }
+      ],
+      "choices": [
+        {
+          "label": "说明来意",
+          "text": "【语言】我想找个安静的地方，可以在这里坐一会儿吗？"
+        },
+        {
+          "label": "询问社团",
+          "text": "【语言】侍奉部……这里平时做什么？"
+        },
+        {
+          "label": "离开",
+          "text": "【语言】抱歉，打扰了。【动作】我退回走廊。"
+        }
+      ],
+      "scene": "放学后 · 总武高中侍奉部门口"
+    },
+    {
+      "id": "rain-request",
+      "title": "雨天 · 尚未递出的申请单",
+      "description": "雨把放学时间拉长。结衣拿来一张活动申请单，雪乃还没决定如何回应。你可以听听缘由，也可以只等雨停。",
+      "background": "clubroom-rain",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "雨点轻敲着窗玻璃。桌边多了一张带着折痕的活动申请单。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "由比滨结衣",
+          "text": "我刚在门口碰到同学，他说这个申请好像一直没人接。要不要先看看？",
+          "expression": "troubled"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "雪之下雪乃",
+          "text": "先弄清楚他希望我们做什么。替别人填完表格，未必就解决了问题。",
+          "expression": "serious"
+        }
+      ],
+      "choices": [
+        {
+          "label": "先听经过",
+          "text": "【语言】申请的是什么活动？先说说具体情况吧。"
+        },
+        {
+          "label": "查看材料",
+          "text": "【动作】我看向桌上的申请单，等她们介绍内容。"
+        },
+        {
+          "label": "等雨停",
+          "text": "【语言】我先在旁边等雨停，你们不用顾虑我。"
+        }
+      ],
+      "scene": "雨天放学后 · 侍奉部"
+    },
+    {
+      "id": "courtyard-dusk",
+      "title": "黄昏 · 尚未结束的商量",
+      "description": "校园庭院里，结衣想征求意见，雪乃认为决定应由当事人作出。你可以参与商量，或沿通学路继续走。",
+      "background": "courtyard",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "教学楼的影子慢慢越过庭院。长椅边，两个人的交谈还没有结束。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "由比滨结衣",
+          "text": "如果大家都说随便，那最后还是不知道怎么办嘛。",
+          "expression": "troubled"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "雪之下雪乃",
+          "text": "所以应该让他先说出自己想做什么。替他决定，和帮他想清楚是两回事。",
+          "expression": "serious"
+        }
+      ],
+      "choices": [
+        {
+          "label": "询问经过",
+          "text": "【语言】你们是在商量什么？"
+        },
+        {
+          "label": "先倾听",
+          "text": "【动作】我在不打断她们的距离停下，等交谈的间隙。"
+        },
+        {
+          "label": "继续回家",
+          "text": "【动作】我沿着通学路继续走。"
+        }
+      ],
+      "scene": "黄昏 · 总武高中庭院"
+    }
+  ]
+}
