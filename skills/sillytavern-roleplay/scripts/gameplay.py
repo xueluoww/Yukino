@@ -52,6 +52,8 @@ def read_package(path):
         return value if as_text else json.loads(value)
     if isinstance(raw.get('world'),str):raw['world']=load(raw['world'])
     raw['setting_sets']=[load(x) if isinstance(x,str) else x for x in raw.get('setting_sets',[])]
+    if isinstance(raw.get('world'),dict):
+        raw['world']['storylines']=[load(x) if isinstance(x,str) else x for x in raw['world'].get('storylines',[])]
     modules=[]
     for entry in raw.get('world_gameplay',[]):
         module=load(entry) if isinstance(entry,str) else copy.deepcopy(entry)

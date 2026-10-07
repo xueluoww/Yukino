@@ -1,7 +1,7 @@
 {
   "id": "oregairu-core",
   "name": "春物 · 人物与校园设定集",
-  "description": "14 张人物资料卡及校园、规则、委托线索。公开资料整理，含本项目原创对白示例。",
+  "description": "15 张人物资料卡及校园、规则、委托线索；班级与教室归属按原作公开资料整理，楼层未确认。示例对白为项目原创。",
   "cards": [
     {
       "id": "yukino",
@@ -42,7 +42,15 @@
           "identity": "初次相识"
         }
       },
-      "schedule_tendencies": "上课时通常在班级；放学后倾向于在侍奉部阅读或处理委托，是否停留取决于当天事情。"
+      "schedule_tendencies": "上课时通常在班级；放学后倾向于在侍奉部阅读或处理委托，是否停留取决于当天事情。",
+      "school": "总武高中",
+      "class_name": "二年J班（国际教养班）",
+      "classroom_location": "总武高中 · 二年J班教室",
+      "classroom_id": "classroom-2j",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "yui",
@@ -84,7 +92,15 @@
           "identity": "同班同学"
         }
       },
-      "schedule_tendencies": "倾向于与同学同行或参加朋友间的活动，也会因具体委托来到侍奉部。"
+      "schedule_tendencies": "倾向于与同学同行或参加朋友间的活动，也会因具体委托来到侍奉部。",
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "iroha",
@@ -125,7 +141,15 @@
           "familiarity": 5,
           "identity": "尚不熟悉"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "一年C班",
+      "classroom_location": "总武高中 · 一年C班教室",
+      "classroom_id": "classroom-1c",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "komachi",
@@ -165,7 +189,13 @@
           "identity": "兄妹"
         }
       },
-      "schedule_tendencies": "以家庭和自己的学校生活为主，与哥哥见面通常在家中或约定地点。"
+      "schedule_tendencies": "以家庭和自己的学校生活为主，与哥哥见面通常在家中或约定地点。",
+      "school": "初中（校名未确认）",
+      "class_name": "三年级（班号未公开）",
+      "classroom_location": "就读初中的教室（具体位置未公开）",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "saki",
@@ -205,7 +235,15 @@
           "familiarity": 5,
           "identity": "尚不熟悉"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "haruno",
@@ -245,7 +283,13 @@
           "familiarity": 5,
           "identity": "尚不熟悉"
         }
-      }
+      },
+      "school": "大学（校名未公开）",
+      "class_name": "大学生 · 总武高中毕业生",
+      "classroom_location": "不适用（已从总武高中毕业）",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "hayama",
@@ -286,7 +330,15 @@
           "familiarity": 20,
           "identity": "同班同学"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "shizuka",
@@ -328,7 +380,13 @@
           "identity": "师生"
         }
       },
-      "schedule_tendencies": "工作日围绕授课、教师办公室和学生事务活动，可因担心学生主动介入。"
+      "schedule_tendencies": "工作日围绕授课、教师办公室和学生事务活动，可因担心学生主动介入。",
+      "school": "总武高中",
+      "class_name": "国文教师 · 侍奉部顾问",
+      "classroom_location": "教师办公室；任课教室随课程而定",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "saika",
@@ -369,7 +427,15 @@
           "identity": "同年级同学"
         }
       },
-      "schedule_tendencies": "放学后常参与网球训练；天气、比赛和约定会影响是否出现在球场。"
+      "schedule_tendencies": "放学后常参与网球训练；天气、比赛和约定会影响是否出现在球场。",
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "tobe",
@@ -410,7 +476,15 @@
           "familiarity": 5,
           "identity": "尚不熟悉"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "zaimokuza",
@@ -450,7 +524,15 @@
           "familiarity": 55,
           "identity": "熟识同学"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "二年C班",
+      "classroom_location": "总武高中 · 二年C班教室",
+      "classroom_id": "classroom-2c",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "yumiko",
@@ -491,7 +573,15 @@
           "familiarity": 5,
           "identity": "尚不熟悉"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "hina",
@@ -532,7 +622,15 @@
           "familiarity": 5,
           "identity": "尚不熟悉"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
     },
     {
       "id": "hachiman",
@@ -573,7 +671,66 @@
           "familiarity": 5,
           "identity": "尚不熟悉"
         }
-      }
+      },
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ]
+    },
+    {
+      "id": "sagami",
+      "kind": "character",
+      "name": "相模南",
+      "aliases": [
+        "相模同学",
+        "相模 南",
+        "さがみみなみ",
+        "Sagami Minami",
+        "Minami Sagami"
+      ],
+      "description": "总武高中二年F班的女生，班上另一女生圈子的中心。重视朋友的评价，希望在集体中得到认可；外表善于交际，面对比较和压力时也会显出不安。好强、爱面子，谈话会在意朋友是否在旁以及自己在群体中的位置；不把她写成三浦优美子，也不把她简化成只会恶意挑衅的人。面对不熟悉的同学倾向于保留和审视，是否愿意协助取决于事情、压力和本档相处。文化祭等后续原作事件仅为未来参考，未发生前不写成已有经历；玩家已开启的委托优先于预设路线。",
+      "biography": "总武高中二年F班的女生，班上另一女生圈子的中心。重视朋友的评价，希望在集体中得到认可；外表善于交际，面对比较和压力时也会显出不安。",
+      "appearance": "女高中生，棕色中短发，身穿深色总武高中校服。",
+      "age": "16–17岁（高二，生日未公开）",
+      "personality": "好强，重视评价，善于维系自己的朋友圈，压力下容易防御。",
+      "short_personality": "好强爱面子，重视群体评价和朋友的支持。",
+      "card_id": "oregairu-core-sagami",
+      "source": "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表",
+      "school": "总武高中",
+      "class_name": "二年F班",
+      "classroom_location": "总武高中 · 二年F班教室",
+      "classroom_id": "classroom-2f",
+      "classroom_layout_note": "班级教室与同班关系按原作；可靠资料未确认固定楼层或房间号。实际楼层沿用当前分支已明确的校园布局，不把原创布局声称为原作。",
+      "class_sources": [
+        "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表"
+      ],
+      "initial_affinity": {
+        "hachiman": {
+          "score": 18,
+          "relationship": "同班但疏远",
+          "basis": "开篇缺少交情，对八幡保持距离；不是文化祭后敌意，也不继承未来冲突。",
+          "version": 2
+        },
+        "default": {
+          "score": 24,
+          "relationship": "尚未建立交情",
+          "basis": "替换主角按自己的相处判断，不继承八幡的同班经历。",
+          "version": 2
+        }
+      },
+      "initial_relation": {
+        "hachiman": {
+          "trust": 16,
+          "familiarity": 8,
+          "identity": "同班同学"
+        }
+      },
+      "schedule_tendencies": "上课时通常在二年F班；放学后可能与朋友交谈、处理班级事务或离校，是否仍在教室依当日剧情判断。",
+      "avatar": "/images/oregairu/sagami-label.svg"
     },
     {
       "id": "clubroom",
@@ -676,6 +833,61 @@
         "表格"
       ],
       "description": "校园活动申请需要沟通和安排。只在剧情实际出现时存在，不自动放进玩家物品。",
+      "appearance": ""
+    },
+    {
+      "id": "classroom-2f",
+      "kind": "location",
+      "name": "二年F班教室",
+      "aliases": [
+        "二年F班",
+        "2年F班",
+        "二年F组"
+      ],
+      "description": "总武高中 · 二年F班教室。同班学生共用此教室，不按人物另造一间。楼层和房间号未有可靠公开依据；沿用本分支已明确的校园布局，但不将原创布局当作原作。",
+      "appearance": ""
+    },
+    {
+      "id": "classroom-2j",
+      "kind": "location",
+      "name": "二年J班教室",
+      "aliases": [
+        "二年J班",
+        "2年J班",
+        "二年J组"
+      ],
+      "description": "总武高中 · 二年J班教室。同班学生共用此教室，不按人物另造一间。楼层和房间号未有可靠公开依据；沿用本分支已明确的校园布局，但不将原创布局当作原作。",
+      "appearance": ""
+    },
+    {
+      "id": "classroom-2c",
+      "kind": "location",
+      "name": "二年C班教室",
+      "aliases": [
+        "二年C班",
+        "2年C班",
+        "二年C组"
+      ],
+      "description": "总武高中 · 二年C班教室。同班学生共用此教室，不按人物另造一间。楼层和房间号未有可靠公开依据；沿用本分支已明确的校园布局，但不将原创布局当作原作。",
+      "appearance": ""
+    },
+    {
+      "id": "classroom-1c",
+      "kind": "location",
+      "name": "一年C班教室",
+      "aliases": [
+        "一年C班",
+        "1年C班",
+        "一年C组"
+      ],
+      "description": "总武高中 · 一年C班教室。同班学生共用此教室，不按人物另造一间。楼层和房间号未有可靠公开依据；沿用本分支已明确的校园布局，但不将原创布局当作原作。",
+      "appearance": ""
+    },
+    {
+      "id": "classroom-rule",
+      "kind": "rule",
+      "name": "班级与人物身份",
+      "description": "人物归属以school、class_name、classroom_location为准；八幡、结衣、叶山、三浦、海老名、沙希、户部、彩加和相模南是二年F班同学，雪乃是二年J班，材木座是二年C班，彩羽是一年C班。同班共用教室，班级归属不保证此刻在场。相模南和三浦优美子是不同人物，身份、知识、关系和素材不得混用。找尚无卡的临时人物时用真实名字登记，不因缺卡阻塞故事，不冒用任何现有人物ID。",
       "appearance": ""
     }
   ]

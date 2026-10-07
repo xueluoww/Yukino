@@ -76,8 +76,11 @@ def encounter_evidence(text,actor,allow_typo=False):
         if allow_typo and re.fullmatch(r'[\u4e00-\u9fff]{3,}',name):
             pattern='(?:'+pattern+'|'+'|'.join(re.escape(name[:i])+r'[\u4e00-\u9fff]'+re.escape(name[i+1:]) for i in range(len(name)))+')'
         for clause in re.split(r'[。；\n]',text):
-            if re.search(r'回忆|回想|想起|据说|听说|传闻|打算|将会|如果|梦里|视频|照片',clause):continue
-            if re.search(r'(?:看见|看到|发现|遇见|遇到|出现|走近|走来|站着|坐着|等着|站在|跟着|同行)[^。；\n]{0,20}'+pattern+'|'+pattern+r'[^。；\n]{0,16}(?:出现|走近|走来|站着|等着|站在|来到|跟着|同行)',clause):return clause
+            if re.search(r'回忆|回想|想起|据说|听说|传闻|打算|准备去|将会|如果|梦里|视频|照片|没有看见|没看到|不在这里',clause):continue
+            if re.search(r'(?:看见|看到|发现|遇见|遇到|出现|走近|走来|站着|坐着|等着|站在|跟着|同行)[^。；\n]{0,20}'+pattern+'|'+pattern+r'[^。；\n]{0,16}(?:出现|走近|走来|站着|坐在|坐着|等着|站在|来到|跟着|同行|抬起头|抬头|收拾东西|收笔盒)',clause):return clause
+            # Entering an occupied room is an encounter without an NPC arrival.
+            if re.search(r'(?:走到|走近|来到|靠近)\s*'+pattern+r'(?:的)?(?:座位|身边|面前|旁边)',clause):return clause
+            if re.search(pattern+r'[^。；\n]{0,30}(?:走进教室|进入教室)[^。；\n]{0,20}(?:走到|来到)她(?:的)?座位旁',clause):return clause
     return ''
 
 def declared_encounters(text,actors):
@@ -93,7 +96,32 @@ def normalize_state(reply,previous,parts,actors,user):
     creating dialogue, hearing, companions or unmentioned arrivals."""
     state=reply.get('scene_state')
     if not isinstance(state,dict):return
+    original_arrivals=copy.deepcopy(state.get('arrivals',[]))
     bind_frames(reply.get('frames',[]),actors,user,state)
+    # A demonstrably different name in arrival evidence must not inherit an
+    # unrelated catalogue identity. Reconcile only an unambiguous newcomer;
+    # already present people or conflicting narration remain validation errors.
+    repairs={}
+    prose='\n'.join(p['text'] for p in parts)+'\n'+'\n'.join(f.get('text','') for f in reply.get('frames',[]))
+    speakers={resolve(f.get('speaker'),actors,user) for f in reply.get('frames',[]) if f.get('kind') in {'dialogue','thought'}}
+    for original_entry,entry in zip(original_arrivals,state.get('arrivals',[])):
+        old=resolve(original_entry.get('actor_id'),actors,user)
+        encounters=declared_encounters(entry.get('evidence',''),actors)
+        if len(encounters)!=1:continue
+        actual=encounters[0][0]
+        if old and old!=actual and old not in previous.get('present_actor_ids',[]) and actual in speakers:
+            if not any(n and n in prose for n in [actors[old]['name'],*actors[old].get('aliases',[])]):
+                repairs[old]=actual;entry['actor_id']=actual
+    if repairs:
+        def redirect(value):
+            if isinstance(value,list):
+                for item in value:redirect(item)
+            elif isinstance(value,dict):
+                for key,item in value.items():
+                    if key in {'actor_id'} and isinstance(item,str):value[key]=repairs.get(resolve(item,actors,user),item)
+                    elif key in {'present_actor_ids','visible_actor_ids','recipient_ids','audience_ids'} and isinstance(item,list):value[key]=list(dict.fromkeys(repairs.get(resolve(v,actors,user),v) for v in item))
+                    elif isinstance(item,(dict,list)):redirect(item)
+        redirect(state);redirect(reply.get('frames',[]))
     # The model cannot invent the player's private thoughts. These frames are
     # redundant even when the player explicitly supplied a thought as input.
     original=reply.get('frames',[])
@@ -188,6 +216,29 @@ def normalize_state(reply,previous,parts,actors,user):
         if not evidence and same_place(state.get('location'),previous.get('location')):
             evidence=next((e['evidence'] for e in previous.get('nearby_encounters',[]) if e['actor_id']==key),'')
         if evidence:arrivals.append({'actor_id':key,'evidence':evidence,**({'name':a['name']} if a.get('provisional') else {})})
+    # Fill omitted presentation arrays only for corroborated real encounters.
+    # Arrival claims alone grant neither hearing nor knowledge.
+    for entry in arrivals:
+        key=entry.get('actor_id');actor=actors.get(key)
+        if not actor:continue
+        input_evidence=next((p['text'] for p in parts if p['kind'] in {'action','environment'}
+            and encounter_evidence(p['text'],actor) and re.search(r'走到|走近|来到|靠近|走进|进入',p['text'])
+            and not re.search(r'等.{0,25}(?:走到|走近|来到|走进|进入)|准备|打算|想要',p['text'])),'')
+        first=next((i for i,f in enumerate(reply.get('frames',[])) if f.get('kind')=='narration' and encounter_evidence(f.get('text',''),actor)),None)
+        if not input_evidence and first is None:continue
+        first=0 if input_evidence else first
+        for f in reply.get('frames',[])[first:]:
+            stage=f.get('stage',{})
+            if not same_place(stage.get('location'),state.get('location')):continue
+            if not input_evidence and not encounter_evidence(entry.get('evidence',''),actor):continue
+            if re.search(r'(?:离开|走出|走远|看不见|门挡住)',f.get('text','')):continue
+            present=stage.get('present_actor_ids')
+            if isinstance(present,list) and key not in present:present.append(key)
+            visible=stage.get('visible_actor_ids')
+            if input_evidence and not occluded and isinstance(visible,list) and key not in obscured and key not in visible:visible.append(key)
+        final=reply.get('frames',[])[-1].get('stage',{}) if reply.get('frames') else {}
+        for field in ('present_actor_ids','visible_actor_ids'):
+            if key in final.get(field,[]) and isinstance(state.get(field),list) and key not in state[field]:state[field].append(key)
     # Reacting to one's own declared entry is an initiative, not receipt of
     # the director's environment instruction. Never repair unheard speech,
     # private words or movements this way.
@@ -207,8 +258,18 @@ def normalize_state(reply,previous,parts,actors,user):
 def cues(parts,actors):
     # Explicit local constraints only. The model handles ordinary spatial meaning.
     physical='\n'.join(p['text'] for p in parts if p['kind'] in {'action','environment'})
-    alone=bool(re.search(r'独自一人|我[^。；\n]{0,8}(?:离开|回到|走到|来到|前往|去往)|离开[^。；\n]{0,30}(?:前往|去往|来到|走到)|独自(?:走|回|前往|来到|到达)|(?:只有|仅有|就)我一个人|空无一人|四周无人',physical))
+    # "趁同学起身离开时…" describes someone else's exit.
+    player_physical=re.sub(r'(?:趁|等)(?:到)?[^。；\n]{0,50}?(?:时|后|之后)[，,\s]*','',physical)
+    movement=r'(?:离开|回到|走到|来到|前往|去往)'
+    alone=bool(re.search(r'独自一人|(?:只有|仅有|就)我一个人|空无一人|四周无人|独自(?:走|回|前往|来到|到达)',player_physical))
+    if not alone:
+        for clause in re.split(r'[。；\n，,]',player_physical):
+            clause=clause.strip()
+            if re.search(r'准备|打算|想要|心想|如果|没有离开|没离开|不离开',clause):continue
+            if re.search(r'^(?:我(?:自己)?(?:于是|便|就|转身|快步|慢慢|径直)?\s*|(?:转身|快步|慢慢|径直)?\s*)'+movement,clause):alone=True;break
     named_arrivals=[]
+    for part in parts:
+        if part['kind'] in {'action','environment'}:named_arrivals.extend(key for key,evidence in declared_encounters(part['text'],actors))
     for key,a in actors.items():
         if key=='player':continue
         for name in [a['name'],*a.get('aliases',[])]:
@@ -222,7 +283,7 @@ def cues(parts,actors):
         audible=bool(re.search(r'听见|听到|让.{0,8}听|对着|对.{0,8}说',outside))
         inner=marker and marker[0] not in {'自言自语','喃喃自语'}
         if p['kind']=='thought' or marker and (inner or not audible):private.append(i)
-    return {'unaccompanied_departure':alone,'explicit_companions_or_encounters':named_arrivals,'private_part_indexes':private}
+    return {'unaccompanied_departure':alone,'explicit_companions_or_encounters':list(dict.fromkeys(named_arrivals)),'private_part_indexes':private}
 
 def current_scene(session,actors,frames,parts=None):
     saved=session.get('facts',{}).get('browser_scene_state')
@@ -386,7 +447,8 @@ def knowledge(session,state,turn_id,frames=None):
         speaker=frame.get('actor_id')
         local=frame.get('stage',{}).get('present_actor_ids',[])
         for key in frame.get('audience_ids',local if speaker in local else []):
-            result.setdefault(key,[]).append({'turn_id':turn_id,'source_speaker':frame.get('speaker',''), 'sense':'hear','observed':frame['text']})
+            if key==speaker:continue # Own utterances cannot manufacture learned facts.
+            result.setdefault(key,[]).append({'turn_id':turn_id,'source_speaker':frame.get('speaker',''), 'sense':'hear','observed':frame['text'],'epistemic_verified':True})
     return result
 
 def positions(session,previous,state,frames):

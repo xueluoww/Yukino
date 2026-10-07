@@ -12,6 +12,24 @@ import ssl
 import threading
 import time
 from turn_format import normalize
+import copy
+
+def aggregate_metrics(attempts):
+    """Include both first generation and repair; never report just the retry."""
+    if not attempts:return {}
+    result=copy.deepcopy(attempts[-1]);total={}
+    for metric in attempts:
+        for key,value in (metric.get('usage') or {}).items():
+            if type(value)is int:total[key]=total.get(key,0)+value
+    if total:
+        hit=total.get('prompt_cache_hit_tokens',0);miss=total.get('prompt_cache_miss_tokens',0)
+        total['prompt_tokens_details']={'cached_tokens':hit}
+        result['usage']=total
+        result['input_cache_hit_ratio']=round(hit/(hit+miss),4) if hit+miss else None
+    result['request_count']=len(attempts)
+    result['transport_seconds']=round(sum(m.get('transport_seconds',0) for m in attempts),3)
+    result['attempts']=copy.deepcopy(attempts)
+    return result
 
 class TransportError(ValueError):
     def __init__(self,message,retryable=True):super().__init__(message);self.retryable=retryable
@@ -172,11 +190,13 @@ class FlashClient:
                     {'role': 'user', 'content': prompt}]
         with self.lock:
             self.last_format_error='';self.validation_issues=[]
+            attempts=[];self.metrics={}
             transport_retries=0
             for attempt in range(2):
                 while True:
                     try:
                         raw = self.request(messages,on_first)
+                        attempts.append(copy.deepcopy(self.metrics))
                         break
                     except TransportError as exc:
                         if not exc.retryable or transport_retries>=1:raise
@@ -194,6 +214,7 @@ class FlashClient:
                     reply = normalizer(decoded,context or {}) if normalizer else decoded
                     validate_schema(reply, schema)
                     if semantic_validator:semantic_validator(reply)
+                    self.metrics=aggregate_metrics(attempts)
                     self.metrics['format_retry'] = attempt
                     self.metrics['transport_retry']=transport_retries
                     return reply
@@ -208,6 +229,8 @@ class FlashClient:
                         details['frames']=[{k:f.get(k) for k in ('kind','speaker','stage','reaction_to')} for f in decoded.get('frames',[]) if isinstance(f,dict)]
                     self.validation_issues.append(details)
                     if attempt:
+                        self.metrics=aggregate_metrics(attempts)
+                        self.metrics.update(format_retry=attempt,transport_retry=transport_retries)
                         raise FormatError('DeepSeek 回应格式未通过检查，本轮未写入剧情，可以重试。') from None
                     if on_recover:on_recover('format')
                     if isinstance(exc,json.JSONDecodeError):

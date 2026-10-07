@@ -5,11 +5,11 @@
   <meta name="description" content="在场景中与角色相遇，自由推进属于你的故事。">
   <title>Yukino · 剧本剧场</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css"><script src="music.js" defer></script><script src="app.js" defer></script><script src="save-map.js" defer></script><script src="engine-ui.js" defer></script><link rel="stylesheet" href="engine-ui.css">
+  <link rel="stylesheet" href="style.css"><script src="music.js" defer></script><script src="app.js" defer></script><script src="image-adjustments.js" defer></script><script src="save-map.js" defer></script><script src="engine-ui.js" defer></script><link rel="stylesheet" href="engine-ui.css">
 </head>
 <body>
   <section id="lobby" aria-label="剧本与存档选择">
-    <div class="lobby-header"><div class="wordmark"><span class="snow">❄</span><span>Yukino</span><small>0.8</small></div><div class="lobby-actions"><span id="library-count"></span><button id="lobby-manage-saves">存档管理</button></div></div>
+    <div class="lobby-header"><div class="wordmark"><span class="snow">❄</span><span>Yukino</span><small>0.5</small></div><div class="lobby-actions"><span id="library-count"></span><button id="lobby-manage-saves">存档管理</button></div></div>
     <div id="character-picker" class="character-picker">
       <div class="picker-heading"><span class="eyebrow">SCRIPTS</span><h1>选择剧本</h1><p>选择一个世界，从一次相遇开始。</p></div>
       <div class="selection-layout"><div id="character-roster" class="character-roster" aria-label="剧本选择"></div>
@@ -38,10 +38,10 @@
     <div class="particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <img id="sprite" class="sprite" alt="角色立绘" hidden>
     <header class="topbar interface">
-      <div class="wordmark"><span class="snow">❄</span><span>Yukino</span><small>0.8</small><span id="story-clock"></span></div>
+      <div class="wordmark"><span class="snow">❄</span><span>Yukino</span><small>0.5</small><span id="story-clock"></span></div>
       <div class="chapter"><span id="location">秋日 · 侍奉部</span><span class="chapter-line"></span><span id="mode">试读</span></div>
       <nav aria-label="游戏菜单">
-        <button id="music-button" aria-label="静音背景音乐" aria-pressed="true" title="背景音乐">♫</button><button id="thought-button" aria-expanded="false" aria-controls="thought-panel">心声</button><button id="affinity-button">好感</button><button id="plot-button">脉络</button><button id="log-button" title="对话记录">回看</button><button id="gallery-button">画廊</button><button id="save-button">存档</button><button id="gameplay-button">手记</button><button id="manage-saves-button">管理</button><button id="menu-button" aria-label="打开设置">⋯</button>
+        <button id="music-button" aria-label="静音背景音乐" aria-pressed="true" title="背景音乐">♫</button><button id="thought-button" aria-expanded="false" aria-controls="thought-panel">心声</button><button id="affinity-button">关系</button><button id="plot-button">脉络</button><button id="log-button" title="对话记录">回看</button><button id="gallery-button">画廊</button><button id="save-button">存档</button><button id="gameplay-button">手记</button><button id="manage-saves-button">管理</button><button id="menu-button" aria-label="打开设置">⋯</button>
       </nav>
     </header>
     <div class="scene-caption interface"><span id="chapter-number">CHAPTER 01</span><p id="chapter-title">初次相遇</p><div></div></div>
@@ -57,6 +57,7 @@
         <div class="portrait" id="portrait-wrap"><img id="avatar" alt="人物头像"></div>
         <div class="dialogue-content"><div id="dialogue" role="status" aria-live="polite"></div><div class="dialogue-bottom"><span id="status">点击继续 · 空格</span><button id="next-button" aria-label="继续对话">继续 <span aria-hidden="true">◇</span></button></div></div>
       </div>
+      <div id="authored-free-note" class="authored-free-note" role="region" aria-label="自由活动" hidden></div>
       <div class="input-prefixes" role="group" aria-label="输入内容类型"><button type="button" data-prefix="语言" aria-label="插入语言前缀">语言</button><button type="button" data-prefix="动作" aria-label="插入动作前缀">动作</button><button type="button" data-prefix="环境" aria-label="插入环境前缀">环境</button><button type="button" data-prefix="内心" aria-label="插入内心前缀">内心</button><small>可混合使用 · 内心不会说出口</small></div>
       <form id="input-form" class="input-row"><label class="sr-only" for="message">你的台词或动作</label><span class="input-mark" aria-hidden="true">✧</span><textarea id="message" rows="1" maxlength="8000" placeholder="【语言】说的话　【动作】你的行动　【环境】当前场景　【内心】没有说出口的想法"></textarea><button id="send-button" type="submit">回应 <span aria-hidden="true">↵</span></button></form>
       <div id="choices" class="choices" aria-label="可选回应" hidden></div>
@@ -64,6 +65,6 @@
     </section>
     <aside id="toast" role="status" hidden></aside>
   </main>
-    <dialog id="modal"><div class="modal-header"><div><span class="eyebrow">0.8</span><h2 id="modal-title"></h2></div><button id="close-modal" aria-label="关闭弹窗">×</button></div><div id="modal-body"></div></dialog>
+    <dialog id="modal"><div class="modal-header"><div><span class="eyebrow">0.5</span><h2 id="modal-title"></h2></div><button id="close-modal" aria-label="关闭弹窗">×</button></div><div id="modal-body"></div></dialog>
 </body>
 </html>

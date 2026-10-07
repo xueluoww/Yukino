@@ -1,0 +1,14 @@
+[
+  {
+    "file": "clubroom-spring-rain.png",
+    "tool": "Codex built-in imagegen",
+    "reference": "<local-reference>/clubroom-rain.png",
+    "prompt": "Edit this reference into a matching game background for a Japanese high school service club in early spring after the graduation prom. Keep the exact room geometry, perspective, large right windows, left bookshelves, table and chairs, wood floor, detailed softly painted anime visual novel style and subdued blue-gray rainy afternoon lighting. Replace all red orange autumn foliage outside and autumn-themed pictures inside with early spring bare branches, very sparse tiny pale-pink buds, distant muted green trees. Outside is cloudy and rainy, no fall colors or snowy winter. No characters, faces, letters, labels, UI or watermarks. Wide landscape 16:9. This is a quiet neutral empty-room background for transparent anime character sprites."
+  },
+  {
+    "file": "corridor-spring-evening.png",
+    "tool": "Codex built-in imagegen",
+    "reference": "<local-reference>/corridor.png",
+    "prompt": "Edit this reference into a matching game background: the same empty Japanese high school corridor in early spring at blue-hour evening after the graduation prom. Preserve camera perspective, corridor geometry, left classroom doors, right windows, wooden polished floor, warm detailed anime visual novel painting style. Replace all bright autumn leaves outside with bare early spring branches and sparse pale buds. Change lighting to soft lit white ceiling fluorescent fixtures, blue-gray outside, a faint warm late twilight reflection, atmosphere quiet contemplative but readable. No characters, faces, signs, letters, text, UI or watermark. Wide landscape 16:9. Keep same illustrative style as reference; no red orange autumn leaves anywhere."
+  }
+]

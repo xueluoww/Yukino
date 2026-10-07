@@ -2,7 +2,7 @@
 
 # 创建与导入剧本（yukima_script_v1）
 
-本文适用于 Yukino 0.8 项目内的 `sillytavern-roleplay` 技能及 `yukima_script_v1` 剧本格式。最方便的方式是在任意 Codex 聊天中引用你选定位置的技能，让 Codex 根据你的描述整理并导入；网页用于选择和游玩剧本，不提供上传入口。
+本文适用于 Yukino 0.5 项目内的 `sillytavern-roleplay` 技能及 `yukima_script_v1` 剧本格式。最方便的方式是在任意 Codex 聊天中引用你选定位置的技能，让 Codex 根据你的描述整理并导入；网页用于选择和游玩剧本，不提供上传入口。
 
 ## 剧本与主程序分开
 
@@ -171,7 +171,7 @@ Codex 应完成：整理 UTF-8 剧本包 → 在临时资料库试导入 → 核
 
 ## 5. 导入和验证
 
-在 Yukino 0.8 公共项目根目录中，先启动一次演示以初始化本地库，再，使用项目内技能和独立库：
+在 Yukino 0.5 公共项目根目录中，先启动一次演示以初始化本地库，再，使用项目内技能和独立库：
 
 ```powershell
 $storySkill = Join-Path (Get-Location) 'skills/sillytavern-roleplay'
@@ -221,3 +221,8 @@ python -X utf8 "$storySkill/scripts/deepseek_client.py" --root "$storyRoot" --co
 ## 初始关系与共用素材字段
 
 人物的 `age` 用于图鉴；`initial_affinity` 按主角 ID 和 default 分别保存 score、relationship、basis、version，只将数值和状况展示给玩家。字段格式与春物预设说明见 [好感设定](affinity.md)。世界观可配置 `visual_revision` 和 `visual_locations`；背景身份、图库引用与三类预算见 [图库与配额](shared-gallery.md)。普通导入不改旧档；明确授权的数据迁移须备份并分别修正每个节点。
+
+
+### 时间与预制线
+
+普通剧本使用world.time的标准时间配置，不必编写时间模块；特殊历法可选受限代码，协议见项目技能references/time-system.md。预制线制作与固定主线/自由目标阶段的汇合方法见references/storyline-authoring.md。人物素材需要登记，公开春物库仅有姓名标签；补图与来源见项目README前部。

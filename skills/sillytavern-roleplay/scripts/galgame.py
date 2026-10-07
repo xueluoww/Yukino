@@ -24,11 +24,13 @@ from runtime_v4 import RuntimeV4
 from cast import bind_frames,player_snapshot
 from branch_store import create_fork, session_listing, metadata as branch_metadata
 from engine_v5 import EngineV5
+from authored_story import AuthoredRuntime
+from image_adjustments import ImageAdjustments
 
 HERE = Path(__file__).resolve()
 ASSETS = HERE.parent.parent / 'assets' / 'galgame'
 MAX_BODY = 256 * 1024
-APP_VERSION = '5.0'
+APP_VERSION = '5.6.0'
 EXPRESSIONS = ['neutral','soft','serious','shy','thinking','listening','troubled','surprised','sad','displeased','happy','eyes_closed','absent']
 BEATS = ['setup','development','revelation','turning_point','resolution']
 
@@ -138,7 +140,7 @@ def turn_schema(backgrounds):
     schema['properties']['world_updates']=proposal_schema()
     return schema
 
-class Player(EngineV5, RuntimeV4):
+class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
     def __init__(self, root, assets, tavern, card=None, provider='deepseek', cli=None, dynamic_images=True):
         self.root = Path(root).resolve()
         self.assets = Path(assets).resolve()
@@ -194,11 +196,11 @@ class Player(EngineV5, RuntimeV4):
         except (OSError, ValueError, TypeError):
             pass
         key=card_id or self.current['card_id']
-        if key in self.manifests:return self.manifests[key]
+        if key in self.manifests:return self.authored_descriptor(self.manifests[key],key)
         try:
             _,record=self.tavern.find_record(self.root,'cards',key)
             visual_id=record['card']['data'].get('extensions',{}).get('visual_manifest_id')
-            return self.manifests.get(visual_id,{})
+            return self.authored_descriptor(self.manifests.get(visual_id,{}),key)
         except (OSError,ValueError,self.tavern.TavernError):return {}
 
     def asset_path(self, resource):
@@ -220,7 +222,7 @@ class Player(EngineV5, RuntimeV4):
                     'description': data.get('scenario') or '使用这张角色卡的预设开场。', 'greeting':i} for i in range(1+len(data.get('alternate_greetings',[])))]})
         return result
 
-    def start(self, card, user, persistent, scenario=None, world_id=None, setting_ids=None, protagonist_id=None, script_id=None):
+    def start(self, card, user, persistent, scenario=None, world_id=None, setting_ids=None, protagonist_id=None, script_id=None, storyline_id=None):
         with self.lock:
             if self.busy:
                 raise ValueError('当前回合尚未结束。')
@@ -232,6 +234,10 @@ class Player(EngineV5, RuntimeV4):
             record = self.command('show', card)
             descriptor = self.descriptor(record['card_id'])
             world=self.worlds.snapshot(record['card_id'],world_id,setting_ids)
+            if storyline_id:
+                route=next((r for r in world.get('storylines',[]) if r['id']==storyline_id),None)
+                if not route:raise ValueError('找不到这条预制故事线。')
+                if route.get('protagonist_id') and (protagonist_id or 'hachiman')!=route['protagonist_id']:raise ValueError('这条故事线需要比企谷八幡主角卡。')
             available = world.get('opening_scenes') or next(c['scenarios'] for c in self.card_list() if c['id']==record['card_id'])
             chosen = next((s for s in available if s['id']==scenario), None) if scenario else available[0]
             if not chosen:
@@ -272,8 +278,9 @@ class Player(EngineV5, RuntimeV4):
             from affinity import read as affinity_read
             self.current['facts']['browser_affinity']=affinity_read(self.current,self.actors(),self.frames)
             self.initialize_engine()
+            if storyline_id:self.initialize_authored(storyline_id)
             opening_jobs=[]
-            if (persistent or script_id) and self.dynamic_images:
+            if (persistent or script_id) and self.dynamic_images and not storyline_id:
                 opening={'frames':self.frames,'visual':self.visual,'scene':self.current['scene'],
                     'story':{'title':chosen['title']},'illustration':{'recommended':False,'prompt':''}}
                 opening_jobs=self.plan_images(opening);self.frames=opening['frames']
@@ -282,8 +289,9 @@ class Player(EngineV5, RuntimeV4):
                 self.current['facts']['browser_gallery_refs']=self.gallery_refs({'frames':self.frames,'visual':self.visual})
                 self.save()
                 self.activate_visuals()
+            if storyline_id and persistent:self.tavern.atomic_json(self.cache_file,self.cache)
             if opening_jobs:self.queue_images(opening_jobs,self.current['id'],self.current['card_id'])
-            if persistent and self.dynamic_images:self.prepare_predictions()
+            if persistent and self.dynamic_images and not storyline_id:self.prepare_predictions()
             return self.state()
 
     def save(self, new_slot=False):
@@ -414,6 +422,7 @@ class Player(EngineV5, RuntimeV4):
                     return {'accepted':True,'request_id':request_id}
                 raise ValueError('当前回应尚未结束。')
             if self.current['status']!='active': raise ValueError('剧情已暂停，请从存档恢复后继续。')
+            self.authorize_authored_input()
             self.busy=True;self.error=''
             self.activity={'id':request_id,'text':text,'stage':'received','started':time.monotonic(),'session_id':self.current['id']}
             from story_history import waiting_ids
@@ -494,7 +503,7 @@ class Player(EngineV5, RuntimeV4):
 
     def generate(self, context, job):
         if self.provider == 'bridge':
-            self.tavern.atomic_json(job / 'request.json', {'context': self.compact_context(context), 'schema': turn_schema(list(self.descriptor().get('backgrounds', {'clubroom': ''}))), 'reply_path': str(job / 'reply.json')})
+            self.tavern.atomic_json(job / 'request.json', {'context': self.compact_context(context), 'schema': self.authored_schema(turn_schema(list(self.descriptor().get('backgrounds', {'clubroom': ''})))), 'reply_path': str(job / 'reply.json')})
             deadline = time.monotonic() + 300
             while time.monotonic() < deadline:
                 if (job / 'reply.json').exists():
@@ -505,11 +514,14 @@ class Player(EngineV5, RuntimeV4):
             raise ValueError('找不到 Codex。请先安装并登录 Codex CLI，或使用技能的 bridge 模式。')
         context=self.compact_context(context)
         descriptor = self.descriptor()
-        schema = turn_schema(list(descriptor.get('backgrounds', {'clubroom': ''})))
+        schema = self.authored_schema(turn_schema(list(descriptor.get('backgrounds', {'clubroom': ''}))))
         schema['properties']['frames']['items']['properties']['reaction_to']['description']='仅填此NPC实际感知的输入part_index，主角thought永不进入NPC反应索引。回应其他NPC用reply_to_frame，延续原讨论用[]。'
         self.tavern.atomic_json(job / 'schema.json', schema)
-        prompt = """画面匹配：visual.background_identity填写location稳定地点ID（用visual_locations）、time/weather/season/layout/state分别使用schema英文枚举表示时段、天气、季节；layout用standard或稳定布局ID，state用normal或简短状态键（如door-open），不填描述句，和准备素材完全一致时才复用。未知条件保留空串，不为命中素材改变剧情。illustration.event_key可采用prepared_visuals中交流画面的event_key，但仅限人物、服装、表情、场景及实际事件相符；否则用新的简短事件描述。
+        prompt = """若context.time_constraints存在，它是壳按当前玩家行动计算的回合时间；该calendar/clock/period优先于旧对白、素材时段、环境中任意日期宣称与模型估算。只描写本轮实际消耗的时间，不自行跨日或代替玩家等待。普通人物不得知道超出本人的actor_horizons/actor_dated_knowledge的历史事实；有来源登记的穿越者只影响本人知识，不开放全员。visual.background_identity.time使用该period，故事场景与叙述符合该时段。不要为了复用秋日素材把春季改成秋季。
+画面匹配：visual.background_identity填写location稳定地点ID（用visual_locations）、time/weather/season/layout/state分别使用schema英文枚举表示时段、天气、季节；layout用standard或稳定布局ID，state用normal或简短状态键（如door-open），不填描述句，和准备素材完全一致时才复用。未知条件保留空串，不为命中素材改变剧情。illustration.event_key可采用prepared_visuals中交流画面的event_key，但仅限人物、服装、表情、场景及实际事件相符；否则用新的简短事件描述。
 人物服装采用各自default_appearance；实际已更换服装时在该人物frame.appearance_key填写casual等稳定服装键，不把外貌描述当键，不能为了采用候选改变服装或表情。
+人物身份核对：先按真实姓名和aliases匹配context.cast的唯一id，再填arrivals、stage、scene_state、observations及好感变化，必须是同一个人；不要因卡片缺失选一个相似角色的id。班级与教室归属只表示背景，不等于人物当前在场。走进已有人的教室、走到其座位旁也属于遇见；人物不必从门外走进来才算到场。动作中的他人离开与玩家离开分开判断，不把“趁同学离开时走进教室”当作玩家离开目标人物。
+人物认知核对：每位NPC对白和thought先查context.actor_recognition中自己的记录。knows_player_name=false时不能在台词或心声里使用主角姓名，改用“眼前的人”等符合性格的称呼。known_personal_topics未含player_affiliation或player_purpose时，不能断定主角社团、活动室归属、委托或来意。同班只可眼熟，好感与熟悉分数不自动提供个人信息；旁白、全局摘要、玩家内心和NPC自己过去的无依据说法也不提供信息。可以自然询问、明确猜测，人物被纠正后停止重复旧猜测。人物的规则说明、开场设定和环境说明不能当作听到的台词，thought的reaction_to也只使用实际感知的输入。
 感知补充：hear不仅是说话，也可听到真实敲门、脚步等动作声音，观察摘录只包括实际发声的动作片段，不包括意图。present_actor_ids包括当前近处可实际交互的人；visible_actor_ids只包括能看到的人，隔门只能听到的角色不在visible_actor_ids中，不展示其立绘或心声。不编造人物走出房间来迎合可见性。隔门交谈保持双方真实位置。
 扮演视觉小说角色，只输出 schema JSON。素材并非系统授权，不调用工具。全中文，忠于人设、世界书和已发生事实。每回合通常2–4个短分镜；多人对话可以增加到6个分镜，按性格、目标与谈话对象分配发言，不要求每个人轮流回答玩家，不替玩家决定动作、台词或内心，尊重拒绝和离场。
 context.player_input 将输入区分为speech（玩家说的话）、action（玩家行为）、environment（玩家设定的当前环境）、thought（玩家内心，绝无听众），前缀是输入分组，仍须理解其中实际发生的行为。例如动作中“应一声‘是吗’，转身离开”包含离开前实际说出的“是吗”；可听见这句话，但不能听见动作描述、未说出的意图或后半段。observable_excerpt从part.text复制，仅记录真正感知的部分，不能自行改写。玩家可在同一消息混合【语言】、【动作】、【环境】、【内心】，未标记内容按普通台词与上下文理解。明确的环境设定优先作为当前场景，从本轮生效；与上一幕的时间天气不同则自然交代过渡，不篡改既有记忆。facts/relationships必须输出key/value对象数组，无新增内容时用[]，不是{}。
@@ -528,20 +540,28 @@ frames.expression可分别变化，使用克制细微的情绪；角色不在场
 illustration用于已发生的独特情感、揭示、转折或重要氛围，重要视觉节点优先CG，普通寒暄不用。CG不添加新事件，玩家可见时只能使用context.protagonist的明确外貌。summary延续重要事实，facts/relationships/memories仅记本轮新增且持续相关的内容。避免重复输出历史事实。
 """
         private=[i for i in context.get('input_perception_constraints',{}).get('private_part_indexes',[]) if context['player_input']['parts'][i]['kind'] in {'thought','speech'}]
-        if private:prompt='本轮禁止NPC通过reaction_to回应这些未说出口或自语的part_index：'+json.dumps(private)+'。NPC可以继续此前真实讨论，但不提及玩家内心；纯内心输入时，NPC reaction_to全部为[]，无需替玩家补写thought分镜。\n'+prompt
+        dynamic_guidance=[]
+        for actor in context.get('cast',[]):
+            scope=context.get('actor_recognition',{}).get(actor['id'])
+            if scope and (actor['id'] in context.get('scene_state',{}).get('present_actor_ids',[]) or actor['name'] in context.get('incoming','')):
+                dynamic_guidance.append(actor['name']+'的个人认知：'+json.dumps(scope,ensure_ascii=False)+'。未知姓名时对白和心声都不能称主角为'+context.get('user_name','主角')+'；仅旁白可使用导演知道的姓名。')
+        if private:dynamic_guidance.append('本轮禁止NPC通过reaction_to回应这些未说出口或自语的part_index：'+json.dumps(private)+'。NPC可以继续此前真实讨论，但不提及玩家内心；纯内心输入时，NPC reaction_to全部为[]，无需替玩家补写thought分镜。')
         if context.get('input_perception_constraints',{}).get('unaccompanied_departure'):
             local_exits=[]
             for i,part in enumerate(context['player_input']['parts']):
                 match=re.search(r'离开[^。；\n]{0,30}?(?=前往|去往|来到|走到)',part['text'])
                 if part['kind']=='action' and match:local_exits.append({'part_index':i,'maximum_exit_excerpt':part['text'][:match.end()].rstrip('，,。；; ')})
-            if local_exits:prompt='本轮转场的原地点观察上限：'+json.dumps(local_exits,ensure_ascii=False)+'。原地点人物的see只取真实离开片段，不包含后续目的地，不因同一个part就知道全部行动；离开前可短回应，转场后不在场。\n'+prompt
+            if local_exits:dynamic_guidance.append('本轮转场的原地点观察上限：'+json.dumps(local_exits,ensure_ascii=False)+'。原地点人物的see只取真实离开片段，不包含后续目的地，不因同一个part就知道全部行动；离开前可短回应，转场后不在场。')
         from story_engine import RULES,PHASE_RULE
         prompt+=RULES+'\n'+PHASE_RULE+'\n'
-        prompt+=json.dumps({'backgrounds':descriptor.get('background_descriptions',{}),'expressions':list(descriptor.get('sprites',{})),'default_appearance':descriptor.get('default_appearance','school-uniform'),'character_display_name':descriptor.get('name'),'context':context},ensure_ascii=False,separators=(',',':'))
+        from prompt_cache import prompt_payload
+        prompt+=prompt_payload(descriptor,context)
+        if dynamic_guidance:prompt+='\n本轮感知核对（优先遵循）：\n'+'\n'.join(dynamic_guidance)
         (job/'prompt.txt').write_text(prompt,encoding='utf-8')
         if self.provider == 'deepseek':
             reply=self.flash.generate(prompt,schema,self.note_first_text,context=context,on_recover=self.note_recover,semantic_validator=lambda r:(self.validate_reply(r),self.validate_story(r['story']),self.validate_perception(r,context),self.settle_engine(r,self.activity['id'],{a for e in r['scene_state']['input_events'] for a in e['recipient_ids']})))
             self.tavern.atomic_json(job/'reply.json',reply)
+            self.tavern.atomic_json(job/'metrics.json',self.flash.metrics)
             return reply
         env = self.engine_env()
         command = [self.cli, 'exec', '--ignore-user-config', '--ephemeral', '--skip-git-repo-check',
@@ -588,7 +608,11 @@ illustration用于已发生的独特情感、揭示、转折或重要氛围，�
     def validate_perception(self,reply,context):
         from perception import validate,current_scene
         actors=self.actors()
-        return validate(reply,current_scene(self.current,actors,self.frames),parse_input(context.get('incoming',''))['parts'],actors,self.current['user_name'])
+        parts=parse_input(context.get('incoming',''))['parts']
+        state=validate(reply,current_scene(self.current,actors,self.frames),parts,actors,self.current['user_name'])
+        from recognition import validate as validate_recognition
+        validate_recognition(self.current,reply,parts,actors,self.current['user_name'])
+        return state
 
     def validate_story(self,story):
         if not isinstance(story,dict) or story.get('beat') not in BEATS or type(story.get('milestone')) is not bool or any(not isinstance(story.get(k),str) or len(story[k])>500 for k in ('title','thread')):raise ValueError('Invalid story progression')
@@ -609,6 +633,7 @@ illustration用于已发生的独特情感、揭示、转折或重要氛围，�
                 self.activity['stage']='composing'
                 started=time.monotonic()
             reply = self.generate(context, job)
+            self.normalize_authored_reply(reply)
             if isinstance(reply,dict) and isinstance(reply.get('frames'),list):
                 for frame in reply['frames']:
                     if isinstance(frame,dict) and frame.get('kind') in {'thought','narration'} and isinstance(frame.get('text'),str):
@@ -646,6 +671,7 @@ illustration用于已发生的独特情感、揭示、转折或重要氛围，�
                 'browser_cast':{k:a for k,a in turn_actors.items() if a.get('provisional')},
                 'browser_world_snapshot':self.world_snapshot(), 'browser_protagonist_snapshot':self.protagonist(), 'browser_affinity':affection,
                 'browser_gallery_refs':self.gallery_refs(reply)})
+            update['facts'].update(self.authored_free_facts(reply,text,request_id))
             payload = {'turn_id': request_id, 'expected_revision': context['revision'], 'user': text, 'assistant': assistant, 'update': update}
             pending_action=self._engine_pending.get(request_id)
             if pending_action:
@@ -696,7 +722,7 @@ illustration用于已发生的独特情感、揭示、转折或重要氛围，�
                 else:
                     self.error=str(exc)
                     self.activity['stage']='failed'
-                try:self.tavern.atomic_json(job/'diagnostic.json',{'error_class':type(exc).__name__,'stage':'post_commit' if committed else self.activity.get('stage',''),'request_id':request_id,'session_id':self.current['id'],'format_field':getattr(self.flash,'last_format_error',''),'validation_issues':getattr(self.flash,'validation_issues',[]) })
+                try:self.tavern.atomic_json(job/'diagnostic.json',{'error_class':type(exc).__name__,'stage':'post_commit' if committed else self.activity.get('stage',''),'request_id':request_id,'session_id':self.current['id'],'format_field':getattr(self.flash,'last_format_error',''),'validation_issues':getattr(self.flash,'validation_issues',[]),'metrics':getattr(self.flash,'metrics',{}) })
                 except OSError:pass
         finally:
             with self.lock:
@@ -811,9 +837,19 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/story-clock':
                 result=self.server.player.set_story_clock(data['session_id'],data.get('date'),data['minute'])
             elif path == '/api/start':
-                result = self.server.player.start(data.get('card',''), data.get('user', '你'), data.get('persistent', False) is True, data.get('scenario'),data.get('world_id'),data.get('setting_ids'),data.get('protagonist_id'),data.get('script_id'))
+                result = self.server.player.start(data.get('card',''), data.get('user', '你'), data.get('persistent', False) is True, data.get('scenario'),data.get('world_id'),data.get('setting_ids'),data.get('protagonist_id'),data.get('script_id'),data.get('storyline_id'))
+            elif path == '/api/storyline/advance':
+                result=self.server.player.advance_authored(data['session_id'],data['request_id'],data['node_id'],data.get('choice_id'))
+            elif path == '/api/storyline/cursor':
+                result=self.server.player.authored_cursor(data['session_id'],data['node_id'],data['frame_cursor'],data.get('turn_id'))
             elif path == '/api/branch':
                 result=self.server.player.branch(data['node_id'],data.get('session_id'))
+            elif path == '/api/images/adjust':
+                result=self.server.player.request_adjustment(data['session_id'],data['source_key'],data['prompt'],data['request_id'])
+            elif path == '/api/images/adopt':
+                result=self.server.player.adopt_adjustment(data['session_id'],data['key'])
+            elif path == '/api/images/retry-adjustment':
+                result=self.server.player.retry_adjustment(data['session_id'],data['key'])
             elif path == '/api/retry-images':
                 result=self.server.player.retry_images()
             elif path == '/api/retry-preview':

@@ -1,0 +1,10 @@
+{
+  "spec": "yukima_script_v1",
+  "world": "world.json",
+  "setting_sets": [
+    "settings.json"
+  ],
+  "world_gameplay": [
+    "combat.module.json"
+  ]
+}

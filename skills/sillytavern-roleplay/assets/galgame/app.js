@@ -4,7 +4,8 @@ let state, token, frameIndex = 0, typed = 0, typingTimer, autoTimer, auto = fals
 let speed = Number(localStorage.getItem("yukino-public-speed") || 28), submitting = false, latestError = "", visualKey = "", saving = false, toastTimer;
 let pending=null, receiptUntil=0, imageSerial=0, choicesSignature="";
 const cgDismissed=new Set(), cgSkipped=new Set(), cgDecoded=new Set(), cgDecoding=new Set(), cgDecodeFailed=new Set();
-let selectedCardId="", selectedScenarioId="", rosterSignature="";
+let selectedCardId="", selectedScenarioId="", selectedStorylineId="", rosterSignature="";
+let cursorQueue=Promise.resolve(), authoredPending=null;
 const modal = $("modal"), body = $("modal-body");
 async function api(path, data) {
   const response = await fetch(path, data === undefined ? {signal:AbortSignal.timeout(10000)} : {signal:AbortSignal.timeout(10000),method:"POST",headers:{"Content-Type":"application/json","X-Session-Token":token},body:JSON.stringify(data)});
@@ -13,7 +14,7 @@ async function api(path, data) {
   return result;
 }
 function toast(message, success=false) { clearTimeout(toastTimer); $("toast").textContent=message; $("toast").classList.toggle("success",success); $("toast").hidden=false; toastTimer=setTimeout(()=>$("toast").hidden=true,success?2000:4500); }
-function openModal(title) { $("modal-title").textContent=title; body.replaceChildren(); modal.classList.remove("profile-modal","affinity-modal"); if(!modal.open)modal.showModal(); }
+function openModal(title) { $("modal-title").textContent=title; body.replaceChildren(); modal.classList.remove("profile-modal","affinity-modal","image-adjustments-modal"); if(!modal.open)modal.showModal(); }
 function textEl(tag, text, className) {const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el;}
 function safeAsset(url) {return typeof url==="string" && /^\/(?!\/)[\w\-./%]+$/.test(url) ? url : "";}
 async function swapImage(element, url) {
@@ -47,26 +48,37 @@ async function renderVisual() {
 }
 function currentFrame(){return state?.frames[frameIndex];}
 function completeText(){clearInterval(typingTimer);const f=currentFrame();if(!f)return;typed=f.text.length;$("dialogue").textContent=f.text;updateContinue();}
-function updateContinue(){const last=frameIndex>=state.frames.length-1;$("next-button").textContent=last?(cgBlocks()?"查看这一幕 ◇":"轮到你了 ◇"):"继续 ◇";$("status").textContent="";renderCg();renderChoices();}
+function updateContinue(){const last=frameIndex>=state.frames.length-1;$("next-button").textContent=last?(cgBlocks()?"查看这一幕 ◇":state.authored?(state.authored.ending?"故事完结 ◇":state.authored.free_window?"回到主线 ◇":state.authored.can_advance?"下一幕 ◇":"请选择 ◇"):"轮到你了 ◇"):"继续 ◇";$("status").textContent="";renderCg();renderChoices();renderAuthoredInput();}
+function renderAuthoredInput(){
+  const window=state?.authored?.free_window,last=frameIndex===state?.frames.length-1,read=typed>=currentFrame()?.text.length;
+  const visible=!state?.authored || !!window && last && read;
+  document.querySelector(".input-prefixes").hidden=!visible;$("input-form").hidden=!visible;
+  const canSend=!state.busy && !submitting && state.status!=="paused" && (!window || window.can_send);
+  $("message").disabled=!canSend;$("send-button").disabled=!canSend;
+  if(state.authored)$("next-button").disabled=last && (state.busy || submitting || state.status==="paused");
+  $("authored-free-note").hidden=!window || !last || !read;
+  if(window){const goal=window.goal;$("authored-free-note").textContent=goal?"当前目标 · "+goal.title+"\n"+goal.criteria.map(c=>(c.done?"✓ ":"◇ ")+c.description).join("\n"):"自由活动 · "+window.description;$("next-button").title=window.return_text;if(last)$("next-button").textContent=goal?(goal.criteria.every(c=>c.done)?"进入收束 ◇":"沿预设路线推进 ◇"):"回到主线 ◇";}
+  else $("next-button").title="";
+}
 function showFrame() {
   clearInterval(typingTimer);clearTimeout(autoTimer);const f=currentFrame();if(!f)return;
   $("speaker").textContent=f.kind==="dialogue"?(f.speaker || state.name):f.kind==="thought"?`${f.speaker || state.actors?.[f.actor_id]?.name || state.name} · 心声`:"旁白";
   $("dialogue").className=f.kind;$("frame-count").textContent=`${String(frameIndex+1).padStart(2,"0")} / ${String(state.frames.length).padStart(2,"0")}`;
-  typed=0;$("dialogue").textContent="";renderVisual();updateContinue();renderAffinityBadge();
+  typed=0;$("dialogue").textContent="";rememberAuthoredCursor();renderVisual();updateContinue();renderAffinityBadge();
   if(speed===0 || matchMedia("(prefers-reduced-motion: reduce)").matches)completeText();
   else typingTimer=setInterval(()=>{typed++;$("dialogue").textContent=f.text.slice(0,typed);if(typed>=f.text.length){clearInterval(typingTimer);updateContinue();if(auto && frameIndex<state.frames.length-1)autoTimer=setTimeout(next,1800);}},speed);
 }
-function next(){if(!state || !currentFrame())return;if(typed<currentFrame().text.length){completeText();return;}if(frameIndex<state.frames.length-1){frameIndex++;showFrame();}else{if(cgBlocks()){if(cgDecoded.has(cgId()))finishCg();else renderCg();return;}$("message").focus();}}
+function next(){if(!state || !currentFrame())return;if(typed<currentFrame().text.length){completeText();return;}if(frameIndex<state.frames.length-1){frameIndex++;showFrame();}else{if(cgBlocks()){if(cgDecoded.has(cgId()))finishCg();else renderCg();return;}if(state.authored){if(state.authored.can_advance)advanceAuthored();return;}$("message").focus();}}
 function applyState(nextState, reset=false) {
   const changed=!state || nextState.session_id!==state.session_id || nextState.turns.at(-1)?.turn_id!==state.turns.at(-1)?.turn_id;
-  state=nextState;recoverPending();renderFeedback();renderThoughts();$("location").textContent=state.location;$("mode").textContent=state.status==="paused"?"已暂停":state.persistent?"故事进行中":"试读";
+  state=nextState;if(authoredPending && (authoredPending.session_id!==state.session_id || authoredPending.node_id!==state.authored?.node_id))authoredPending=null;recoverPending();renderFeedback();renderThoughts();$("location").textContent=state.location;$("mode").textContent=state.status==="paused"?"已暂停":state.persistent?"故事进行中":"试读";
   $("chapter-number").textContent=`SCENE ${String(state.turns.length).padStart(2,"0")}`;$("chapter-title").textContent=state.story?.nodes?.at(-1)?.title || "初次相遇";
   $("save-state").textContent=state.persistent?"":"试读 · 可随时存档";
   $("send-button").disabled=state.provider==="demo" || state.busy || submitting || state.status==="paused";$("save-button").disabled=state.busy || saving;$("message").disabled=state.provider==="demo" || state.busy || state.status==="paused";if(state.provider==="demo")$("message").placeholder="演示模式：可查看故事记录，配置文本服务后自由游玩";
-  if(changed || reset){frameIndex=0;showFrame();}else {renderVisual();updateContinue();}
+  if(changed || reset){frameIndex=Math.min(state.authored?.frame_cursor || 0,state.frames.length-1);showFrame();}else {renderVisual();updateContinue();}
   if(state.error && state.error!==latestError){if(!pending)toast(state.error);latestError=state.error;}if(!state.error)latestError="";
 
-  if(window.YukimaEngine)window.YukimaEngine.render(state);preloadPredictions();renderInputPrefixes();renderRoster();renderAffinityBadge();if(modal.open && modal.classList.contains("affinity-modal"))renderAffinities(); window.YukimaMusic.refresh(state,!$("game").hidden);
+  if(window.YukimaEngine)window.YukimaEngine.render(state);preloadPredictions();renderInputPrefixes();renderRoster();renderAffinityBadge();if(modal.open && modal.classList.contains("affinity-modal"))renderAffinities();if(modal.open && modal.classList.contains("image-adjustments-modal"))renderImageAdjustmentResults(); window.YukimaMusic.refresh(state,!$("game").hidden);
 }
 
 function selectedCard(){return state.scripts.find(script=>script.id===selectedCardId);}
@@ -81,12 +93,13 @@ function saveBelongsToScript(save,script){
   // Only saves without an identity may use a uniquely bound legacy character.
   return script.world_id?(script.legacy_card_ids || []).includes(save.card_id):save.card_id===script.card_id;
 }
-async function chooseStory(){const card=selectedCard();if(!card)return;$("character-picker").hidden=true;$("story-picker").hidden=false;$("story-character-name").textContent=card.display_name;await swapImage($("story-sprite"),card.sprite || card.avatar);renderWorldPicker(card);$("player-name").value=state.user || "你";$("scenario-list").replaceChildren();selectedScenarioId=card.scenarios[0]?.id || "";
-  for(const scene of card.scenarios){const button=document.createElement("button");button.className="scenario-card";button.dataset.scenario=scene.id;const bg=card.backgrounds?.[scene.background];if(bg){const img=document.createElement("img");img.src=safeAsset(bg);img.alt=scene.title;button.append(img);}const details=document.createElement("div");details.append(textEl("strong",scene.title),textEl("p",scene.description));button.append(details,textEl("span","◇","scene-radio"));button.classList.toggle("selected",scene.id===selectedScenarioId);button.addEventListener("click",()=>{selectedScenarioId=scene.id;for(const b of $("scenario-list").children)b.classList.toggle("selected",b.dataset.scenario===scene.id);});$("scenario-list").append(button);}
+async function chooseStory(){const card=selectedCard();if(!card)return;$("character-picker").hidden=true;$("story-picker").hidden=false;$("story-character-name").textContent=card.display_name;await swapImage($("story-sprite"),card.sprite || card.avatar);renderWorldPicker(card);$("player-name").value=state.user || "你";$("scenario-list").replaceChildren();selectedScenarioId=card.scenarios[0]?.id || "";selectedStorylineId="";
+  for(const scene of card.scenarios){const button=document.createElement("button");button.className="scenario-card";button.dataset.scenario=scene.id;const bg=card.backgrounds?.[scene.background];if(bg){const img=document.createElement("img");img.src=safeAsset(bg);img.alt=scene.title;button.append(img);}const details=document.createElement("div");details.append(textEl("strong",scene.title),textEl("p",scene.description));button.append(details,textEl("span","◇","scene-radio"));button.classList.toggle("selected",scene.id===selectedScenarioId);button.addEventListener("click",()=>{selectedStorylineId="";selectedScenarioId=scene.id;for(const b of $("scenario-list").children)b.classList.toggle("selected",b.dataset.scenario===scene.id);});$("scenario-list").append(button);}
+  for(const line of card.storylines || []){const b=textEl("button","","scenario-card authored-route-card");b.dataset.storyline=line.id;b.append(textEl("strong","预制故事 · "+line.title),textEl("p",line.description),textEl("small","阅读推进 · 剧情选择 · 可回溯"));b.addEventListener("click",()=>{selectedStorylineId=line.id;for(const item of $("scenario-list").children)item.classList.toggle("selected",item===b);if(line.protagonist_id)$("protagonist-select").value=line.protagonist_id;if($("player-name").value==="你")$("player-name").value="比企谷八幡";});$("scenario-list").append(b);}
   $("saved-stories").replaceChildren();try{const result=await api("/api/sessions"),saves=result.sessions.filter(s=>saveBelongsToScript(s,card));renderSaveList($("saved-stories"),saves);if(!saves.length)$("saved-stories").append(textEl("p","这个剧本还没有存档。可以先选择一个开场，开启新故事。","hint"));storyTab(saves.length>0);}catch(error){$("lobby-notice").textContent=error.message;storyTab(false);}
 }
 function enterGame(newState){localStorage.setItem("yukino-public-view",newState.session_id);for(const url of Object.values(newState.sprites || {})){const img=new Image();img.src=safeAsset(url);img.decode().catch(()=>{});}$("lobby").hidden=true;$("game").hidden=false;visualKey="";applyState(newState,true);}
-async function beginStory(persistent){$("begin-story").disabled=true;$("preview-story").disabled=true;try{enterGame(await api("/api/start",{script_id:selectedCardId,card:selectedCard()?.card_id,user:$("player-name").value || "你",persistent,scenario:selectedScenarioId,world_id:$("world-select").value,setting_ids:[...$("setting-select").selectedOptions].map(o=>o.value),protagonist_id:$("protagonist-select").value}));$("lobby-notice").textContent="";}catch(error){$("lobby-notice").textContent=error.message;}finally{$("begin-story").disabled=false;$("preview-story").disabled=false;}}
+async function beginStory(persistent){$("begin-story").disabled=true;$("preview-story").disabled=true;try{enterGame(await api("/api/start",{script_id:selectedCardId,card:selectedCard()?.card_id,user:$("player-name").value || "你",persistent,scenario:selectedScenarioId,storyline_id:selectedStorylineId || null,world_id:$("world-select").value,setting_ids:[...$("setting-select").selectedOptions].map(o=>o.value),protagonist_id:$("protagonist-select").value}));$("lobby-notice").textContent="";}catch(error){$("lobby-notice").textContent=error.message;}finally{$("begin-story").disabled=false;$("preview-story").disabled=false;}}
 $("choose-story-button").addEventListener("click",chooseStory);$("back-to-characters").addEventListener("click",()=>{$("character-picker").hidden=false;$("story-picker").hidden=true;});$("new-story-tab").addEventListener("click",()=>storyTab(false));$("saved-story-tab").addEventListener("click",()=>storyTab(true));$("begin-story").addEventListener("click",()=>beginStory(true));$("preview-story").addEventListener("click",()=>beginStory(false));
 $("input-form").addEventListener("submit",event=>{event.preventDefault();const text=$("message").value.trim();if(!text || state.busy || submitting || cgBlocks())return;sendTurn(text);});
 $("retry-turn").addEventListener("click",()=>{if(pending && !state.busy)sendTurn(pending.text,pending.id,pending.gameplay);});
@@ -103,7 +116,7 @@ $("log-button").addEventListener("click",()=>{openModal("故事回看");body.app
 $("save-button").addEventListener("click",async()=>{if(saving)return;saving=true;$("save-button").disabled=true;try{const saved=await api("/api/save",{});enterGame(saved);if(saved.persistent)toast("已另存 · "+(saved.branch?.label || "主线"),true);}catch(error){toast(error.message);}finally{saving=false;$("save-button").disabled=state.busy;}});
 $("gallery-button").addEventListener("click",()=>{
   openModal("故事画廊");const tabs=textEl("div","","gallery-tabs"),content=document.createElement("div");body.append(tabs,content);
-  function show(items, selected){content.replaceChildren();for(const b of tabs.children)b.classList.toggle("selected",b===selected);if(!items?.length){content.append(textEl("p","值得留下的画面，会在故事里与你相遇。","hint"));return;}const grid=textEl("div","","gallery");for(const item of items){const button=document.createElement("button"),img=document.createElement("img");img.src=safeAsset(item.url);img.alt=item.name;button.append(img,textEl("span",item.name.slice(0,28)));button.addEventListener("click",()=>{content.replaceChildren();const full=img.cloneNode();full.className="gallery-full";content.append(full);});grid.append(button);}content.append(grid);}
+  function show(items, selected){content.replaceChildren();for(const b of tabs.children)b.classList.toggle("selected",b===selected);if(!items?.length){content.append(textEl("p","值得留下的画面，会在故事里与你相遇。","hint"));return;}const grid=textEl("div","","gallery");for(const item of items){const button=document.createElement("button"),img=document.createElement("img");img.src=safeAsset(item.url);img.alt=item.name;button.append(img,textEl("span",item.name.slice(0,28)));button.addEventListener("click",()=>{content.replaceChildren();const full=img.cloneNode();full.className="gallery-full";content.append(full);const adjust=textEl("button","调整这幅画面");adjust.addEventListener("click",()=>openImageAdjustments(item.url));content.append(adjust);});grid.append(button);}content.append(grid);}
   for(const [label,items] of [["场景",state.library?.backgrounds],["人物",state.library?.portraits],["剧情插图",state.illustrations]]){const b=textEl("button",label);b.addEventListener("click",()=>show(items,b));tabs.append(b);}const previewButton=textEl("button","候选图库");tabs.append(previewButton);previewButton.addEventListener("click",()=>{
     content.replaceChildren();for(const b of tabs.children)b.classList.toggle("selected",b===previewButton);
     const pool=state.prediction_library || {quotas:{},slots:{},entries:[]},labels={background:"背景",portrait:"立绘",interaction:"交流画面"};
@@ -151,7 +164,7 @@ async function sendTurn(text,id,gameplay){
   pending={id:id || crypto.randomUUID().replaceAll("-",""),text,session_id:state.session_id,stage:"sending",gameplay};
   const flight=pending;
   persistPending();submitting=true;renderFeedback();$("send-button").disabled=true;$("message").value="";
-  try{const result=await api(pending.gameplay?"/api/gameplay/action":"/api/turn",{text,request_id:pending.id,session_id:pending.session_id,...(pending.gameplay || {})});
+  try{if(state.authored?.free_window)await cursorQueue;const result=await api(pending.gameplay?"/api/gameplay/action":"/api/turn",{text,request_id:pending.id,session_id:pending.session_id,...(pending.gameplay || {})});
     if(pending!==flight)return;
     if(result.accepted && pending.stage!=="complete"){pending.stage="accepted";persistPending();}else if(result.status==="paused"){pending=null;persistPending();applyState(result);}
   }catch(error){if(pending===flight && pending.stage!=="complete"){pending.stage=error.status>=400 && error.status<500?"failed":"uncertain";pending.error=error.message;if(error.retryAsText){delete pending.gameplay;pending.error="消息类型已纠正 · 点击重试发送原文";}persistPending();}}
@@ -180,10 +193,10 @@ function renderFeedback(){
 }
 function renderChoices(){
   if(!state)return;
-  const items=state.story?.choices || [], allowed=!cgBlocks() && !state.busy && !submitting && state.status!=="paused" && frameIndex===state.frames.length-1 && typed>=currentFrame()?.text.length;
+  const items=state.authored && !state.authored.free_window?state.authored.choices:[...(state.authored?.choices || []),...(state.story?.choices || [])], allowed=!cgBlocks() && !state.busy && !submitting && state.status!=="paused" && (!state.authored?.free_window || state.authored.free_window.can_send) && frameIndex===state.frames.length-1 && typed>=currentFrame()?.text.length;
   $("choices").hidden=!allowed || !items.length;
-  const signature=JSON.stringify(items);if(signature===choicesSignature)return;choicesSignature=signature;$("choices").replaceChildren();
-  for(const choice of items){const text=choice.text.startsWith("【")?choice.text:"【语言】"+choice.text;const b=textEl("button",text);b.title=text;b.addEventListener("click",()=>{$("message").value=text;$("message").focus();renderInputPrefixes();});$("choices").append(b);}
+  const signature=JSON.stringify([state.authored?.node_id,items]);if(signature===choicesSignature)return;choicesSignature=signature;$("choices").replaceChildren();
+  for(const choice of items){const text=choice.text.startsWith("【")?choice.text:"【语言】"+choice.text;const b=textEl("button",text);b.title=text;b.addEventListener("click",()=>{if(state.authored && (!state.authored.free_window || choice.id==='goal-complete')){advanceAuthored(choice.id);return;}$("message").value=text;$("message").focus();renderInputPrefixes();});$("choices").append(b);}
 }
 $("plot-button").addEventListener("click",()=>{
   openModal("剧情脉络");body.append(exportBar("plot"));const story=state.story || {nodes:[]};
@@ -201,7 +214,7 @@ $("plot-button").addEventListener("click",()=>{
     if(node.can_branch){const branch=textEl("button","回溯到这里 · 新建分支");branch.disabled=state.busy;branch.addEventListener("click",async()=>{branch.disabled=true;try{enterGame(await api("/api/branch",{node_id:node.id,session_id:state.session_id}));modal.close();toast("回溯分支已存档 · "+(state.branch?.label || ""),true);}catch(error){toast(error.message);branch.disabled=false;}});actions.append(branch);}
     section.append(actions);route.append(section);
   }
-  if(story.choices?.length){const next=textEl("section","","plot-possibilities");next.append(textEl("small","可选方向 · 也可自由回应"));for(const c of story.choices)next.append(textEl("span",c.label));route.append(next);}
+    if(story.choices?.length){const next=textEl("section","","plot-possibilities");next.append(textEl("small",state.authored && !state.authored.free_window?"本幕剧情选择":"可选方向 · 也可自由回应"));for(const c of story.choices)next.append(textEl("span",c.label));route.append(next);}
 });
 
 let preloadedPredictionUrls=new Set();
@@ -211,7 +224,7 @@ function preloadPredictions(){
     preloadedPredictionUrls.add(safe);const image=new Image();image.src=safe;image.decode().catch(()=>preloadedPredictionUrls.delete(safe));
   }
 }
-function renderInputPrefixes(){for(const button of document.querySelectorAll("[data-prefix]"))button.disabled=state.busy || submitting || state.status==="paused";}
+function renderInputPrefixes(){for(const button of document.querySelectorAll("[data-prefix]"))button.disabled=state.busy || submitting || state.status==="paused" || state.authored?.free_window?.can_send===false;}
 for(const button of document.querySelectorAll("[data-prefix]"))button.addEventListener("click",()=>{
   const input=$("message"),prefix="【"+button.dataset.prefix+"】",start=input.selectionStart,end=input.selectionEnd;
   const line=start>0 && input.value[start-1]!=="\n"?"\n":"";
@@ -256,7 +269,7 @@ function profilePortrait(card,large=false){
   const wrap=textEl("div","","profile-portrait"+(large?" large":""));
   wrap.append(textEl("span",card.name.slice(0,1),"portrait-monogram"));
   const url=safeAsset(card.avatar);
-  if(url){const img=document.createElement("img");img.src=url;img.alt=card.name+"头像";img.loading="lazy";img.addEventListener("load",()=>wrap.classList.add("has-image"));img.addEventListener("error",()=>img.remove());wrap.append(img);}
+  if(url){const img=document.createElement("img");if(url.includes("/sagami/"))img.classList.add("profile-sprite-image");img.src=url;img.alt=card.name+"头像";img.loading="lazy";img.addEventListener("load",()=>wrap.classList.add("has-image"));img.addEventListener("error",()=>img.remove());wrap.append(img);}
   return wrap;
 }
 function showProfileDetail(card,catalog,kind){
@@ -265,6 +278,8 @@ function showProfileDetail(card,catalog,kind){
   const article=textEl("article","","profile-detail");
   const header=textEl("header","","profile-detail-header"),identity=textEl("div","","profile-identity");
   identity.append(textEl("small",kind==="protagonist"?"主角档案":"人物档案","eyebrow"),textEl("h3",card.name),textEl("p","年龄 · "+card.age,"profile-age"));
+  identity.append(textEl("p",[card.school,card.class_name].filter(Boolean).join(" · "),"profile-school"));
+  identity.append(textEl("p","教室 · "+card.classroom_location,"profile-classroom"));
   if(card.aliases?.length)identity.append(textEl("p",card.aliases.join(" / "),"profile-aliases"));
   header.append(profilePortrait(card,true),identity);article.append(header);
   for(const [label,content] of [["人物简介",card.description],["性格",card.personality],["外貌",card.appearance]])if(content){const section=document.createElement("section");section.append(textEl("h4",label),textEl("p",content));article.append(section);}
@@ -277,7 +292,7 @@ function showProfileGrid(catalog,kind){
   body.replaceChildren();$("modal-title").textContent=catalog.title;modal.classList.add("profile-modal");
   body.append(textEl("p",kind==="protagonist"?"查看主角设定，选择你想使用的卡片。":"点击人物卡，查看详细资料。","hint"));
   const grid=textEl("div","","profile-grid");
-  for(const card of catalog.cards){const button=textEl("button","","profile-mini");button.setAttribute("aria-label","查看人物卡 "+card.name);const info=document.createElement("div");info.append(textEl("h3",card.name),textEl("small","年龄 · "+card.age,"profile-age"),textEl("p",card.summary));button.append(profilePortrait(card),info,textEl("span","↗","profile-arrow"));button.addEventListener("click",()=>showProfileDetail(card,catalog,kind));grid.append(button);}
+  for(const card of catalog.cards){const button=textEl("button","","profile-mini");button.setAttribute("aria-label","查看人物卡 "+card.name);const info=document.createElement("div");info.append(textEl("h3",card.name),textEl("small","年龄 · "+card.age,"profile-age"));info.append(textEl("small",[card.school,card.class_name].filter(Boolean).join(" · "),"profile-school"));info.append(textEl("small","教室 · "+card.classroom_location,"profile-classroom"));info.append(textEl("p",card.summary));button.append(profilePortrait(card),info,textEl("span","↗","profile-arrow"));button.addEventListener("click",()=>showProfileDetail(card,catalog,kind));grid.append(button);}
   if(!catalog.cards.length)grid.append(textEl("p","这个剧本还没有人物卡。","hint"));body.append(grid);
 }
 async function openProfiles(kind){
@@ -289,26 +304,30 @@ $("view-script-cards").addEventListener("click",()=>openProfiles("script"));
 $("view-protagonist-cards").addEventListener("click",()=>openProfiles("protagonist"));
 
 let affinitySignature="";
+let relationTab="affinity";
 function affinityDelta(value){return value>0?" +"+value:value<0?" "+value:"";}
 function renderAffinityBadge(){
   const frame=currentFrame(),item=state?.affinity?.characters.find(c=>c.actor_id===frame?.actor_id),badge=$("affinity-badge");
   badge.hidden=!item || frame?.kind==="narration" || frame?.actor_id==="player";
-  if(item){badge.textContent="♡ "+item.score+" · "+item.status+affinityDelta(item.delta);badge.setAttribute("aria-label",item.name+"好感度 "+item.score+"，"+item.status+"，查看人物好感度");badge.dataset.delta=String(Math.sign(item.delta));}
+  if(item){badge.textContent="♡ "+item.score+" · "+item.status+affinityDelta(item.delta);badge.setAttribute("aria-label",item.name+"好感度 "+item.score+"，"+item.status+"，查看人物关系");badge.dataset.delta=String(Math.sign(item.delta));}
 }
 function renderAffinities(){
-  const items=state?.affinity?.characters || [],signature=JSON.stringify(items);
+  const items=(relationTab==="familiarity"?state?.familiarity:state?.affinity)?.characters || [],metric=relationTab==="familiarity"?"熟悉程度":"好感度",signature=JSON.stringify([relationTab,items]);
   if(signature===affinitySignature && body.childElementCount)return;affinitySignature=signature;body.replaceChildren();
-  const grid=textEl("div","","affinity-grid");
+  const tabs=textEl("div","","gallery-tabs relationship-tabs");tabs.setAttribute("role","tablist");tabs.setAttribute("aria-label","关系指标");
+  for(const [key,label] of [["affinity","好感度"],["familiarity","熟悉程度"]]){const button=textEl("button",label);button.setAttribute("role","tab");button.setAttribute("aria-selected",String(key===relationTab));button.classList.toggle("active",key===relationTab);button.addEventListener("click",()=>{relationTab=key;affinitySignature="";renderAffinities();});tabs.append(button);}
+  body.append(tabs,textEl("p",relationTab==="familiarity"?"相处留下的印象，随共同经历逐渐加深。":"她如何看待你，也取决于每一次真实相处。","hint"));
+  const grid=textEl("div","","affinity-grid");grid.setAttribute("role","tabpanel");grid.setAttribute("aria-label",metric);
   for(const item of items){const card=textEl("article","","affinity-card"),header=textEl("header","","affinity-card-header"),identity=document.createElement("div");
     identity.append(textEl("h3",item.name),textEl("small",item.status,"affinity-status"));header.append(profilePortrait(item),identity);
     const score=textEl("div","","affinity-score");score.append(textEl("strong",String(item.score)),textEl("small"," / 100"));
     if(item.delta){const delta=textEl("span",affinityDelta(item.delta).trim(),"affinity-delta");delta.dataset.sign=String(Math.sign(item.delta));score.append(delta);}
-    const meter=document.createElement("progress");meter.max=100;meter.value=item.score;meter.setAttribute("aria-label",item.name+"好感度");
+    const meter=document.createElement("progress");meter.max=100;meter.value=item.score;meter.setAttribute("aria-label",item.name+metric);
     card.append(header,score,meter);grid.append(card);
   }
   if(!items.length)grid.append(textEl("p","相遇之后，彼此的关系会慢慢展开。","hint"));body.append(grid);
 }
-function openAffinities(){openModal("人物好感度");modal.classList.add("affinity-modal");affinitySignature="";renderAffinities();}
+function openAffinities(){openModal("人物关系");modal.classList.add("affinity-modal");affinitySignature="";renderAffinities();}
 $("affinity-button").addEventListener("click",openAffinities);
 $("affinity-badge").addEventListener("click",openAffinities);
 
@@ -365,3 +384,19 @@ function finishCg(skip=false){const id=cgId();if(!id)return;cgDismissed.add(id);
 $("cg-continue").addEventListener("click",()=>finishCg());
 $("cg-skip").addEventListener("click",()=>finishCg(true));
 $("cg-retry").addEventListener("click",async()=>{cgDecodeFailed.delete(cgId());try{applyState(await api("/api/retry-images",{}));renderCg();}catch(error){toast(error.message);}});
+
+function rememberAuthoredCursor(){
+  if(!state?.authored || state.busy)return;
+  const data={session_id:state.session_id,node_id:state.authored.node_id,frame_cursor:frameIndex,turn_id:state.turns.at(-1)?.turn_id};
+  cursorQueue=cursorQueue.catch(()=>{}).then(()=>api("/api/storyline/cursor",data)).catch(error=>{toast("阅读位置未保存："+error.message);});
+}
+async function advanceAuthored(choiceId){
+  if(submitting || state.busy || !state?.authored || state.status==="paused" || cgBlocks() || frameIndex!==state.frames.length-1 || typed<currentFrame()?.text.length)return;
+  const data=authoredPending || {session_id:state.session_id,node_id:state.authored.node_id,choice_id:choiceId || null,request_id:crypto.randomUUID()};
+  if(data.session_id!==state.session_id || data.node_id!==state.authored.node_id){authoredPending=null;return;}
+  authoredPending=data;submitting=true;$("next-button").disabled=true;
+  for(const b of $("choices").children)b.disabled=true;
+  try{await cursorQueue;applyState(await api("/api/storyline/advance",data));authoredPending=null;}
+  catch(error){toast("这一幕未能保存，请再次点击重试。"+(error.message || ""));}
+  finally{submitting=false;$("next-button").disabled=false;for(const b of $("choices").children)b.disabled=false;renderChoices();renderAuthoredInput();}
+}

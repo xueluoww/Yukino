@@ -5,8 +5,15 @@
   "setting_set_ids": [
     "rainy-bookshop-core"
   ],
-  "revision": 2,
+  "revision": 3,
   "world_gameplay": [],
+  "time": {
+    "version": 1,
+    "start": {
+      "date": null,
+      "minute": 960
+    }
+  },
   "visual_locations": {
     "bookshop-rain": [
       "旧书屋",
@@ -95,5 +102,6 @@
       ],
       "scene": "周六18:10 · 海边小镇旧书屋柜台 · 雨后"
     }
-  ]
+  ],
+  "storylines": []
 }

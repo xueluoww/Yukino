@@ -4,6 +4,7 @@ import datetime
 import hashlib
 import json
 import re
+import story_time
 
 def bounded(value,lo,hi,label):
     if type(value) is not int or not lo<=value<=hi:raise ValueError(label+'超出范围。')
@@ -18,9 +19,13 @@ def seed(world,actors=None,legacy=False):
     if calendar.get('date'):datetime.date.fromisoformat(calendar['date'])
     minute=calendar.get('minute',None if legacy else 960)
     if minute is not None:bounded(minute,0,1439,'起始时间')
-    return {'version':1,'calendar':{'date':calendar.get('date'),'day':1,'minute':minute},
+    result={'version':1,'calendar':{'date':calendar.get('date'),'day':1,'minute':minute},
             'relations':{},'items':copy.deepcopy(world.get('initial_items',{})) if not legacy else {},
             'threads':{},'modules':{},'plot':{'phase':'开场' if not legacy else '沿用已有剧情','beat':'setup','focus':''},'applied_turns':[]}
+    if not legacy:
+        timed=story_time.seed(world)
+        if timed:result.update(timed)
+    return result
 
 def current(session):
     state=copy.deepcopy(session.get('facts',{}).get('browser_engine') or seed({},legacy=True))
@@ -28,30 +33,18 @@ def current(session):
     return state
 
 def public(engine):
-    clock=engine['calendar'];minute=clock.get('minute')
-    date=clock.get('date') or ('第 '+str(clock['day'])+' 天' if minute is not None else '故事时间未设定')
-    when=date+(' · %02d:%02d'%(minute//60,minute%60) if minute is not None else '')
-    return {'clock':when,'calendar':copy.deepcopy(clock),'plot':copy.deepcopy(engine['plot']),'items':list(engine['items'].values()),
+    clock=engine['calendar']
+    return {**story_time.public(engine),'calendar':copy.deepcopy(clock),'plot':copy.deepcopy(engine['plot']),'items':list(engine['items'].values()),
             'threads':list(engine['threads'].values()),'relations':[
                 {'actor_id':aid,'trust':r.get('trust'),'familiarity':r.get('familiarity'),
                  'identity':r.get('identity','尚未形成明确关系')} for aid,r in engine['relations'].items()]}
 
-def apply_effect(engine,effect,actors,interacted=None,milestone=False):
+def apply_effect(engine,effect,actors,interacted=None,milestone=False,time_store=None):
     """Host capabilities never execute file operations or arbitrary state patches."""
     kind=effect.get('type');reason=short(effect.get('reason',''))
     if not reason.strip():raise ValueError('状态变化需要实际事件依据。')
     if kind=='time':
-        elapsed=bounded(effect.get('minutes'),0,7*1440,'经过时间')
-        clock=engine['calendar']
-        if 'date' in effect:
-            clock['date']=datetime.date.fromisoformat(effect['date']).isoformat() if effect['date'] else None
-        if effect.get('minute') is not None:clock['minute']=bounded(effect['minute'],0,1439,'时间')
-        if clock['minute'] is None:
-            if elapsed:raise ValueError('旧存档的故事时间未设定，请先设置时间。')
-            return
-        days,minute=divmod(clock['minute']+elapsed,1440)
-        clock['day']+=days;clock['minute']=minute
-        if clock['date']:clock['date']=(datetime.date.fromisoformat(clock['date'])+datetime.timedelta(days=days)).isoformat()
+        story_time.advance(engine,effect,time_store)
     elif kind=='items':
         iid=short(effect.get('id',''),80);owner=short(effect.get('owner',''),100)
         if not re.fullmatch('[A-Za-z0-9_-]{1,80}',iid) or not owner:raise ValueError('物品需要稳定 ID 与持有者。')
@@ -65,12 +58,16 @@ def apply_effect(engine,effect,actors,interacted=None,milestone=False):
     elif kind=='relations':
         aid=effect.get('actor_id')
         if aid not in actors or (interacted is not None and aid not in interacted):raise ValueError('只能更新实际互动人物的关系。')
-        relation=engine['relations'].setdefault(aid,{'trust':None,'familiarity':None,'identity':'','reason':''})
+        baseline=actors[aid].get('relation_baseline',{})
+        relation=engine['relations'].setdefault(aid,{'trust':baseline.get('trust'),'familiarity':baseline.get('familiarity'), 'identity':baseline.get('identity',''),'reason':''})
+        relation.setdefault('familiarity_basis','initial-relation-v2')
         for field in ('trust','familiarity'):
             limit=6 if milestone else 3
             delta=bounded(effect.get(field,0),-limit,limit,f'world_updates.relations.{field} 本轮增减量（整数 -{limit} 至 {limit}，不是0–100总分）')
             # Unknown old relations are explicitly anchored at neutral, not derived from affection.
-            if delta:relation[field]=max(0,min(100,(relation[field] if relation[field] is not None else 30)+delta))
+            if delta:
+                base=relation[field] if relation[field] is not None else baseline.get(field,0 if field=='familiarity' else 30)
+                relation[field]=max(0,min(100,base+delta))
         identity=short(effect.get('identity',''),100)
         if identity:
             if any(word in identity for word in ('恋人','情侣','夫妻','未婚')) and effect.get('mutual_consent') is not True:

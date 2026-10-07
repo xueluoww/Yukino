@@ -1,0 +1,14 @@
+[
+  {
+    "file": "clubroom-spring-rain.png",
+    "sha256": "704c9b9d0270ee37d23c78adc5f9cf78697558dc47b769f86c8589990164aafa",
+    "tool": "Codex built-in imagegen",
+    "prompt_summary": "参考原场景保持室内构图与视觉小说画风，改为春雨活动室、春日薄暮走廊；去除秋色，无人物与文字"
+  },
+  {
+    "file": "corridor-spring-evening.png",
+    "sha256": "2de64a2d1d5a7c6e8bdcabdacd4ecee8961925f10daf3f4c3acafbf6cb6dc4c7",
+    "tool": "Codex built-in imagegen",
+    "prompt_summary": "参考原场景保持室内构图与视觉小说画风，改为春雨活动室、春日薄暮走廊；去除秋色，无人物与文字"
+  }
+]

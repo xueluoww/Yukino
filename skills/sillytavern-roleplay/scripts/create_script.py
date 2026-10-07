@@ -16,10 +16,11 @@ def main():
             mapping[card['card_id']]=settings['id']+'-'+card['id'];card['card_id']=mapping[card['card_id']]
     world=copy.deepcopy(raw['world']);world['id']=iid;world['name']=a.name
     world['setting_set_ids']=[settings['id']];world['primary_card_id']=mapping[world['primary_card_id']]
-    world['calendar']={'minute':1020};world.pop('world_gameplay',None)
+    world.pop('calendar',None);world['time']={'version':1,'start':{'minute':1020,'label':'故事开篇'}};world.pop('world_gameplay',None)
     folder.mkdir(parents=True,exist_ok=True)
     for name,value in [('manifest.json',{'spec':'yukima_script_v1','world':'world.json','setting_sets':['settings.json'],'world_gameplay':[]}),('world.json',world),('settings.json',settings)]:
         (folder/name).write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (folder/'README.md').write_text((Path(__file__).parent.parent/'assets/script-readme.md').read_text(encoding='utf-8'),encoding='utf-8')
     print(json.dumps({'created':str(folder),'note':'这是完整的原创示例骨架。请修改世界观、开场与人物资料；如需玩法，在 manifest.world_gameplay 添加模块路径，先 validate-script 再 import-script。'},ensure_ascii=False))
 
 if __name__=='__main__':main()

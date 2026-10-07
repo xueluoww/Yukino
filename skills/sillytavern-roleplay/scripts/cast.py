@@ -30,14 +30,30 @@ def registry(session,descriptor):
         for item in settings.get('cards',[]):
             if item.get('kind')!='character':continue
             if item.get('card_id')==session['card_id'] or item['name'] in primary['aliases']:
-                primary['initial_affinity']=copy.deepcopy(item.get('initial_affinity',{}));continue
+                primary['initial_affinity']=copy.deepcopy(item.get('initial_affinity',{}))
+                primary['initial_relation']=copy.deepcopy(item.get('initial_relation',{}))
+                primary['initial_recognition']=copy.deepcopy(item.get('initial_recognition',{}))
+                primary.update({f:copy.deepcopy(item.get(f,'')) for f in ('school','class_name','classroom_location')});continue
             key='world-'+settings['id']+'-'+item['id']
             card=item.get('card_snapshot',{}).get('data',{})
             actors[key]={'id':key,'name':item['name'],'aliases':item.get('aliases',[])+[card.get('name','')],
                 'card_id':item.get('card_id',''),'appearance':item.get('appearance') or card.get('description','')[:5000],
                 'role':item.get('role','character'),'initial_affinity':copy.deepcopy(item.get('initial_affinity',{})),
-                'sprites':{},'avatar':'','reference':'','default_appearance':'school-uniform'}
+                'initial_relation':copy.deepcopy(item.get('initial_relation',{})),'initial_recognition':copy.deepcopy(item.get('initial_recognition',{})),
+                'sprites':{},'avatar':item.get('avatar',''),'reference':'','default_appearance':'school-uniform',
+                **{f:copy.deepcopy(item.get(f,'')) for f in ('school','class_name','classroom_location')}}
     actors.update(copy.deepcopy(session['facts'].get('browser_cast',{})))
+    protagonist=(session.get('protagonist_snapshot') or session['facts'].get('browser_protagonist_snapshot',{})).get('id','hachiman')
+    for actor in actors.values():
+        presets=actor.get('initial_relation',{})
+        actor['relation_baseline']=copy.deepcopy(presets.get(protagonist,presets.get('default',{})))
+    progress=session['facts'].get('browser_authored',{})
+    route=next((r for r in world.get('storylines',[]) if r.get('id')==progress.get('id')),None)
+    if route:
+        # Route-era baselines belong only to this frozen new save, never to the catalogue or old branches.
+        for actor in actors.values():
+            score=route.get('initial_affinity',{}).get(actor['name'])
+            if type(score)is int:actor['initial_affinity']={session.get('protagonist_snapshot',{}).get('id','hachiman'):{'score':score,'version':1,'basis':'预制线开场已确立的相处经历','relationship':route.get('initial_relations',{}).get(actor['name'],{}).get('identity','已有相处经历')}}
     return actors
 
 def resolve_actor(value,actors,user=''):
@@ -60,13 +76,16 @@ def register_arrivals(state,actors,user):
     """Silent newcomers can be named in arrival metadata before any dialogue."""
     for entry in (state or {}).get('arrivals',[]):
         name=entry.get('name') or entry.get('actor_id','')
-        if resolve_actor(name,actors,user):continue
+        known=resolve_actor(name,actors,user)
+        if known:
+            if entry.get('name') and name in entry.get('evidence',''):entry['actor_id']=known
+            continue
         if not isinstance(name,str) or not re.fullmatch(r'[\u4e00-\u9fff·]{2,16}|[A-Za-z][A-Za-z .\'-]{1,60}',name):continue
         if name not in entry.get('evidence',''):continue
         key='guest-'+hashlib.sha256(name.encode()).hexdigest()[:16]
-        if entry.get('actor_id') not in {name,key}:continue
         actors[key]={'id':key,'name':name,'aliases':[],'appearance':'','sprites':{},'avatar':'','reference':'','provisional':True}
         entry['name']=name
+        entry['actor_id']=key
 
 def bind_frames(frames,actors,user,scene_state=None):
     register_arrivals(scene_state,actors,user)

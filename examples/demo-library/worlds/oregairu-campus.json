@@ -1,11 +1,11 @@
 {
   "id": "oregairu-campus",
   "name": "春物 · 放学后的侍奉部",
-  "background": "现代日本的千叶校园背景，主要舞台是总武高中与侍奉部。平冢静负责生活指导并担任顾问，雪之下雪乃主持侍奉部，人物各自的社团与家庭关系见设定集。基调是克制的校园日常、不同立场的碰撞以及人际关系中的真实选择。每个开场是基于原作背景的原创故事入口，不复刻原作逐字对白或强制原作结局。时间、天气和当前人物以所选开场为准。默认主角选择比企谷八幡时，采用第一季开篇已存在的家庭、师生与同学关系，初见人物不继承后续事件；剧情仍由玩家自由决定。导入替换主角时只采用其自己的设定，不继承八幡的关系。剧情可从真实委托、误会或个人目标展开，通过信息揭示、分歧、决定与后果推进；不为推进情节强行产生恋爱、极端事件或未选行为。",
+  "background": "现代日本的千叶校园背景，主要舞台是总武高中与侍奉部。平冢静负责生活指导并担任顾问，雪之下雪乃主持侍奉部，人物各自的社团与家庭关系见设定集。基调是克制的校园日常、不同立场的碰撞以及人际关系中的真实选择。每个开场是基于原作背景的原创故事入口，不复刻原作逐字对白或强制原作结局。自由故事从高二春季的原作开篇阶段开始；开篇四月为卷间时间线推断，具体年份与日期未确认。故事时间由剧本时间规则决定，天气与当前人物以所选开场为准。默认主角选择比企谷八幡时，采用第一季开篇已存在的家庭、师生与同学关系，初见人物不继承后续事件；剧情仍由玩家自由决定。导入替换主角时只采用其自己的设定，不继承八幡的关系。剧情可从真实委托、误会或个人目标展开，通过信息揭示、分歧、决定与后果推进；不为推进情节强行产生恋爱、极端事件或未选行为。",
   "setting_set_ids": [
     "oregairu-core"
   ],
-  "revision": 3,
+  "revision": 4,
   "world_gameplay": [
     {
       "id": "service-commissions",
@@ -15,9 +15,6 @@
       "script_id": "oregairu-campus"
     }
   ],
-  "calendar": {
-    "minute": 960
-  },
   "initial_items": {
     "player-notebook": {
       "id": "player-notebook",
@@ -25,6 +22,34 @@
       "owner": "player",
       "quantity": 1,
       "location": "书包"
+    }
+  },
+  "time": {
+    "version": 1,
+    "start": {
+      "date": null,
+      "minute": 960,
+      "label": "高二春季 · 开篇四月"
+    },
+    "era": {
+      "label": "现代日本 · 原作开篇",
+      "knowledge_cutoff": null
+    },
+    "durations": {
+      "speech": 1,
+      "thought": 0,
+      "action": 5,
+      "environment": 0,
+      "travel": 10
+    },
+    "provenance": {
+      "precision": "学年、季节；月份为卷间时间线推断，年份与具体日未确认",
+      "sources": [
+        "https://www.tbs.co.jp/anime/oregairu/1st/chara/",
+        "https://shogakukan-comic.jp/book?isbn=9784094512625",
+        "https://zcaoi.blogspot.com/2017/02/review-oregairu-season-1-arc-i-my.html"
+      ],
+      "adaptation": "16:00 为游戏的放学后开场时刻，不声称原作明确钟点。"
     }
   },
   "visual_revision": "oregairu-anime-v1",
@@ -62,7 +87,7 @@
       "商店街"
     ]
   },
-  "description": "总武高中、侍奉部与日常委托。14 位人物资料，三个原创开场；由你的选择发展关系与群像故事。",
+  "description": "总武高中、侍奉部与日常委托。15 位人物资料，三个原创开场；由你的选择发展关系与群像故事。",
   "primary_card_id": "oregairu-core-yukino",
   "default_protagonist_id": "hachiman",
   "opening_scenes": [
@@ -187,7 +212,1008 @@
           "text": "【动作】我沿着通学路继续走。"
         }
       ],
-      "scene": "黄昏 · 总武高中庭院"
+      "scene": "黄昏 · 总武高中庭院",
+      "time_start": {
+        "date": null,
+        "minute": 1080,
+        "label": "高二春季 · 开篇四月"
+      }
+    }
+  ],
+  "storylines": [
+    {
+      "spec": "yukima_storyline_v1",
+      "id": "oregairu-volume14-short",
+      "version": "1.2.0-time1",
+      "title": "春物·终卷短篇：下一次开门",
+      "description": "最终卷时期的原创互动短篇，含剧透与IF结局。主线目标固定，阶段中可以自由组织谈话与行动，也可采用预设方法；有证据地完成条件后汇入关键节点。没有互动次数限制，可回溯。",
+      "protagonist_id": "hachiman",
+      "start": "after-prom",
+      "sources": [
+        "https://www.shogakukan.co.jp/books/09451781",
+        "https://www.tbs.co.jp/tbs-ch/item/a0367/"
+      ],
+      "authorship": "节点、中文对白和IF分支均为项目原创；仅采用最终卷时期的关系问题与舞会、新学期事件背景。",
+      "initial_affinity": {
+        "雪之下雪乃": 78,
+        "由比滨结衣": 80,
+        "一色彩羽": 62,
+        "平冢静": 73
+      },
+      "initial_relations": {
+        "雪之下雪乃": {
+          "trust": 76,
+          "familiarity": 85,
+          "identity": "长期相处的侍奉部同伴，关系尚未明确"
+        },
+        "由比滨结衣": {
+          "trust": 78,
+          "familiarity": 86,
+          "identity": "长期相处的侍奉部同伴"
+        },
+        "一色彩羽": {
+          "trust": 65,
+          "familiarity": 70,
+          "identity": "多次合作的学妹"
+        },
+        "平冢静": {
+          "trust": 80,
+          "familiarity": 78,
+          "identity": "指导老师"
+        }
+      },
+      "nodes": {
+        "after-prom": {
+          "title": "01 · 热闹之后",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "毕业舞会已经落幕。活动室里剩下几张待归还的表格，窗外的雨把操场遮成了一片浅灰。三个人各自整理东西，却没有人提起下一次部活。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "这个箱子先留着吧。下次要是还用得到，就不用重新找了。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "可以。不过借用的东西还是要归还。不能因为舍不得结束，就把别人的东西留下。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我把归还清单带给学生会。箱子……暂时不在清单上。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣把手从箱盖上收回来。雪乃没有催促，只把清单推到桌边。那些能够用手续说明的事情，反倒最好处理。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "01 · 热闹之后",
+          "next": "hallway",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 8,
+              "reason": "整理舞会归还清单"
+            }
+          ]
+        },
+        "hallway": {
+          "title": "02 · 没有写在清单里",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "走廊的灯已经亮了。彩羽抱着资料夹站在楼梯口，一看到清单就先叹了口气。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "前辈，你现在找我的借口，只剩交东西了吗？",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "工作交接是一种非常健康的人际关系。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "那以后没工作了呢？总不能每次见面都临时申请一个活动吧。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她把清单接过去，给你留出了楼梯的方向。问题没有随着资料夹一起被收起来。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "02 · 没有写在清单里",
+          "next": "teacher"
+        },
+        "teacher": {
+          "title": "03 · 把理由说清楚",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [
+            "平冢静"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "平冢老师正在办公室外收拾纸箱。你替她扶住快要滑落的文件，她却把空着的那只手按在箱盖上。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "平冢静",
+              "text": "活动能够结束，人却不一定要因此离开。你有没有把这两件事分开想过？",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "如果留下来还需要一个理由呢？",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "平冢静",
+              "text": "可以有理由。但先问问，那是对方需要的，还是你想拿来保护自己的。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "纸箱底部压着一张旧值日表。你站在原地，没有立刻把刚才的话变成一段自嘲。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "03 · 把理由说清楚",
+          "next": "decision",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 12,
+              "reason": "归还清单后与老师交谈"
+            }
+          ]
+        },
+        "decision": {
+          "title": "04 · 仍然要走回去",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "老师搬着纸箱离开了。走廊里只剩雨声和远处的脚步。你能够照着原来的方式回家，也能够承认自己还有话没有说完。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "手机上有结衣发来的消息，问清单有没有送到。活动室的门还没有关，灯光落在走廊上。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "04 · 仍然要走回去",
+          "choices": [
+            {
+              "id": "return",
+              "text": "【动作】回到活动室，把想继续来往的理由当面说清楚。",
+              "label": "【动作】回到活动室，把想继续来往的理由当面说清楚。",
+              "target": "club-break",
+              "set": {
+                "direct": true
+              }
+            },
+            {
+              "id": "delay",
+              "text": "【动作】先回复结衣，再确认自己要说的话。",
+              "label": "【动作】先回复结衣，再确认自己要说的话。",
+              "target": "yui",
+              "set": {
+                "direct": false
+              }
+            }
+          ]
+        },
+        "yui": {
+          "title": "05 · 不替谁决定",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [
+            "由比滨结衣"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣走到门口，把伞换到另一只手。她看见你没有离开，却没有用平时的玩笑替你解围。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "我可以听你说。但如果你想找雪之下，也要自己去找她。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我知道。不能把让谁开心，当成什么都不用说明的答案。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "嗯。我也有自己的想法，不会因为你们作了决定，就突然什么都不在意。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她站了一会儿，然后把门口的空间留出来。这不是替你决定的许可，也不是一句容易兑现的祝福。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "05 · 不替谁决定",
+          "next": "club-break",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 5,
+              "reason": "与结衣单独确认各自的想法"
+            }
+          ]
+        },
+        "honest": {
+          "title": "06 · 说出口的责任",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "活动室里，雪乃把整理好的资料按页码叠齐。你没有再把清单摆到两个人之间。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我想继续见你。不是因为有委托，也不是因为你还需要人替你收拾残局。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "如果以后没有这样的事情，你也会过来？",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "会。只是想见你。这次至少把理由说对。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "那就别再把选择藏在任务后面。你有自己的意愿，我也有。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她没有立刻给出一个足以结束所有不安的答案。可她把旁边那张椅子拉开了。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "06 · 说出口的责任",
+          "next": "discussion-settled",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 10,
+              "reason": "回到活动室坦诚交谈"
+            }
+          ]
+        },
+        "plan": {
+          "title": "07 · 一份真正的计划",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "几天后，联合舞会的场地资料摊在桌上。那份曾经只被当作对照的方案，如今需要预算、许可和真正能完成工作的人员。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "先说好，我可以帮忙联系，但不负责让大家凭空有时间。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "预算需要重新核对。既然要办，就不能把麻烦推给下一位负责人。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "这次把各自负责的事情写出来。包括我，不搞一个人默默收场的版本。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "雪乃拿起笔，在人员分工旁留了一个空格。这个空格需要实际行动来填。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "07 · 一份真正的计划",
+          "next": "work-choice",
+          "effects": [
+            {
+              "type": "threads",
+              "id": "joint-prom",
+              "title": "联合舞会筹备",
+              "status": "active",
+              "note": "三人开始核对联合舞会的预算与工作分工",
+              "reason": "三人开始核对联合舞会的预算与工作分工"
+            },
+            {
+              "type": "time",
+              "minutes": 4320,
+              "reason": "数日后按约定开始联合舞会筹备"
+            }
+          ]
+        },
+        "work-choice": {
+          "title": "08 · 怎么一起做",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "你想先处理哪一部分？我会说明我的意见，但不会替你选。",
+              "expression": "listening"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "资料上写着两个待处理的问题：核对场地条件，或者先确认能够协助的同学。二者都要完成，眼下先走哪一步由你决定。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "08 · 怎么一起做",
+          "choices": [
+            {
+              "id": "venue",
+              "text": "【动作】和雪乃一起核对场地要求，再联系负责老师。",
+              "label": "【动作】和雪乃一起核对场地要求，再联系负责老师。",
+              "target": "venue",
+              "set": {
+                "work": "venue"
+              }
+            },
+            {
+              "id": "people",
+              "text": "【动作】先和结衣、彩羽确认分工，安排能够参加的同学。",
+              "label": "【动作】先和结衣、彩羽确认分工，安排能够参加的同学。",
+              "target": "people",
+              "set": {
+                "work": "people"
+              }
+            }
+          ]
+        },
+        "venue": {
+          "title": "09A · 条件与余地",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "雨势变小，雪乃在场地表上圈出了容量、结束时间和清理责任。你核对联系方式，没有把一张模糊的照片当成已经拿到许可。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "这里看起来合适，不代表一定能用。我们需要等负责人确认。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "那就连备选也准备好。总不能把天气预报当成合同。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "这个笑话很一般。备选方案倒是可以。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "几通电话之后，你们把确认过的条件写进表格。缺少答复的地方仍然空着。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "09A · 条件与余地",
+          "next": "pre-event-break",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 45,
+              "reason": "联系负责人并核对场地条件"
+            }
+          ]
+        },
+        "people": {
+          "title": "09B · 每个人的份额",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣拿着同学回复的消息，彩羽核对学生会的排班。有人愿意帮忙，也有人在当天已经有安排。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "这些人可以参加布置，但只能待到傍晚。别把他们算进收尾。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "前辈也一样。不许先说都可以，然后到最后突然一个人把事情全做了。",
+              "expression": "displeased"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "知道了。名单旁边写时段，谁也不靠猜。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "你把无法到场的名字移出当天排班，没有把拒绝理解成针对谁。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "09B · 每个人的份额",
+          "next": "pre-event-break",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 45,
+              "reason": "联系协助人员并记录能够参加的时段"
+            }
+          ]
+        },
+        "gather": {
+          "title": "10 · 一起收尾",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "场地和人员终于确认。活动结束的夜里，最后几只纸箱被搬到门口。彩羽检查交接单，结衣把遗漏的胶带放回箱子。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "交接签好了。我先去找还没回家的学生会成员。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "我也去把借来的东西还掉。明天要是还来学校，记得在群里说一声。",
+              "expression": "soft"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "今天辛苦了。剩下的这两张表，我和比企谷一起核对。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "没有谁替所有人完成所有事。完成的工作留下了名字，也留下了下一次见面的约定。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "10 · 一起收尾",
+          "next": "final-choice",
+          "effects": [
+            {
+              "type": "threads",
+              "id": "joint-prom",
+              "title": "联合舞会筹备",
+              "status": "resolved",
+              "note": "场地与人员确认，舞会结束并完成交接",
+              "reason": "场地与人员确认，舞会结束并完成交接"
+            },
+            {
+              "type": "time",
+              "minutes": 2880,
+              "reason": "准备完成并按安排结束联合舞会"
+            }
+          ]
+        },
+        "final-choice": {
+          "title": "11 · 还想说什么",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣和彩羽已经离开。雪乃把最后一张表递给你，窗玻璃上映着两个人的影子。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "现在没有表格要交了。你还留下来，是有什么话想说？",
+              "expression": "listening"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "你知道这次没有委托可以代替回答。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "11 · 还想说什么",
+          "choices": [
+            {
+              "id": "commit",
+              "text": "【语言】我想和你交往。以后遇到问题，也希望我们一起说清楚。",
+              "label": "【语言】我想和你交往。以后遇到问题，也希望我们一起说清楚。",
+              "target": "together",
+              "set": {
+                "answer": "together"
+              }
+            },
+            {
+              "id": "take-time",
+              "text": "【语言】我想继续和你相处，但今天还不想用一句话替我们决定全部。",
+              "label": "【语言】我想继续和你相处，但今天还不想用一句话替我们决定全部。",
+              "target": "wait",
+              "set": {
+                "answer": "wait"
+              }
+            }
+          ]
+        },
+        "together": {
+          "title": "12A · 答案之后",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我想和你交往。不是要一个保证不会出错的结局，是想以后也和你一起过。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "我愿意和你交往。但有意见的时候，我还是会说。你也不能用沉默让我猜。",
+              "expression": "shy"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "这个附加条款听起来很像你。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "你现在还有机会认真听完。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她的声音比方才轻了一点。表格已经收好，明天没有因此变得简单；但这一次，两个人都把自己的选择说了出来。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "12A · 答案之后",
+          "next": "spring",
+          "effects": [
+            {
+              "type": "relations",
+              "actor_id": "雪之下雪乃",
+              "trust": 3,
+              "familiarity": 2,
+              "identity": "恋人",
+              "mutual_consent": true,
+              "reason": "双方在本幕明确提出并同意交往"
+            }
+          ]
+        },
+        "spring": {
+          "title": "终章 · 下一次开门",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "新的学期，活动室再次开门。结衣带来一份新的咨询，彩羽先确认是不是又要占用学生会的人手。雪乃把你的椅子往桌边挪了一点。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "今天能听我说完吗？不是舞会的事，是我自己的事。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "可以。先坐下吧。",
+              "expression": "soft"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "那就从你想说的地方开始。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "门没有替任何人把问题挡在外面。三个人仍然需要学习怎样诚实相处，而今天至少没有人把自己的愿望交给别人代说。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "resolution",
+          "summary": "终章 · 下一次开门",
+          "ending": "主线收束 · 下一次开门",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 10080,
+              "reason": "进入新学期前的时间经过"
+            },
+            {
+              "type": "time",
+              "minutes": 7200,
+              "reason": "新学期再次来到活动室"
+            }
+          ]
+        },
+        "wait": {
+          "title": "12B · 留给明天的句子",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我想继续和你相处。但我不想靠今天气氛不错，就把还没说清的事都跳过去。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "我接受你还没想好的部分。不过，如果只是把沉默换一个好听的名字，我不会一直等。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "那就明天继续。不是等有了委托，是我会过来。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她点了一下头，把雨伞从桌旁拿起。你们没有在这一晚确定关系，也没有把它当成谁输掉的比赛。门外的雨已经停了。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "resolution",
+          "summary": "12B · 留给明天的句子",
+          "ending": "IF收束 · 留给明天的句子",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 5,
+              "reason": "双方约定继续交流，没有确认恋爱关系"
+            }
+          ]
+        },
+        "club-break": {
+          "title": "自由活动 · 再谈之前",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "回到活动室时，结衣正在整理纸箱，雪乃还坐在桌旁。重要的话可以等你理清以后再说。现在，你可以自己决定聊些什么、做些什么，也可以暂时离开。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "我还要把这些东西收好。你不用急着帮忙，想做什么就先去做吧。",
+              "expression": "soft"
+            }
+          ],
+          "beat": "development",
+          "summary": "回到活动室，留出一段自由交流与行动的时间。",
+          "next": "honest",
+          "free_window": {
+            "description": "理清彼此今后怎样相处。可以自行讨论、思考和行动，也可以继续预设的谈话。",
+            "context": "毕业舞会已结束。八幡、雪乃、结衣长期相处，但彼此心意尚未说清，也没有确认恋爱关系。目标是用自己的表达澄清是否愿意继续来往，并尊重对方选择，不要求表白或唯一措辞。人物按本人的边界回应，允许思考、暂时离场和回来。未开始新的联合舞会。",
+            "return_text": "【动作】请雪乃谈谈她的想法，沿既定谈话继续把意愿说清楚。",
+            "goal": {
+              "title": "说清今后是否愿意继续来往，并了解对方的意愿",
+              "criteria": [
+                {
+                  "id": "express-intent",
+                  "description": "实际表达自己对继续来往的意愿，而非只在心里想"
+                },
+                {
+                  "id": "hear-response",
+                  "description": "听到雪乃自己的回应，尊重尚未确定关系的边界",
+                  "source": "scene",
+                  "actor": "雪之下雪乃"
+                }
+              ],
+              "boundaries": [
+                {
+                  "id": "coercion",
+                  "description": "强迫人物接受关系或取消其拒绝权：人物应按性格拒绝，实际强迫可降低信任；不能因休息、犹豫或不表白而处罚。"
+                }
+              ],
+              "converge": "discussion-settled",
+              "conclude_text": "【动作】保留刚才谈话的结果，和同伴商量接下来可以一起做的事。"
+            }
+          },
+          "effects": []
+        },
+        "pre-event-break": {
+          "title": "自由活动 · 筹备间隙",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "现有资料还需要汇总成真正能执行的安排。你可以自己组织核查、联系与分工，也可以请同伴按已有方案一起推进。场地许可、可用人手和交接责任都需要落到实处。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "前辈想用自己的办法也可以。最后给我能核对的安排就行，别把“应该可以”当成已经确认。",
+              "expression": "soft"
+            }
+          ],
+          "beat": "development",
+          "summary": "联合舞会仍在筹备，活动开始前留出自由行动的空档。",
+          "next": "guided-preparation",
+          "free_window": {
+            "description": "解决活动筹备的问题。可以自己协调场地与人员，也可以采用同伴准备好的方案。",
+            "context": "联合舞会处于筹备阶段，尚未举行。八幡已经完成上一幕选择的场地或人员调查，但所有条件还需要汇总确认；可以核查已有资料，也可以与负责老师、同学或同伴联系寻找替代方案，不要求使用固定方法。当前雪乃、结衣、彩羽在活动室；离场后的交流须按感知隔离。目标只涉及筹备可行性，不能跳过许可、假造人员同意或凭空宣布活动成功。关系身份仍未明确。",
+            "return_text": "【动作】与同伴逐项核查筹备，采用预设方案补齐尚未解决的问题。",
+            "goal": {
+              "title": "形成能实际执行的舞会筹备方案",
+              "criteria": [
+                {
+                  "id": "venue",
+                  "description": "确认场地许可、容量及使用时段，或落实可行替代场地"
+                },
+                {
+                  "id": "staff",
+                  "description": "确认协助者实际可用时段与分工，不能替未同意的人报名"
+                },
+                {
+                  "id": "handover",
+                  "description": "落实布置、清理与交接责任，并与实际负责人核对"
+                }
+              ],
+              "boundaries": [
+                {
+                  "id": "fake-approval",
+                  "description": "假造许可、冒充他人同意或强迫同学参与：实际负责人拒绝认可方案，要求补办确认；反复欺骗导致实际知情者信任降低。合理尝试被拒绝不算违规。"
+                },
+                {
+                  "id": "unrealistic",
+                  "description": "明显超出现实能力的直接实现：旁白说明行动不能成立，在场者按性格提供可行方向，不改变世界既有事实。"
+                }
+              ],
+              "converge": "gather",
+              "conclude_text": "【动作】按已经确认的场地、人员与交接安排进入活动阶段。"
+            }
+          },
+          "effects": []
+        },
+        "discussion-settled": {
+          "title": "阶段收束 · 谈话之后",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "这次谈话告一段落。你们已经听到彼此的意见，尚未确定的事情仍保持原样，没有人替对方作出选择。桌上的资料翻到了下一页。",
+              "expression": "neutral"
+            }
+          ],
+          "next": "plan",
+          "effects": []
+        },
+        "guided-preparation": {
+          "title": "预设方法 · 逐项核查筹备",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "你们保留已经落实的结果，只把仍未确认的事项列出来。在与场地负责人、参加同学和负责交接的人员逐项核对后，许可、时段、分工与清理责任都有了明确答复；原方案不可行的部分改用经过确认的备选。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "已经确认的部分不用重做。还有疑问的地方，现在问清楚。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "这样就能交接了。每一项都知道找谁，不用临时猜。",
+              "expression": "soft"
+            }
+          ],
+          "next": "gather",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 60,
+              "reason": "补齐未确认的筹备问题并联系实际负责人"
+            }
+          ]
+        }
+      },
+      "backgrounds": {
+        "clubroom-spring-rain": {
+          "url": "/storyline-backgrounds/clubroom-spring-rain.png",
+          "name": "春雨中的侍奉部"
+        },
+        "corridor-spring-evening": {
+          "url": "/storyline-backgrounds/corridor-spring-evening.png",
+          "name": "春日薄暮的校内走廊"
+        }
+      },
+      "time_start": {
+        "date": null,
+        "minute": 960,
+        "label": "高二学年末 · 三月（终卷改编）"
+      }
     }
   ]
 }

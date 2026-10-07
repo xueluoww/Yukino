@@ -26,6 +26,6 @@ def main():
             text=file.read_text(encoding='utf-8-sig',errors='replace')
             if re.search(r'\bsk-[A-Za-z0-9_-]{24,}\b|[A-Za-z]:[\\/]Users[\\/]',text):
                 raise SystemExit('Private token or machine path in public file: '+file.relative_to(ROOT).as_posix())
-    print(f"Verified Yukino 0.8 / stage 5.0: {len(manifest['files'])} public files, one demo save, no model requests.")
+    print(f"Verified Yukino 0.5 / stage 5.6: {len(manifest['files'])} public files, one demo save, no model requests.")
 
 if __name__=='__main__':main()

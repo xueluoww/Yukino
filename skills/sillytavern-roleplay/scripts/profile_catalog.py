@@ -7,6 +7,9 @@ def profile(key,name,data=None,entry=None,descriptor=None):
     age=entry.get('age',display.get('age','未设定'))
     if not isinstance(age,(str,int)):age='未设定'
     return {'id':key,'name':name,'age':str(age) or '未设定',
+        'school':str(entry.get('school') or display.get('school') or '学校未设定'),
+        'class_name':str(entry.get('class_name') or display.get('class_name') or '班级未设定'),
+        'classroom_location':str(entry.get('classroom_location') or display.get('classroom_location') or '教室位置未设定'),
         'summary':entry.get('short_personality') or display.get('summary') or personality.split('。')[0][:65] or '性格尚未设定',
         'description':entry.get('biography') or display.get('biography') or descriptor.get('bio') or '人物简介尚未整理。',
         'personality':personality,'appearance':entry.get('appearance') or display.get('appearance',''),
@@ -40,6 +43,7 @@ def protagonist_profiles(player):
                 'personality':'观察敏锐，独立谨慎，带着自嘲的幽默。','summary':'观察敏锐，独立谨慎，幽默而自嘲。'}
         if card['id']=='hachiman':
             entry.setdefault('avatar','')
+            for field,value in {'school':'总武高中','class_name':'二年F班','classroom_location':'总武高中 · 二年F班教室'}.items():entry.setdefault(field,value)
         entry['display_profile']=display
         entry['biography']=display.get('biography','')
         entry['personality']=display.get('personality','')

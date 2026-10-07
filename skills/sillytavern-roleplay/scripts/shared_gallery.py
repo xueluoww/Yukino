@@ -84,7 +84,7 @@ class SharedGallery:
     def register(self,session,key,entry,persist=True):
         if entry.get('kind') not in {'background','cg'} or entry.get('speculative') or not entry.get('url'):return
         scope=script_scope(session);pool=self.data['scripts'].setdefault(scope,{})
-        value={k:copy.deepcopy(v) for k,v in entry.items() if k in {'kind','url','path','name','background','background_identity','visual_key'}}|{'key':key}
+        value={k:copy.deepcopy(v) for k,v in entry.items() if k in {'kind','url','path','name','background','background_identity','visual_key','revision_of','participant_visuals','protagonist_visual','event_key'}}|{'key':key}
         if pool.get(key)==value:return
         pool[key]=value
         if persist:self.flush()

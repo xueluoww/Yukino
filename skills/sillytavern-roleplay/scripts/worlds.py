@@ -34,7 +34,8 @@ class WorldLibrary:
         return {'worlds':[{'id':w['id'],'name':w['name'],'background':w['background'],
                 'setting_set_ids':w.get('setting_set_ids',[]),'primary_card_id':w.get('primary_card_id',''),
                 'opening_scenes':w.get('opening_scenes',[]),'description':w.get('description',''),
-                'default_protagonist_id':w.get('default_protagonist_id','hachiman')} for w in worlds],
+                'default_protagonist_id':w.get('default_protagonist_id','hachiman'),
+                'storylines':[{k:r.get(k) for k in ('id','title','description','version','protagonist_id')} for r in w.get('storylines',[])]} for w in worlds],
                 'setting_sets':[{'id':s['id'],'name':s['name'],'description':s.get('description',''),
                     'card_count':len(s['cards'])} for s in sets],'bindings':bindings}
     def import_set(self,raw,key=None):
@@ -49,11 +50,21 @@ class WorldLibrary:
             if item['id'] in seen:raise ValueError('同一设定集的卡片 ID 不能重复。')
             seen.add(item['id'])
             if item.get('kind') not in KINDS:raise ValueError('卡片类型必须为人物、地点、物品、规则或事件。')
+            from story_time import validate_temporal
+            validate_temporal(item)
             item['name']=text(item.get('name',''),200)
             if not item['name'].strip():raise ValueError('卡片需要名称。')
             item['description']=text(item.get('description',''))
             item['appearance']=text(item.get('appearance',''),4000)
+            for field in ('school','class_name','classroom_location'):
+                if field in item:text(item[field],500)
             if 'schedule_tendencies' in item:text(item['schedule_tendencies'],2000)
+            if 'initial_recognition' in item:
+                raw=item['initial_recognition']
+                if item['kind']!='character' or not isinstance(raw,dict) or len(raw)>30:raise ValueError('初始认识需要人物主角预设。')
+                for protagonist,preset in raw.items():
+                    identifier(protagonist)
+                    if not isinstance(preset,dict) or preset.get('stage') not in ('stranger','face_known','name_known','brief_contact','acquainted') or type(preset.get('knows_name'))is not bool or not isinstance(preset.get('known_facts',[]),list) or any(v not in ('player_name','player_affiliation','player_purpose') for v in preset.get('known_facts',[])):raise ValueError('初始认识、姓名与已知事实格式不正确。')
             if 'initial_relation' in item:
                 if item['kind']!='character' or not isinstance(item['initial_relation'],dict) or len(item['initial_relation'])>30:raise ValueError('初始关系需要人物主角预设。')
                 for protagonist,preset in item['initial_relation'].items():
@@ -101,10 +112,13 @@ class WorldLibrary:
                 'setting_set_ids':list(dict.fromkeys(sets)),'revision':1}
         result['world_gameplay']=copy.deepcopy(raw.get('world_gameplay',[]))
         for ref in result['world_gameplay']:ModuleStore(self.root,self.tavern).load(ref)
-        for field in ('calendar','initial_items'):
+        for field in ('calendar','initial_items','time'):
             if field in raw:
                 if not isinstance(raw[field],dict):raise ValueError(field+' 必须为对象。')
                 result[field]=copy.deepcopy(raw[field])
+        if 'time' not in result:
+            legacy=result.get('calendar',{})
+            result['time']={'version':1,'start':{'date':legacy.get('date'),'minute':legacy.get('minute',960)}}
         from story_engine import seed
         engine=seed(result)
         for iid,item in engine['items'].items():
@@ -140,9 +154,15 @@ class WorldLibrary:
                 'background':identifier(scene.get('background','clubroom')),'opening':copy.deepcopy(frames),'choices':choices}
             if not item['title'].strip():raise ValueError('开场需要标题。')
             item['scene']=text(scene.get('scene',item['title']),2000)
+            if 'time_start' in scene:
+                from story_time import policy
+                item['time_start']=policy({'start':scene['time_start']})['start']
             clean.append(item)
         if clean and not result.get('primary_card_id'):raise ValueError('剧本需要指定已导入的 primary_card_id。')
         result['opening_scenes']=clean
+        from authored_story import validate_routes
+        names={c['name'] for sid in sets for c in self.load('setting-sets',sid)['cards'] if c['kind']=='character'}
+        result['storylines']=validate_routes(raw.get('storylines',[]),names)
         with self.tavern.write_lock(self.root):
             target=self.root/'worlds'/(key+'.json')
             if target.exists():result['revision']=read(target).get('revision',0)+1
@@ -181,12 +201,17 @@ class WorldLibrary:
                 _,maincard=self.tavern.find_record(staged,'cards',world['primary_card_id'])
                 actors=registry({'card_snapshot':maincard['card'],'card_id':world['primary_card_id'],'world_snapshot':snap,'facts':{}},{})
                 initial_engine=seed(world)
+                __import__('story_time').initialize(initial_engine,store)
                 for ref in world['world_gameplay']:
                     context=module_context(initial_engine,world['opening_scenes'][0]['scene'] if world['opening_scenes'] else '',actors,'import-check')
                     initial=store.call(ref,'initialize',{},context)
                     store.call(ref,'view',initial['state'],context)
                     initial_engine['modules'][ref['id']]={'version':ref['version'],'sha256':ref['sha256'],'state':initial['state']}
-                    for effect in initial.get('effects',[]):apply_effect(initial_engine,effect,actors)
+                    for effect in initial.get('effects',[]):apply_effect(initial_engine,effect,actors,time_store=store)
+                if initial_engine.get('time_policy',{}).get('module_ref'):
+                    from story_time import advance
+                    for elapsed in (0,10):
+                        advance(copy.deepcopy(initial_engine),{'minutes':elapsed,'reason':'导入时间协议检查'},store)
                 result={'script_id':world['id'],'name':world['name'],'opening_count':len(world['opening_scenes']),
                     'setting_set_ids':world['setting_set_ids'],'primary_card_id':world['primary_card_id'],
                     'modules':world['world_gameplay'],'validated':True,'written':not validate_only}

@@ -16,15 +16,13 @@ def main():
     parser.add_argument('--card')
     parser.add_argument('--port',type=int)
     parser.add_argument('--session')
-    parser.add_argument('--restore-session')
-    parser.add_argument('--no-images',action='store_true')
     parser.add_argument('--persistent',action='store_true')
     parser.add_argument('--open',action='store_true')
     parser.add_argument('--provider',choices=['deepseek','codex','bridge','demo'],default='deepseek')
     args=parser.parse_args()
     root=pathlib.Path(args.root).resolve()
     if args.port is None:
-        args.port=18772
+        args.port=18765
         record=root/'browser/server.json'
         if record.exists():
             try:
@@ -52,8 +50,6 @@ def main():
         command=[sys.executable,'-X','utf8',str(pathlib.Path(__file__).with_name('galgame.py')),
                  '--root',str(root),'--port',str(args.port),'--provider',args.provider]
         if args.card:command.extend(['--card',args.card])
-        if args.restore_session:command.extend(['--restore-session',args.restore_session])
-        if args.no_images:command.append('--no-images')
         if args.session:command.extend(['--session',args.session])
         if args.persistent:command.append('--persistent')
         flags=subprocess.CREATE_NO_WINDOW if os.name=='nt' else 0

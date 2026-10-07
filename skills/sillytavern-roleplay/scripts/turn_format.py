@@ -11,6 +11,16 @@ ALIASES={'平静':'neutral','温柔':'soft','认真':'serious','害羞':'shy','�
          'smile':'soft','smiling':'soft','embarrassed':'shy','angry':'displeased','worried':'troubled'}
 def expression(value):return value if isinstance(value,str) and value in EXPRESSIONS else ALIASES.get(str(value),'neutral')
 def plain(value):return value if isinstance(value,str) else json.dumps(value,ensure_ascii=False,separators=(',',':'))
+
+def normalize_location_ids(reply,context):
+    """Resolve only declared stable IDs; never merge nearby physical places."""
+    locations={key:values[0] for key,values in context.get('visual_locations',{}).items() if isinstance(values,list) and values}
+    for card in context.get('world',{}).get('setting_cards',[]):
+        if card.get('kind')=='location' and card.get('id') and card.get('name'):
+            locations[card['id']]=card['name']
+    for item in [reply.get('scene_state'),*(f.get('stage') for f in reply.get('frames',[]))]:
+        if isinstance(item,dict) and item.get('location') in locations:
+            item['location']=locations[item['location']]
 def normalize(reply,context):
     if not isinstance(reply,dict):raise ValueError('reply: object required')
     result=copy.deepcopy(reply)
@@ -77,9 +87,12 @@ def normalize(reply,context):
     if 'scene_state' in reply:result['scene_state']=copy.deepcopy(reply['scene_state'])
     if 'scene_state' in result and context.get('cast'):
         from perception import normalize_state
+        normalize_location_ids(result,context)
         actors={a['id']:copy.deepcopy(a) for a in context['cast']}
         normalize_state(result,context.get('scene_state',{}),context.get('player_input',{}).get('parts',[]),actors,context.get('user_name',''))
-    return {key:result[key] for key in ('frames','scene','summary','facts','relationships','memories','visual','story','predictions','illustration','affinity_changes','scene_state','world_updates') if key in result}
+    fields=('frames','scene','summary','facts','relationships','memories','visual','story','predictions','illustration','affinity_changes','scene_state','world_updates')
+    if context.get('authored_intermission',{}).get('goal'):fields+=('goal_assessment',)
+    return {key:result[key] for key in fields if key in result}
 
 def suggestion(value):
     value=value.strip()

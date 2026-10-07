@@ -1,0 +1,1263 @@
+{
+  "experiment": "three public model-authored 120-turn corpora, same summaries/questions/52,000-byte budget",
+  "corpora": [
+    {
+      "run": 1,
+      "turns": 120,
+      "archive_bytes": 101071
+    },
+    {
+      "run": 2,
+      "turns": 120,
+      "archive_bytes": 103697
+    },
+    {
+      "run": 3,
+      "turns": 120,
+      "archive_bytes": 86576
+    }
+  ],
+  "stats": {
+    "baseline": {
+      "passed": 24,
+      "total": 24,
+      "accuracy": 1.0,
+      "mean_context_bytes": 36552,
+      "median_seconds": 1.078,
+      "prompt_tokens": 246976
+    },
+    "layered": {
+      "passed": 23,
+      "total": 24,
+      "accuracy": 0.9583333333333334,
+      "mean_context_bytes": 17403,
+      "median_seconds": 0.992,
+      "prompt_tokens": 120036
+    }
+  },
+  "results": [
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "确认码",
+      "question": "取书确认码是什么？",
+      "answer": "取书确认码是BOOK-1-47。",
+      "passed": true,
+      "context_bytes": 34747,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.75,
+        "transport_seconds": 0.859,
+        "usage": {
+          "prompt_tokens": 9952,
+          "completion_tokens": 15,
+          "total_tokens": 9967,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 9952
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "确认码",
+      "question": "取书确认码是什么？",
+      "answer": "取书确认码是BOOK-1-47。",
+      "passed": true,
+      "context_bytes": 17858,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.828,
+        "transport_seconds": 0.922,
+        "usage": {
+          "prompt_tokens": 5235,
+          "completion_tokens": 15,
+          "total_tokens": 5250,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5235
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "钥匙",
+      "question": "蓝色钥匙由谁保管，收在哪里？",
+      "answer": "蓝色钥匙已交给陆遥，收在木柜第2格。",
+      "passed": true,
+      "context_bytes": 34762,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.734,
+        "transport_seconds": 0.89,
+        "usage": {
+          "prompt_tokens": 9955,
+          "completion_tokens": 19,
+          "total_tokens": 9974,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 9955
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "钥匙",
+      "question": "蓝色钥匙由谁保管，收在哪里？",
+      "answer": "蓝色钥匙已交给陆遥，收在木柜第2格。",
+      "passed": true,
+      "context_bytes": 17505,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.657,
+        "transport_seconds": 0.766,
+        "usage": {
+          "prompt_tokens": 5087,
+          "completion_tokens": 19,
+          "total_tokens": 5106,
+          "prompt_tokens_details": {
+            "cached_tokens": 1280
+          },
+          "prompt_cache_hit_tokens": 1280,
+          "prompt_cache_miss_tokens": 3807
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "约定",
+      "question": "归还画册约定的时间、地点和数量是什么？",
+      "answer": "莫宁知道：周五15点20分到旧书店北门归还三本画册，不是南门，也不是四本。",
+      "passed": true,
+      "context_bytes": 34777,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.984,
+        "transport_seconds": 1.187,
+        "usage": {
+          "prompt_tokens": 9957,
+          "completion_tokens": 32,
+          "total_tokens": 9989,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 9957
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "约定",
+      "question": "归还画册约定的时间、地点和数量是什么？",
+      "answer": "周五15点20分到旧书店北门归还三本画册。不是南门，也不是四本。",
+      "passed": true,
+      "context_bytes": 17445,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.015,
+        "transport_seconds": 1.187,
+        "usage": {
+          "prompt_tokens": 5086,
+          "completion_tokens": 28,
+          "total_tokens": 5114,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5086
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "纠正",
+      "question": "义卖取消的传闻后来怎样？",
+      "answer": "后来没有取消，负责人书面确认活动照常举行，之前的取消传闻不成立。",
+      "passed": true,
+      "context_bytes": 34756,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.828,
+        "transport_seconds": 1.015,
+        "usage": {
+          "prompt_tokens": 9954,
+          "completion_tokens": 22,
+          "total_tokens": 9976,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 9954
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "纠正",
+      "question": "义卖取消的传闻后来怎样？",
+      "answer": "据小吴最新回话，义卖照常，取消传闻已被书面确认不成立，小吴已来收书并答应帮忙问那两本技术书的下落。",
+      "passed": true,
+      "context_bytes": 17716,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.812,
+        "transport_seconds": 1.156,
+        "usage": {
+          "prompt_tokens": 5137,
+          "completion_tokens": 42,
+          "total_tokens": 5179,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5137
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "拒绝",
+      "question": "搬重箱时达成的边界和替代方法是什么？",
+      "answer": "搬重箱时莫宁拒绝独自抬，大家约定等推车到了再搬，不再让任何一个人独自抬。",
+      "passed": true,
+      "context_bytes": 34774,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.875,
+        "transport_seconds": 1.047,
+        "usage": {
+          "prompt_tokens": 9958,
+          "completion_tokens": 30,
+          "total_tokens": 9988,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 9958
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "拒绝",
+      "question": "搬重箱时达成的边界和替代方法是什么？",
+      "answer": "莫宁拒绝独自抬重箱，约定等推车到了再搬；同意不再让任何一个人独自抬重箱。这是陆遥从莫宁那里听到的。",
+      "passed": true,
+      "context_bytes": 17851,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.562,
+        "transport_seconds": 0.812,
+        "usage": {
+          "prompt_tokens": 5184,
+          "completion_tokens": 40,
+          "total_tokens": 5224,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5184
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "物品",
+      "question": "旧红伞现在在哪里？",
+      "answer": "已还给隔壁的林先生了。",
+      "passed": true,
+      "context_bytes": 34747,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.656,
+        "transport_seconds": 0.766,
+        "usage": {
+          "prompt_tokens": 9952,
+          "completion_tokens": 11,
+          "total_tokens": 9963,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 9952
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "物品",
+      "question": "旧红伞现在在哪里？",
+      "answer": "旧红伞已经还给隔壁的林先生了，不在书店。",
+      "passed": true,
+      "context_bytes": 17383,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.844,
+        "transport_seconds": 0.985,
+        "usage": {
+          "prompt_tokens": 5055,
+          "completion_tokens": 17,
+          "total_tokens": 5072,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5055
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "角色权限",
+      "question": "只按许老师本人记忆回答：他知道取书确认码吗？不要告诉他其他人的私下内容。",
+      "answer": "不知道。没有证据显示许老师本人知道取书确认码。",
+      "passed": true,
+      "context_bytes": 34828,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.063,
+        "transport_seconds": 1.203,
+        "usage": {
+          "prompt_tokens": 9967,
+          "completion_tokens": 18,
+          "total_tokens": 9985,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 9967
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "角色权限",
+      "question": "只按许老师本人记忆回答：他知道取书确认码吗？不要告诉他其他人的私下内容。",
+      "answer": "不知道。许老师本人没有取书确认码的记忆；取书确认码BOOK-1-47只告诉过陆遥，不给许老师。",
+      "passed": false,
+      "context_bytes": 17834,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.594,
+        "transport_seconds": 0.797,
+        "usage": {
+          "prompt_tokens": 5185,
+          "completion_tokens": 35,
+          "total_tokens": 5220,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5185
+        }
+      },
+      "lexical_passed": false
+    },
+    {
+      "run": 1,
+      "mode": "baseline",
+      "probe": "未知",
+      "question": "备用仓库的密码是多少？没有记录就回答不知道。",
+      "answer": "不知道。没有记录，也没人提过备用仓库密码。",
+      "passed": true,
+      "context_bytes": 37220,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.609,
+        "transport_seconds": 0.75,
+        "usage": {
+          "prompt_tokens": 10603,
+          "completion_tokens": 17,
+          "total_tokens": 10620,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 10603
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 1,
+      "mode": "layered",
+      "probe": "未知",
+      "question": "备用仓库的密码是多少？没有记录就回答不知道。",
+      "answer": "不知道。",
+      "passed": true,
+      "context_bytes": 18259,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.766,
+        "transport_seconds": 0.829,
+        "usage": {
+          "prompt_tokens": 5298,
+          "completion_tokens": 6,
+          "total_tokens": 5304,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5298
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "确认码",
+      "question": "取书确认码是什么？",
+      "answer": "取书确认码是BOOK-2-47。",
+      "passed": true,
+      "context_bytes": 46140,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.687,
+        "transport_seconds": 0.781,
+        "usage": {
+          "prompt_tokens": 12643,
+          "completion_tokens": 15,
+          "total_tokens": 12658,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12643
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "确认码",
+      "question": "取书确认码是什么？",
+      "answer": "取书确认码是BOOK-2-47。",
+      "passed": true,
+      "context_bytes": 20422,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.891,
+        "transport_seconds": 1.094,
+        "usage": {
+          "prompt_tokens": 5745,
+          "completion_tokens": 15,
+          "total_tokens": 5760,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5745
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "钥匙",
+      "question": "蓝色钥匙由谁保管，收在哪里？",
+      "answer": "蓝色钥匙由陆遥保管，收在木柜第3格。",
+      "passed": true,
+      "context_bytes": 46155,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.016,
+        "transport_seconds": 1.203,
+        "usage": {
+          "prompt_tokens": 12646,
+          "completion_tokens": 19,
+          "total_tokens": 12665,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12646
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "钥匙",
+      "question": "蓝色钥匙由谁保管，收在哪里？",
+      "answer": "蓝色钥匙由陆遥保管，收在木柜第3格。",
+      "passed": true,
+      "context_bytes": 20083,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.891,
+        "transport_seconds": 1.016,
+        "usage": {
+          "prompt_tokens": 5659,
+          "completion_tokens": 19,
+          "total_tokens": 5678,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5659
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "约定",
+      "question": "归还画册约定的时间、地点和数量是什么？",
+      "answer": "周五16点20分到旧书店北门归还三本画册。",
+      "passed": true,
+      "context_bytes": 46170,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.703,
+        "transport_seconds": 0.828,
+        "usage": {
+          "prompt_tokens": 12648,
+          "completion_tokens": 20,
+          "total_tokens": 12668,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12648
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "约定",
+      "question": "归还画册约定的时间、地点和数量是什么？",
+      "answer": "莫宁记得：周五16点20分到旧书店北门归还三本画册，不是南门，也不是四本。",
+      "passed": true,
+      "context_bytes": 20856,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.657,
+        "transport_seconds": 0.813,
+        "usage": {
+          "prompt_tokens": 5816,
+          "completion_tokens": 32,
+          "total_tokens": 5848,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5816
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "纠正",
+      "question": "义卖取消的传闻后来怎样？",
+      "answer": "未成事实：此前“活动可能取消”仅为许老师转述，后来负责人已书面确认活动照常举行，取消传闻不成立。",
+      "passed": true,
+      "context_bytes": 46149,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.234,
+        "transport_seconds": 1.468,
+        "usage": {
+          "prompt_tokens": 12645,
+          "completion_tokens": 35,
+          "total_tokens": 12680,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12645
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "纠正",
+      "question": "义卖取消的传闻后来怎样？",
+      "answer": "义卖取消的传闻后来经负责人书面确认活动照常举行，之前的取消说法不成立。",
+      "passed": true,
+      "context_bytes": 19040,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.906,
+        "transport_seconds": 1.125,
+        "usage": {
+          "prompt_tokens": 5383,
+          "completion_tokens": 25,
+          "total_tokens": 5408,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5383
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "拒绝",
+      "question": "搬重箱时达成的边界和替代方法是什么？",
+      "answer": "我们约定不独自抬重箱，等推车到了再搬；后续用推车或两人协作搬运。",
+      "passed": true,
+      "context_bytes": 46167,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.204,
+        "transport_seconds": 1.391,
+        "usage": {
+          "prompt_tokens": 12649,
+          "completion_tokens": 28,
+          "total_tokens": 12677,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12649
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "拒绝",
+      "question": "搬重箱时达成的边界和替代方法是什么？",
+      "answer": "莫宁拒绝了独自抬重箱；两人约定等推车到了再搬，不再让任何一个人独自抬重箱。",
+      "passed": true,
+      "context_bytes": 20495,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.907,
+        "transport_seconds": 1.141,
+        "usage": {
+          "prompt_tokens": 5753,
+          "completion_tokens": 30,
+          "total_tokens": 5783,
+          "prompt_tokens_details": {
+            "cached_tokens": 1664
+          },
+          "prompt_cache_hit_tokens": 1664,
+          "prompt_cache_miss_tokens": 4089
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "物品",
+      "question": "旧红伞现在在哪里？",
+      "answer": "旧红伞不在书店，已经还给隔壁的林先生了。",
+      "passed": true,
+      "context_bytes": 46140,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.906,
+        "transport_seconds": 1.031,
+        "usage": {
+          "prompt_tokens": 12643,
+          "completion_tokens": 17,
+          "total_tokens": 12660,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12643
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "物品",
+      "question": "旧红伞现在在哪里？",
+      "answer": "旧红伞已经还给隔壁的林先生了，不在书店。",
+      "passed": true,
+      "context_bytes": 20529,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.828,
+        "transport_seconds": 0.953,
+        "usage": {
+          "prompt_tokens": 5773,
+          "completion_tokens": 17,
+          "total_tokens": 5790,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5773
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "角色权限",
+      "question": "只按许老师本人记忆回答：他知道取书确认码吗？不要告诉他其他人的私下内容。",
+      "answer": "我不知道，我本人没有听许老师说过确认码相关的事。",
+      "passed": true,
+      "context_bytes": 46221,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.468,
+        "transport_seconds": 1.687,
+        "usage": {
+          "prompt_tokens": 12658,
+          "completion_tokens": 18,
+          "total_tokens": 12676,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12658
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "角色权限",
+      "question": "只按许老师本人记忆回答：他知道取书确认码吗？不要告诉他其他人的私下内容。",
+      "answer": "根据许老师本人记忆，他不知道取书确认码。",
+      "passed": true,
+      "context_bytes": 20526,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.985,
+        "transport_seconds": 1.125,
+        "usage": {
+          "prompt_tokens": 5720,
+          "completion_tokens": 16,
+          "total_tokens": 5736,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5720
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "baseline",
+      "probe": "未知",
+      "question": "备用仓库的密码是多少？没有记录就回答不知道。",
+      "answer": "不知道。",
+      "passed": true,
+      "context_bytes": 46179,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.422,
+        "transport_seconds": 1.609,
+        "usage": {
+          "prompt_tokens": 12649,
+          "completion_tokens": 6,
+          "total_tokens": 12655,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 12649
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 2,
+      "mode": "layered",
+      "probe": "未知",
+      "question": "备用仓库的密码是多少？没有记录就回答不知道。",
+      "answer": "不知道。我目前的工作记录里没有备用仓库的密码。",
+      "passed": true,
+      "context_bytes": 20919,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.063,
+        "transport_seconds": 1.219,
+        "usage": {
+          "prompt_tokens": 5826,
+          "completion_tokens": 17,
+          "total_tokens": 5843,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 5826
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "确认码",
+      "question": "取书确认码是什么？",
+      "answer": "BOOK-3-47",
+      "passed": true,
+      "context_bytes": 28313,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.047,
+        "transport_seconds": 1.125,
+        "usage": {
+          "prompt_tokens": 8163,
+          "completion_tokens": 9,
+          "total_tokens": 8172,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8163
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "确认码",
+      "question": "取书确认码是什么？",
+      "answer": "取书确认码是BOOK-3-47。",
+      "passed": true,
+      "context_bytes": 14361,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.875,
+        "transport_seconds": 1.0,
+        "usage": {
+          "prompt_tokens": 4182,
+          "completion_tokens": 15,
+          "total_tokens": 4197,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 4182
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "钥匙",
+      "question": "蓝色钥匙由谁保管，收在哪里？",
+      "answer": "蓝色钥匙已交给陆遥，收在木柜第4格。",
+      "passed": true,
+      "context_bytes": 28328,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.844,
+        "transport_seconds": 0.984,
+        "usage": {
+          "prompt_tokens": 8166,
+          "completion_tokens": 19,
+          "total_tokens": 8185,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8166
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "钥匙",
+      "question": "蓝色钥匙由谁保管，收在哪里？",
+      "answer": "蓝色钥匙已交给陆遥，收在木柜第4格。",
+      "passed": true,
+      "context_bytes": 13974,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.953,
+        "transport_seconds": 1.172,
+        "usage": {
+          "prompt_tokens": 4122,
+          "completion_tokens": 19,
+          "total_tokens": 4141,
+          "prompt_tokens_details": {
+            "cached_tokens": 1024
+          },
+          "prompt_cache_hit_tokens": 1024,
+          "prompt_cache_miss_tokens": 3098
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "约定",
+      "question": "归还画册约定的时间、地点和数量是什么？",
+      "answer": "周五17点20分，在旧书店北门归还三本画册。",
+      "passed": true,
+      "context_bytes": 28343,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.844,
+        "transport_seconds": 1.031,
+        "usage": {
+          "prompt_tokens": 8168,
+          "completion_tokens": 21,
+          "total_tokens": 8189,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8168
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "约定",
+      "question": "归还画册约定的时间、地点和数量是什么？",
+      "answer": "莫宁本人知道：周五17点20分到旧书店北门归还三本画册，不是南门，也不是四本。",
+      "passed": true,
+      "context_bytes": 14667,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.969,
+        "transport_seconds": 1.11,
+        "usage": {
+          "prompt_tokens": 4310,
+          "completion_tokens": 33,
+          "total_tokens": 4343,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 4310
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "纠正",
+      "question": "义卖取消的传闻后来怎样？",
+      "answer": "负责人已书面确认活动照常，取消传闻不成立。",
+      "passed": true,
+      "context_bytes": 28322,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.25,
+        "transport_seconds": 1.453,
+        "usage": {
+          "prompt_tokens": 8165,
+          "completion_tokens": 17,
+          "total_tokens": 8182,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8165
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "纠正",
+      "question": "义卖取消的传闻后来怎样？",
+      "answer": "负责人已书面确认活动照常举行，之前的取消传闻不成立。",
+      "passed": true,
+      "context_bytes": 13094,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.703,
+        "transport_seconds": 0.859,
+        "usage": {
+          "prompt_tokens": 3878,
+          "completion_tokens": 19,
+          "total_tokens": 3897,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 3878
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "拒绝",
+      "question": "搬重箱时达成的边界和替代方法是什么？",
+      "answer": "搬重箱时陆遥拒绝独自抬，约定等推车到了再搬，不再让任何一个人独自抬。",
+      "passed": true,
+      "context_bytes": 28340,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.937,
+        "transport_seconds": 1.156,
+        "usage": {
+          "prompt_tokens": 8169,
+          "completion_tokens": 29,
+          "total_tokens": 8198,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8169
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "拒绝",
+      "question": "搬重箱时达成的边界和替代方法是什么？",
+      "answer": "搬重箱时莫宁拒绝了独自抬重箱的提议，大家约定等推车到了再搬，不再让任何一个人独自抬。",
+      "passed": true,
+      "context_bytes": 14115,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.937,
+        "transport_seconds": 1.14,
+        "usage": {
+          "prompt_tokens": 4136,
+          "completion_tokens": 34,
+          "total_tokens": 4170,
+          "prompt_tokens_details": {
+            "cached_tokens": 1024
+          },
+          "prompt_cache_hit_tokens": 1024,
+          "prompt_cache_miss_tokens": 3112
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "物品",
+      "question": "旧红伞现在在哪里？",
+      "answer": "已还给隔壁的林先生了。",
+      "passed": true,
+      "context_bytes": 28313,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.953,
+        "transport_seconds": 1.109,
+        "usage": {
+          "prompt_tokens": 8163,
+          "completion_tokens": 11,
+          "total_tokens": 8174,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8163
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "物品",
+      "question": "旧红伞现在在哪里？",
+      "answer": "旧红伞不在书店，已经还给隔壁的林先生了。",
+      "passed": true,
+      "context_bytes": 13397,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.781,
+        "transport_seconds": 0.906,
+        "usage": {
+          "prompt_tokens": 3929,
+          "completion_tokens": 17,
+          "total_tokens": 3946,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 3929
+        }
+      },
+      "lexical_passed": false,
+      "review": "人工核对原文：时间/地点/数量或物品位置均准确，原评分误把否定表达计为错误。"
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "角色权限",
+      "question": "只按许老师本人记忆回答：他知道取书确认码吗？不要告诉他其他人的私下内容。",
+      "answer": "许老师不知道取书确认码。莫宁只把确认码告诉过陆遥，并明确不让许老师知道。",
+      "passed": true,
+      "context_bytes": 28394,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 1.047,
+        "transport_seconds": 1.25,
+        "usage": {
+          "prompt_tokens": 8178,
+          "completion_tokens": 30,
+          "total_tokens": 8208,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8178
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "角色权限",
+      "question": "只按许老师本人记忆回答：他知道取书确认码吗？不要告诉他其他人的私下内容。",
+      "answer": "不知道。许老师本人记忆中没有取书确认码；该信息只在莫宁与陆遥之间。",
+      "passed": true,
+      "context_bytes": 14973,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.438,
+        "transport_seconds": 0.672,
+        "usage": {
+          "prompt_tokens": 4365,
+          "completion_tokens": 26,
+          "total_tokens": 4391,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 4365
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "baseline",
+      "probe": "未知",
+      "question": "备用仓库的密码是多少？没有记录就回答不知道。",
+      "answer": "不知道。没有备用仓库密码的记录。",
+      "passed": true,
+      "context_bytes": 28966,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.703,
+        "transport_seconds": 0.781,
+        "usage": {
+          "prompt_tokens": 8325,
+          "completion_tokens": 12,
+          "total_tokens": 8337,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 8325
+        }
+      },
+      "lexical_passed": true
+    },
+    {
+      "run": 3,
+      "mode": "layered",
+      "probe": "未知",
+      "question": "备用仓库的密码是多少？没有记录就回答不知道。",
+      "answer": "不知道。",
+      "passed": true,
+      "context_bytes": 14367,
+      "metrics": {
+        "model": "deepseek-flash",
+        "first_text_seconds": 0.812,
+        "transport_seconds": 0.906,
+        "usage": {
+          "prompt_tokens": 4172,
+          "completion_tokens": 6,
+          "total_tokens": 4178,
+          "prompt_tokens_details": {
+            "cached_tokens": 1024
+          },
+          "prompt_cache_hit_tokens": 1024,
+          "prompt_cache_miss_tokens": 3148
+        }
+      },
+      "lexical_passed": true
+    }
+  ],
+  "deploy_gate": {
+    "minimum_absolute_accuracy_gain": 0.12,
+    "no_permission_or_unknown_failure": true,
+    "max_context_ratio": 1.15
+  },
+  "deploy": false,
+  "requests": 112,
+  "all_usage": {
+    "prompt_tokens": 448287,
+    "completion_tokens": 64654,
+    "prompt_cache_hit_tokens": 6656,
+    "prompt_cache_miss_tokens": 441631
+  },
+  "decision": "Do not deploy: one actor-scoped secret disclosed; baseline had none. Smaller input alone is insufficient.",
+  "scoring_note": "原始字符串评分不能正确处理否定句，保留lexical_passed并逐例按原文复核；角色权限泄漏仍为失败。"
+}

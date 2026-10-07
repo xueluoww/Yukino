@@ -7,6 +7,7 @@ from gameplay import ModuleStore,digest
 from long_memory import MemoryStore,budget_context
 from save_manager import SaveManager
 import story_engine as engine
+import story_time
 
 class ModuleInputError(ValueError):
     retry_as_text=True
@@ -20,13 +21,18 @@ class EngineV5:
         from deepseek_client import FlashClient
         self.memory_client=FlashClient(self.root) if self.provider=='deepseek' else None
     def initialize_engine(self):
-        world=self.world_snapshot();state=engine.seed(world)
+        world=copy.deepcopy(self.world_snapshot())
+        opening=next((s for s in world.get('opening_scenes',[]) if s['id']==self.current['facts'].get('browser_scenario')),None)
+        if opening and opening.get('time_start'):
+            world.setdefault('time',{'version':1})['start']=copy.deepcopy(opening['time_start'])
+        state=engine.seed(world)
+        story_time.initialize(state,self.modules)
         ctx=engine.module_context(state,self.current['scene'],self.actors(),'opening')
         for ref in world.get('world_gameplay',[]):
             ctx=engine.module_context(state,self.current['scene'],self.actors(),'opening')
             result=self.modules.call(ref,'initialize',{},ctx)
             state['modules'][ref['id']]={'version':ref['version'],'sha256':ref['sha256'],'state':result['state']}
-            for effect in result.get('effects',[]):engine.apply_effect(state,effect,self.actors())
+            for effect in result.get('effects',[]):engine.apply_effect(state,effect,self.actors(),time_store=self.modules)
         for settings in world.get('setting_sets',[]):
             for card in settings['cards']:
                 initial=card.get('initial_relation',{}).get(self.protagonist()['id'])
@@ -66,6 +72,8 @@ class EngineV5:
         with self.lock:
             result=super().state();state=engine.current(self.current)
             result['story_state']=engine.public(state)
+            from recognition import public_familiarity
+            result['familiarity']=public_familiarity(self.current,self.actors(),result.get('affinity',{}))
             try:result['gameplay']=self.views(state)
             except (OSError,ValueError,KeyError):result['gameplay']=[];result['gameplay_unavailable']=True
             catalog=self.worlds.list()['worlds'];world=next((w for w in catalog if w['id']==self.world_snapshot().get('id')),None)
@@ -77,6 +85,9 @@ class EngineV5:
             return result
     def compact_context(self,context):
         result=super().compact_context(context);state=engine.current(self.current)
+        from recognition import corrected_relation
+        for aid,actor in self.actors().items():
+            if aid in state['relations']:state['relations'][aid]=corrected_relation(self.current,actor)
         pending=self._engine_pending.get(self.activity.get('id'))
         if pending:
             state=copy.deepcopy(pending['engine']);result['settled_gameplay']=copy.deepcopy(pending['result'])
@@ -103,8 +114,25 @@ class EngineV5:
         words=set(re.findall(r'[\u4e00-\u9fff]{2,4}|[A-Za-z]{2,}',query))
         for aid,entries in self.current.get('facts',{}).get('browser_actor_knowledge',{}).items():
             retrieved=[e for e in entries[:-12] if any(w in e.get('observed','') for w in words)][-6:]
-            result['actor_knowledge'][aid]=copy.deepcopy(retrieved+entries[-12:])
-        return budget_context(result,self.current,self.memory)
+            actor=self.actors().get(aid,{})
+            own=[actor.get('name'),*actor.get('aliases',[])]
+            result['actor_knowledge'][aid]=copy.deepcopy([e for e in retrieved+entries[-12:] if e.get('source_speaker') not in own])
+        result=budget_context(result,self.current,self.memory)
+        if state.get('time_policy'):
+            from galgame import parse_input
+            costs=story_time.duration(state,parse_input(result.get('incoming',''))['parts'])
+            projected=copy.deepcopy(state)
+            if not pending or not any(e.get('type')=='time' for e in pending['result'].get('effects',[])):
+                story_time.advance(projected,{'minutes':costs,'reason':'玩家本轮实际行动','parts':parse_input(result.get('incoming',''))['parts'],'scene':self.current['scene']},self.modules)
+            temporal=story_time.context(projected,self.world_snapshot(),self.actors())
+            temporal['turn_minutes']=costs
+            result['time_constraints']=temporal
+            result['story_state']['calendar']=copy.deepcopy(projected['calendar'])
+            result['story_state'].pop('time_policy',None)
+            result['story_state'].pop('time_runtime',None)
+            # Dated facts are filtered by the host; traveller knowledge is actor-scoped.
+            result['world']['setting_cards']=[c for c in result['world'].get('setting_cards',[]) if story_time.available(c,projected)]
+        return result
     def module_step(self,state,ref,action_id,text,turn_id,frames=None):
         entry=state['modules'].get(ref['id'])
         if not entry or entry.get('sha256')!=ref['sha256']:raise ValueError('玩法版本不匹配。')
@@ -112,7 +140,7 @@ class EngineV5:
         event={'action_id':action_id,'input':text,'frames':[{k:f.get(k,'') for k in ('kind','speaker','text')} for f in (frames or []) if f['kind']!='thought']}
         reply=self.modules.call(ref,'event',entry['state'],ctx,event)
         if reply.get('rejected'):raise ValueError(str(reply['rejected'])[:300])
-        for effect in reply.get('effects',[]):engine.apply_effect(state,effect,self.actors())
+        for effect in reply.get('effects',[]):engine.apply_effect(state,effect,self.actors(),time_store=self.modules)
         entry['state']=reply['state']
         return {'module_id':ref['id'],'action_id':action_id,'outcome':reply.get('outcome',''),'effects':reply.get('effects',[])}
     def submit_module(self,module_id,action_id,request_id,session_id,text=None):
@@ -150,12 +178,19 @@ class EngineV5:
         updates=reply.get('world_updates',{})
         if not isinstance(updates,dict):raise ValueError('世界状态变化格式错误。')
         minutes=updates.get('elapsed_minutes',0)
-        if pending and any(e.get('type')=='time' for e in pending['result'].get('effects',[])):
-            minutes=0 # This action's duration was settled by its module, not charged twice.
-        if minutes:engine.apply_effect(state,{'type':'time','minutes':minutes,'reason':updates.get('time_reason','')},self.actors())
+        time_settled=bool(pending and any(e.get('type')=='time' for e in pending['result'].get('effects',[])))
+        if state.get('time_policy'):
+            from galgame import parse_input
+            minutes=story_time.duration(state,parse_input(self.activity.get('text',''))['parts'])
+        elif minutes and not time_settled:
+            engine.apply_effect(state,{'type':'time','minutes':minutes,'reason':updates.get('time_reason','')},self.actors(),time_store=self.modules)
+            time_settled=True
         actors=self.actors()
         from cast import register_arrivals,resolve_actor
         register_arrivals(reply.get('scene_state',{}),actors,self.current['user_name'])
+        from recognition import corrected_relation
+        for aid,actor in actors.items():
+            if aid in state['relations'] and not pending:state['relations'][aid]=corrected_relation(self.current,actor)
         for kind in ('relations','items','threads'):
             changes=updates.get(kind,[])
             if not isinstance(changes,list) or len(changes)>8:raise ValueError('世界状态变化过多。')
@@ -174,7 +209,7 @@ class EngineV5:
                             any(w in f['text'] for w in ('愿意和你交往','我们交往吧','愿意成为你的恋人','愿意和你在一起','愿意嫁给你')) and
                             not any(w in f['text'] for w in ('不愿意','不会','不能','并不','不是','如果','假如')) for f in reply['frames'])
                         effect['mutual_consent']=request and agreement
-                engine.apply_effect(state,effect,actors,interacted,reply['story']['milestone'])
+                engine.apply_effect(state,effect,actors,interacted,reply['story']['milestone'],time_store=self.modules)
         allowed={v['id']:{a['id'] for a in v['view'].get('actions',[])} for v in self.views(state)}
         for ref in self.world_snapshot().get('world_gameplay',[]):
             context_result=self.modules.call(ref,'context',state['modules'][ref['id']]['state'],engine.module_context(state,self.current['scene'],self.actors(),turn_id))
@@ -191,11 +226,21 @@ class EngineV5:
             if pending and pair==(pending['result']['module_id'],pending['result']['action_id']):continue
             if event['action_id'] not in allowed.get(event['module_id'],set()) or not evidence or evidence not in sources:raise ValueError('玩法动作不被允许或缺少真实依据。')
             ref=next(r for r in self.world_snapshot()['world_gameplay'] if r['id']==event['module_id'])
-            self.module_step(state,ref,event['action_id'],evidence,turn_id,reply['frames'])
+            outcome=self.module_step(state,ref,event['action_id'],evidence,turn_id,reply['frames'])
+            time_settled=time_settled or any(e.get('type')=='time' for e in outcome['effects'])
+        if state.get('time_policy') and not time_settled:
+            engine.apply_effect(state,{'type':'time','minutes':minutes,'reason':'玩家本轮实际行动','parts':parse_input(self.activity.get('text',''))['parts'],'scene':self.current['scene']},self.actors(),time_store=self.modules)
+        story_time.validate_reply(reply,state,self.world_snapshot(),actors)
+        if state.get('time_policy') and isinstance(reply.get('visual',{}).get('background_identity'),dict):
+            reply['visual']['background_identity']['time']=story_time.public(state)['time']['period']
         state['plot']['beat']=reply['story']['beat'];state['plot']['focus']=reply['story'].get('thread','')
         if updates.get('phase'):
             if not isinstance(updates['phase'],str) or len(updates['phase'])>100:raise ValueError('剧情阶段名称不正确。')
             state['plot']['phase']=updates['phase']
+        if state.get('time_policy'):
+            before=engine.current(self.current).get('time_runtime',{}).get('elapsed_minutes',0)
+            updates['elapsed_minutes']=state['time_runtime']['elapsed_minutes']-before
+            updates['time_reason']='程序按本轮行动及剧本规则结算'
         state['applied_turns'].append(turn_id)
         state['applied_turns']=state['applied_turns'][-100:]
         return state
@@ -252,7 +297,7 @@ class EngineV5:
                     if old and old.get('sha256')==ref['sha256']:continue
                     reply=self.modules.call(ref,'initialize',{},ctx)
                     state['modules'][ref['id']]={'version':ref['version'],'sha256':ref['sha256'],'state':reply['state']}
-                    for effect in reply.get('effects',[]):engine.apply_effect(state,effect,self.actors())
+                    for effect in reply.get('effects',[]):engine.apply_effect(state,effect,self.actors(),time_store=self.modules)
                 candidate['facts']['browser_engine']=state
                 self.current=previous
                 child=create_fork(self.root,self.tavern,previous,candidate,previous['turns'][-1]['turn_id'],'module-upgrade')
@@ -265,6 +310,7 @@ class EngineV5:
         with self.lock:
             if self.busy or session_id!=self.current['id']:raise ValueError('请等当前回合结束后设置时间。')
             state=engine.current(self.current)
+            if state.get('time_policy'):raise ValueError('这个故事的时间由剧情推进，不能手动改写。')
             engine.apply_effect(state,{'type':'time','minutes':0,'date':date,'minute':minute,'reason':'玩家设置故事时间'},self.actors())
             candidate=copy.deepcopy(self.current);candidate['facts']['browser_engine']=state
             candidate['revision']+=1;candidate['updated_at']=self.tavern.now()

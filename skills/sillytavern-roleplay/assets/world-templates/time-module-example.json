@@ -1,0 +1,12 @@
+{
+  "id": "custom-time",
+  "name": "故事时间规则",
+  "version": "1.0",
+  "api_version": 1,
+  "runtime": "python-restricted-v1",
+  "capabilities": [],
+  "config": {
+    "multiplier": 1
+  },
+  "source": "def run(request):\n    state=dict(request[\"state\"])\n    mode=request[\"mode\"]\n    if mode==\"time_initialize\":\n        return {\"state\":{\"advances\":0},\"effects\":[]}\n    if mode==\"time_advance\":\n        state[\"advances\"]=state.get(\"advances\",0)+1\n        elapsed=request[\"event\"][\"minutes\"]*request[\"config\"].get(\"multiplier\",1)\n        return {\"state\":state,\"effects\":[],\"elapsed_minutes\":elapsed}\n    if mode==\"view\":\n        return {\"state\":state,\"effects\":[],\"view\":{\"cards\":[],\"actions\":[]}}\n    return {\"state\":state,\"effects\":[],\"context\":{}}\n"
+}

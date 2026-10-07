@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import time
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import uuid
@@ -66,10 +67,15 @@ def atomic_json(path, value):
 def write_lock(root):
     root.mkdir(parents=True, exist_ok=True)
     lock = root / ".write.lock"
-    try:
-        fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-    except FileExistsError as exc:
-        raise TavernError("Library is being written. Retry after the other command finishes; a stale lock needs inspection.") from exc
+    deadline = time.monotonic() + 2
+    while True:
+        try:
+            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            break
+        except FileExistsError as exc:
+            if time.monotonic() >= deadline:
+                raise TavernError("Library is being written. Retry after the other command finishes; a stale lock needs inspection.") from exc
+            time.sleep(.025)
     try:
         os.write(fd, str(os.getpid()).encode("ascii"))
         os.close(fd)
