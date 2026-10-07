@@ -2,7 +2,7 @@
 
 # 创建与导入剧本（yukima_script_v1）
 
-本文适用于 Yukino 0.5 项目内的 `sillytavern-roleplay` 技能及 `yukima_script_v1` 剧本格式。最方便的方式是在任意 Codex 聊天中引用你选定位置的技能，让 Codex 根据你的描述整理并导入；网页用于选择和游玩剧本，不提供上传入口。
+本文适用于 Yukino 0.8 项目内的 `sillytavern-roleplay` 技能及 `yukima_script_v1` 剧本格式。最方便的方式是在任意 Codex 聊天中引用你选定位置的技能，让 Codex 根据你的描述整理并导入；网页用于选择和游玩剧本，不提供上传入口。
 
 ## 剧本与主程序分开
 
@@ -171,7 +171,7 @@ Codex 应完成：整理 UTF-8 剧本包 → 在临时资料库试导入 → 核
 
 ## 5. 导入和验证
 
-在 Yukino 0.5 公共项目根目录中，先启动一次演示以初始化本地库，再，使用项目内技能和独立库：
+在 Yukino 0.8 公共项目根目录中，先启动一次演示以初始化本地库，再，使用项目内技能和独立库：
 
 ```powershell
 $storySkill = Join-Path (Get-Location) 'skills/sillytavern-roleplay'

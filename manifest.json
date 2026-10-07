@@ -1,6 +1,7 @@
 {
   "project": "Yukino",
-  "version": "0.5",
+  "version": "0.8",
+  "package_version": "0.5",
   "runtime": "5.6.0",
   "update_theme": "预制线、画面版本与记忆实验",
   "date": "2026-10-07",
@@ -21,8 +22,8 @@
     },
     {
       "file": "CHANGELOG.md",
-      "sha256": "f9d32d62e81b0ab714ff954cda8aa1d95eb536d5b5f30a415120d646684b81b0",
-      "bytes": 4868
+      "sha256": "9f8156641cb31d59d448c35151e6ffe870258e1ee2d84424d94c53e5dd01252f",
+      "bytes": 4875
     },
     {
       "file": "docs/0.5验证报告.md",
@@ -31,7 +32,7 @@
     },
     {
       "file": "docs/创建剧本.md",
-      "sha256": "967b27a07e7bed52bfe6932548e212b257a525a7552c3cf3101aae1a5d2ec495",
+      "sha256": "3e22d2ea4ae3c0b6ebb38407f5d242d7bdc719f937dd9af4587aa068addaa6c1",
       "bytes": 16870
     },
     {
@@ -236,7 +237,7 @@
     },
     {
       "file": "experiments/memory-v56/记忆实验报告.md",
-      "sha256": "669893a111a6cada96beb661b2fe0fba5b27b89386cd025e6f8b1d6c905042dd",
+      "sha256": "ba26cbef80020f1ee88972757f571be24cb57da9819d3ab86a7d74003a1e4e9a",
       "bytes": 3654
     },
     {
@@ -251,13 +252,13 @@
     },
     {
       "file": "NOTICE.md",
-      "sha256": "c87ee30314dcc44f2249a1e22c922468ee12387edcea03f70bd665591991ed4e",
+      "sha256": "8ca1dd0081d7048a40996e2c454df72a9b3f61e20a11eaf4cccf1f6fb74fceed",
       "bytes": 2572
     },
     {
       "file": "README.md",
-      "sha256": "d68609ebef464c4f34d13d26797d9ee798fafb429aabecde5e336e230fd0f8fa",
-      "bytes": 23423
+      "sha256": "f6cef96932d589b89010c90cc3bb6b816ee4750c95431806fda0db158abee6b1",
+      "bytes": 23526
     },
     {
       "file": "skills/sillytavern-roleplay/agents/openai.yaml",
@@ -611,7 +612,7 @@
     },
     {
       "file": "skills/sillytavern-roleplay/NOTICE.md",
-      "sha256": "c87ee30314dcc44f2249a1e22c922468ee12387edcea03f70bd665591991ed4e",
+      "sha256": "8ca1dd0081d7048a40996e2c454df72a9b3f61e20a11eaf4cccf1f6fb74fceed",
       "bytes": 2572
     },
     {
@@ -666,7 +667,7 @@
     },
     {
       "file": "skills/sillytavern-roleplay/references/script-creation.md",
-      "sha256": "d8633c54d280e78854980f431162b1eaeeaa8788145680de4e4ca09dfdce4aa5",
+      "sha256": "40149f2cb9e71f66af51ba6bd9251576a278411a765a9ee4ed1d0375dd440924",
       "bytes": 16800
     },
     {
@@ -861,12 +862,12 @@
     },
     {
       "file": "skills/sillytavern-roleplay/SKILL.md",
-      "sha256": "19e39611a05b390eb9967162b4f3474019ec4e35852c79e81f0f8316213aaa9d",
+      "sha256": "4c865ee5244d18d05a6ceea7e990e11b34c1e2956e05015b02e999e6446c8fc5",
       "bytes": 7767
     },
     {
       "file": "verify.py",
-      "sha256": "8767fb47598ba69ca729dc8127586016f2c9ccba5fb61827749bb201bfa79fc6",
+      "sha256": "0f883971210f8bb1ffcb05c4c8cb72b0b80af94abdeb52974e8651a7b0e00545",
       "bytes": 1791
     },
     {

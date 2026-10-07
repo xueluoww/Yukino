@@ -6,7 +6,7 @@ license: AGPL-3.0-only
 
 # Yukino · 角色与故事舞台
 
-本技能随 Yukino 0.5 公共项目发布。项目根为本 SKILL.md 所在目录向上两级；资料库为项目根下 `database/roleplay-library`。任何 Codex 聊天调用本技能都显式使用同一个项目 root，不自动读取开发者原安装库、其他项目、凭据或私人存档。
+本技能随 Yukino 0.8 公共项目发布。项目根为本 SKILL.md 所在目录向上两级；资料库为项目根下 `database/roleplay-library`。任何 Codex 聊天调用本技能都显式使用同一个项目 root，不自动读取开发者原安装库、其他项目、凭据或私人存档。
 
 ## 启动和配置
 

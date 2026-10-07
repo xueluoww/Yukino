@@ -14,7 +14,7 @@ assets/demo-card.json 中的「林灯」是本适配附带的原创成年角色�
 
 The recordings in assets/galgame/music/*.mp3 are by Kevin MacLeod (incompetech.com), under Creative Commons Attribution 4.0, rather than the code license. See assets/galgame/music/CREDITS.md and library.json for track names, composition credits, source URLs, and checksums. These recordings are packaged unchanged; runtime playback may loop and crossfade. https://creativecommons.org/licenses/by/4.0/
 
-## Yukino 0.5 公共壳
+## Yukino 0.8 公共壳
 
 本版本由本地舞台派生，当前更新到 5.6，新增剧本自带玩法接口、分支存档管理、基础长期记忆及世界状态，保留项目启动入口、离线演示、原创示例数据与上游 AGPL-3.0-only 归属。公开壳未包含私人资料库、原作品角色图像或原游戏立绘。演示对白为预写文本，SVG 为原创示意素材；音乐保留独立 CC BY 4.0 署名，见 skills/sillytavern-roleplay/assets/galgame/music/CREDITS.md。
 
