@@ -16,13 +16,15 @@ def main():
     parser.add_argument('--card')
     parser.add_argument('--port',type=int)
     parser.add_argument('--session')
+    parser.add_argument('--restore-session')
     parser.add_argument('--persistent',action='store_true')
     parser.add_argument('--open',action='store_true')
+    parser.add_argument('--no-images',action='store_true')
     parser.add_argument('--provider',choices=['deepseek','codex','bridge','demo'],default='deepseek')
     args=parser.parse_args()
     root=pathlib.Path(args.root).resolve()
     if args.port is None:
-        args.port=18765
+        args.port=18772
         record=root/'browser/server.json'
         if record.exists():
             try:
@@ -51,7 +53,9 @@ def main():
                  '--root',str(root),'--port',str(args.port),'--provider',args.provider]
         if args.card:command.extend(['--card',args.card])
         if args.session:command.extend(['--session',args.session])
+        if args.restore_session:command.extend(['--restore-session',args.restore_session])
         if args.persistent:command.append('--persistent')
+        if args.no_images:command.append('--no-images')
         flags=subprocess.CREATE_NO_WINDOW if os.name=='nt' else 0
         with (folder/'launch.log').open('ab') as log:
             process=subprocess.Popen(command,stdout=log,stderr=log,stdin=subprocess.DEVNULL,creationflags=flags,

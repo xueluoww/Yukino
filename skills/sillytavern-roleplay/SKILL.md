@@ -61,3 +61,6 @@ license: AGPL-3.0-only
 ## 5.6 操作规则
 
 玩家调整图片时阅读 [调整画面](references/image-adjustments.md)，生成独立版本后等待玩家采用，不覆盖原图或其他分支。创建预制线先读 [制作方法](references/storyline-authoring.md)，最后一段可见分镜读完才可推进，自由达标后直接收束；按条件状态检查死路。时间规则见 [时间协议](references/time-system.md)。本轮分层记忆原型未通过人物知识权限实验，禁止加入运行管线；保留原long_memory.py。
+
+
+春物玩家补图优先阅读 [现成立绘来源与导入](references/oregairu-art.md)，复用用户提供的现成素材后再补缺失人物或状态。

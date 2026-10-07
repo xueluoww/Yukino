@@ -51,8 +51,20 @@ class ImageAdjustments:
         session = session or self.current
         selected = session.get('facts', {}).get('browser_image_choices', {}).get(key)
         entry = self.cache.get(selected, {})
-        if entry.get('revision_of') == key and entry.get('world_scope') == script_scope(session):
+        if entry.get('revision_of') and self.image_family(selected) == self.image_family(key) and entry.get('world_scope') == script_scope(session):
             return selected
+        return key
+
+    def image_family(self, key):
+        current, seen = key, set()
+        for _ in range(64):
+            if current in seen:
+                return key
+            seen.add(current)
+            parent = self.cache.get(current, {}).get('revision_of')
+            if not parent:
+                return current
+            current = parent
         return key
 
     def request_adjustment(self, session_id, source_key, prompt, request_id):
@@ -115,7 +127,13 @@ class ImageAdjustments:
                 return self.state()
             candidate = copy.deepcopy(self.current)
             facts = candidate['facts']
-            facts.setdefault('browser_image_choices', {})[record['source_key']] = key
+            choices = facts.setdefault('browser_image_choices', {})
+            family = self.image_family(record['source_key'])
+            for old_source in list(choices):
+                if self.image_family(old_source) == family:
+                    del choices[old_source]
+            choices[family] = key
+            choices[record['source_key']] = key
             facts['browser_gallery_refs'] = sorted(branch_refs(candidate) | {key})
             # A late completion may enter the gallery, but cannot replace a later scene.
             current = record['anchor_turn_id'] == self.current['turns'][-1]['turn_id']

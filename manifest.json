@@ -21,13 +21,13 @@
     },
     {
       "file": "CHANGELOG.md",
-      "sha256": "d9f7f7087d2c245a4ac58b0de93d549e745a30d1f2c2a803b457f55e0f85a55d",
-      "bytes": 4867
+      "sha256": "f9d32d62e81b0ab714ff954cda8aa1d95eb536d5b5f30a415120d646684b81b0",
+      "bytes": 4868
     },
     {
       "file": "docs/0.5验证报告.md",
-      "sha256": "78e4ed7c6049b6a443a60d2779c5d99f05f0e24001286b1f5b3beeaef2caf23b",
-      "bytes": 2123
+      "sha256": "e1a573b1a9eaaacceddcbd8ae1eab2c6012485efd6414b12271aa60f73d6618b",
+      "bytes": 2358
     },
     {
       "file": "docs/创建剧本.md",
@@ -256,8 +256,8 @@
     },
     {
       "file": "README.md",
-      "sha256": "28e371f69a161dbb23f19cabcd77a9aa3b4fd8ea745ed3870dfdef03e2f4f5cc",
-      "bytes": 19519
+      "sha256": "66a23c5f02df7f642f8ea912c6ee4c7a2fc43b97ca65b59174e6e4a9c86a1a1c",
+      "bytes": 23408
     },
     {
       "file": "skills/sillytavern-roleplay/agents/openai.yaml",
@@ -645,6 +645,11 @@
       "bytes": 1669
     },
     {
+      "file": "skills/sillytavern-roleplay/references/oregairu-art.md",
+      "sha256": "e111a7592db9f8c598808c5f020b36bdef8bde661b985956b3b90a8102ab364c",
+      "bytes": 4352
+    },
+    {
       "file": "skills/sillytavern-roleplay/references/oregairu-sources.json",
       "sha256": "f992077e4d83e7c313a5d11fb64b39140eacf37236c27b5ece5e201410d77576",
       "bytes": 3357
@@ -756,8 +761,8 @@
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/image_adjustments.py",
-      "sha256": "dfe685657559aeac226bb3dbd2abc084826c72c94bec64f0a6356ebf4eb14060",
-      "bytes": 11218
+      "sha256": "f307163229688da2647219077dabaccdaaba3d27e77804666db22bde8feebfa4",
+      "bytes": 11903
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/image_service.py",
@@ -766,8 +771,8 @@
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/launch_galgame.py",
-      "sha256": "412a286c88f7b52f5e6eaa1c05da42be4468fe1afdf9f4aa9531172666f6f9ae",
-      "bytes": 3761
+      "sha256": "9bc779cda7797c393caa1719e023d801df8a03b5fcca5049f8f49847b5183bab",
+      "bytes": 4012
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/long_memory.py",
@@ -856,8 +861,8 @@
     },
     {
       "file": "skills/sillytavern-roleplay/SKILL.md",
-      "sha256": "66666cc13ab14e5f2945dce6fd9b0e8b0ce58bda1676f727ae28715edbd92566",
-      "bytes": 7607
+      "sha256": "19e39611a05b390eb9967162b4f3474019ec4e35852c79e81f0f8316213aaa9d",
+      "bytes": 7767
     },
     {
       "file": "verify.py",
