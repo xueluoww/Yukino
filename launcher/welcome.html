@@ -131,12 +131,13 @@
       </article>
       <article class="image-option">
         <h3>Codex 原生生图</h3>
-        <p>使用 Codex 的图片能力。可以单独检测登录、安装本包工具，再由你完成官方浏览器授权；不会修改全局模型配置。</p>
+        <p>只读复用桌面 Codex 的访问凭据，或为 Yukino 单独登录。生图使用独立目录，不刷新共享登录，不修改全局模型配置。检测不试画；“试画一张”会使用图片额度。</p>
         <p class="note" id="codex-image-status">尚未检测</p>
         <div class="image-actions">
           <button class="ghost" type="button" data-image-action="codex-check">检测登录与连接</button>
           <button class="ghost" type="button" data-image-action="codex-install">自动配置工具</button>
-          <button class="ghost" type="button" data-image-action="codex-login">打开 Codex 登录</button>
+          <button class="ghost" type="button" data-image-action="codex-login">为 Yukino 单独登录</button>
+          <button class="ghost" type="button" data-image-action="codex-test">试画一张（使用额度）</button>
           <button class="ghost" type="button" data-image-action="codex-save">使用 Codex 生图</button>
         </div>
         <p class="note">自动配置需要 Node.js/npm，将固定版本工具安装到本包 runtime，不全局安装；若未装 Node.js，请先从 <a href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer">官方站点</a>安装 LTS。账号是否支持生图与额度，仍以实际服务为准。</p>

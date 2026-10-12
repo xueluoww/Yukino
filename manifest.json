@@ -24,8 +24,8 @@
     },
     {
       "file": "CHANGELOG.md",
-      "bytes": 5492,
-      "sha256": "8df073fa964bde8d160e9b24f3131f543eb29cb13a8a99eadc2b26653e29f065"
+      "bytes": 5936,
+      "sha256": "93399d05b377ec5f393ed30eeced042eb5653b68ce64d5a3174aaa71911654ce"
     },
     {
       "file": "docs/0.5验证报告.md",
@@ -34,8 +34,13 @@
     },
     {
       "file": "docs/0.9验证说明.md",
-      "bytes": 2996,
-      "sha256": "0260ca51171f46829241318c0144e37b65a34d6d181bc1fa1b80aa74d8c677e6"
+      "bytes": 3237,
+      "sha256": "92fec3bd478f2bf4e4adb68248122fab2844b3dbc257bd9e6d5918115eeb2931"
+    },
+    {
+      "file": "docs/Codex生图修复.md",
+      "bytes": 4556,
+      "sha256": "b4a080689082630530978d08a8ad1971a77cd9933dca89208a257d540b5bbf65"
     },
     {
       "file": "docs/创建剧本.md",
@@ -49,8 +54,8 @@
     },
     {
       "file": "docs/生图配置与接入评估.md",
-      "bytes": 5086,
-      "sha256": "2eb3919fb41979f49e7f5a7c53fb339de179bc9b39853dcf0b8fd8846c3278be"
+      "bytes": 5327,
+      "sha256": "7dda74511017863a68ed1f7b171a67a6b5deaa98958803b02bc05bb9384ae3da"
     },
     {
       "file": "docs/预制线制作方法.md",
@@ -264,13 +269,13 @@
     },
     {
       "file": "launcher/image-setup.js",
-      "bytes": 4973,
-      "sha256": "9413211eb52b2d0a9b4f1ac9e7355422cc786f1ced0b6552502ac9ab30b7fa01"
+      "bytes": 5124,
+      "sha256": "d6c40aa425aa109f21126d7f5b1295b7cdfd01a31e750d01c7bed4c85b4d3cb0"
     },
     {
       "file": "launcher/image_setup.py",
-      "bytes": 13934,
-      "sha256": "c87e5a59739e7fa01db002d8f1918e18c20c1c416e750315ca25dca167b01c6b"
+      "bytes": 15639,
+      "sha256": "8a357cbc2f27f4e0687296d1fe87b8bdb781c5a5b1824744e29d733597103911"
     },
     {
       "file": "launcher/service_control.py",
@@ -279,8 +284,8 @@
     },
     {
       "file": "launcher/setup.py",
-      "bytes": 18261,
-      "sha256": "90414716ca929f5b8263bc1b684c3a8700b6eac2c64ef085bbd486b94a1b9681"
+      "bytes": 18318,
+      "sha256": "ee7dd54f2e3e4070d9e473a69b9fc009d81f618ffe49a6e7ccc1b4c56bcf8c06"
     },
     {
       "file": "launcher/welcome.css",
@@ -289,8 +294,8 @@
     },
     {
       "file": "launcher/welcome.html",
-      "bytes": 10175,
-      "sha256": "0fdc6b670691c4a1f75cd5cd469e3377a35c2d4f03df06a7ce4d7ae278c21a72"
+      "bytes": 10358,
+      "sha256": "ce114e0fd21e44ef51fa05bab92452c5a0a849f3f35259acae2ea4f849c205d7"
     },
     {
       "file": "launcher/welcome.js",
@@ -309,8 +314,8 @@
     },
     {
       "file": "README.md",
-      "bytes": 8682,
-      "sha256": "bfea7e18771c19bf66fdd39d2836ef4b561e42f82dee630f5864fecc746755f3"
+      "bytes": 9127,
+      "sha256": "eea8dd813fb22039cc05ec358089ca031a619e5756c89396c20d0b759d6045ae"
     },
     {
       "file": "skills/sillytavern-roleplay/agents/openai.yaml",
@@ -1183,6 +1188,11 @@
       "sha256": "86aa7184ccc27d5bb7ecb2232c7d49a4380a5d3c3710cf093f6e4587e37f4bad"
     },
     {
+      "file": "skills/sillytavern-roleplay/scripts/codex_image_auth.py",
+      "bytes": 2340,
+      "sha256": "af08b775f819b23c07bbe1b9308c6f474c40f8e32b0af3b5476fa6e15757aa3e"
+    },
+    {
       "file": "skills/sillytavern-roleplay/scripts/create_script.py",
       "bytes": 2071,
       "sha256": "69d8b9da26e097b671ed6e59c899f26308f7e4c1ae680d4a6e4cdff5666db413"
@@ -1289,8 +1299,8 @@
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/image_service.py",
-      "bytes": 7831,
-      "sha256": "364282570283704dd0c8a53bf94420cffe95fca7297e44cc9805b04e13cb071b"
+      "bytes": 13522,
+      "sha256": "8ab2825fea3afa95f3656647ff1848dcc6c464c2c5e6da9f75625e42ccab4dcb"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/input_grounding.py",
@@ -1454,8 +1464,8 @@
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/runtime_v4.py",
-      "bytes": 45830,
-      "sha256": "7ce9bec9762d7fdfe0d66e39569933a89a638a3fbeedd0550a1731039e5ec94e"
+      "bytes": 45906,
+      "sha256": "4234cdbedfc791fbc5ea4347a17e02b00a6c3c341b6d230e3892eace8b30d492"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/save_manager.py",
@@ -1608,6 +1618,11 @@
       "sha256": "c747f0d0558437e13e9d5c153de9fe80b1d514e9786cb19c9fdd37bf82959a06"
     },
     {
+      "file": "tests/test_codex_images.py",
+      "bytes": 11809,
+      "sha256": "5140b40ad86e1be6c7b229787e80a06eb31e10ace2f54f9926952466a9c30487"
+    },
+    {
       "file": "tests/test_image_backends.py",
       "bytes": 12785,
       "sha256": "3bcfd2b4cb80ce1f939b65e67ca19f60a491d47957b504b1279fcd3ed32cc98d"
@@ -1649,8 +1664,8 @@
     },
     {
       "file": "技术报告.md",
-      "bytes": 50143,
-      "sha256": "87c5217baaafdf6ffc2136d8faab91b4a77ffd621bb57cf772331ee8ff8a8600"
+      "bytes": 50751,
+      "sha256": "1df0e7f771f24e0cb301ea9e8f8982b39cabfb14d7c65592eb6abb7a85c6907d"
     }
   ]
 }

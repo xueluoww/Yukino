@@ -68,6 +68,7 @@
     var routes = {
       'codex-check': '/api/image/codex/check', 'codex-install': '/api/image/codex/install',
       'codex-login': '/api/image/codex/login', 'kling-install': '/api/image/kling/install',
+      'codex-test': '/api/image/codex/test',
       'kling-connect': '/api/image/kling/connect'
     };
     var route = routes[action] || '/api/image/config';
@@ -81,7 +82,7 @@
         background: document.getElementById('image-api-background').value,
         local_no_key: document.getElementById('image-local-no-key').checked };
     }
-    show('正在处理；不会提交试画任务。');
+    show(action === 'codex-test' ? '正在提交一张测试图片，会使用图片额度；请等待完成。' : '正在处理；不会提交试画任务。');
     request(route, body).then(function (result) {
       show(result.message || '操作已开始');
       if (action === 'api-save') document.getElementById('image-api-key').value = '';

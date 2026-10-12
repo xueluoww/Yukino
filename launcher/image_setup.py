@@ -134,25 +134,22 @@ class ImageSetup:
             value = {'installed': False, 'logged_in': False, 'service_handshake': False,
                      'generation_verified': False, 'message': '未找到 Codex CLI，可单独安装本包的生图工具。'}
         else:
-            version = hidden_run([*command, '--version']).stdout.strip()[:100]
-            login = hidden_run([*command, 'login', 'status'])
-            # Use exit status; never return auth output, email, key or auth.json.
-            logged_in = login.returncode == 0
-            value = {'installed': True, 'version': version, 'logged_in': logged_in,
+            from codex_image_auth import isolated_env, image_home, ImageAuthError
+            image_home(self.data).mkdir(parents=True,exist_ok=True)
+            version = hidden_run([*command, '--version'],env=isolated_env(self.data,os.environ.copy())).stdout.strip()[:100]
+            value = {'installed': True, 'version': version, 'logged_in': False,
                 'service_handshake': False, 'generation_verified': False,
-                'message': '尚未登录，请单独打开 Codex 登录。'}
-            if logged_in:
-                from image_service import ImageService
-                with tempfile.TemporaryDirectory(prefix='yukino-codex-check-') as root:
-                    service = ImageService(command, root, os.environ.copy())
-                    try:
-                        service.start()
-                        account = service.rpc('account/read', {'refreshToken': False})
-                        if not account.get('account'):
-                            raise ValueError('生图服务没有可用登录身份。')
-                        value.update(service_handshake=True, message='已登录，生图服务可握手；尚未试画，不保证账号有图片额度。')
-                    finally:
-                        service.close()
+                'message': '尚未登录，请为Yukino单独登录。','login_isolated':True}
+            from image_service import ImageService
+            service = ImageService(command,self.data,os.environ.copy())
+            try:
+                service.start()
+                value.update(logged_in=True,service_handshake=True,auth_mode=service.auth_mode,
+                    message='独立生图服务已连接；'+('只读复用Codex访问凭据，不刷新或改写Codex登录。'if service.auth_mode=='codex_readonly'else'使用Yukino独立登录，不影响Codex本体。')+' 尚未试画。')
+            except ImageAuthError as error:
+                value['message']=str(error)
+            finally:
+                service.close()
         self.last_codex_check = value
         return value
 
@@ -198,10 +195,34 @@ class ImageSetup:
             raise ValueError('请先安装 Codex CLI。')
         if self.login_process and self.login_process.poll() is None:
             return '登录正在进行，请完成已打开的浏览器页面。'
-        self.login_process = subprocess.Popen([*command, 'login'], stdin=subprocess.DEVNULL,
+        from codex_image_auth import image_home, isolated_env
+        image_home(self.data).mkdir(parents=True,exist_ok=True)
+        self.last_codex_check={}
+        self.login_process = subprocess.Popen([*command, '-c','cli_auth_credentials_store="file"','login'], stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            env=isolated_env(self.data,os.environ.copy()),
             creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
-        return '已启动 Codex 官方浏览器登录，请自己完成授权，然后点击检测。'
+        return '已打开Yukino独立的官方Codex登录；不会改写桌面Codex登录。完成浏览器授权后请重新检测。'
+
+    def test_codex_image(self):
+        """Only this explicit action uses image quota. Detection and install never do."""
+        from image_service import ImageService
+        from image_backends import image_suffix
+        import uuid
+        command=self.backends.resolve_codex(self.package)
+        if not command:raise ValueError('请先配置Codex工具。')
+        service=ImageService(command,self.data,os.environ.copy())
+        self.last_codex_check['generation_verified']=False
+        try:
+            paths=service.generate('Generate exactly one image using only the native image generation tool: a simple blue triangle on a plain white square, no text. Return its saved path.',[],
+                'setup-smoke-'+uuid.uuid4().hex,self.data/'browser/image-jobs'/('setup-smoke-'+uuid.uuid4().hex),timeout=240)
+            files=[Path(p).resolve()for p in paths if Path(p).resolve().is_relative_to(service.output_dir)and Path(p).is_file()]
+            if not files:raise ValueError('试画未返回可验证的图片；不能把登录或握手当成生图成功。')
+            file=files[-1];image_suffix(file.read_bytes())
+            self.last_codex_check.update(installed=True,logged_in=True,service_handshake=True,generation_verified=True,
+                auth_mode=service.auth_mode,login_isolated=True,message='真实试画成功，已保存并验证图片；Codex本体登录未改写。')
+            return {'message':self.last_codex_check['message']}
+        finally:service.close()
 
     def connector_command(self):
         package = self.package / 'runtime/kling/node_modules/mcp-remote'

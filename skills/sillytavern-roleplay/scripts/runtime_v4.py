@@ -345,7 +345,7 @@ class RuntimeV4:
         job=self.root/'browser/image-jobs'/asset_id
         instruction=prompt if self.image_provider=='api' else ('Generate exactly ONE image using the BUILT-IN image generation tool. Do not use shell, scripts, APIs, browser, apps or agents. If unavailable, report UNAVAILABLE and stop. Return only the actual saved image path.\n'+prompt)
         paths=self.image_service.generate(instruction,references,scope or self.current['id']+':background',job)
-        env=self.engine_env();allowed=(self.root/'browser/image-jobs').resolve() if self.image_provider=='api' else (Path(env.get('CODEX_HOME',str(Path.home()/'.codex')))/'generated_images').resolve()
+        allowed=(self.root/'browser/image-jobs').resolve() if self.image_provider=='api' else Path(self.image_service.output_dir).resolve()
         for candidate in reversed(paths):
             source=Path(candidate).resolve()
             if source.is_relative_to(allowed) and source.is_file() and source.suffix.lower() in {'.png','.jpg','.webp','.jpeg'}:
@@ -449,10 +449,12 @@ class RuntimeV4:
             with self.lock:
                 self.image_tasks[key]['status']='failed'
                 self.image_tasks[key]['error_class']=type(exc).__name__
+                from image_service import public_image_error
+                self.image_tasks[key]['error_message']=public_image_error(exc)
                 if speculative:
                     for index in self.previews.folder.glob('*/index.json'):
                         if self.previews.find(index.parent.name,key):self.previews.update(index.parent.name,key,status='failed')
-                else:self.image_error='画面暂未就绪，故事可继续。'
+                else:self.image_error=self.image_tasks[key]['error_message']
         finally:
             with self.lock:
                 self.image_busy=max(0,self.image_busy-1)

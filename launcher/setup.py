@@ -271,6 +271,7 @@ class Handler(BaseHTTPRequestHandler):
             '/api/image/codex/check': 'codex_check',
             '/api/image/codex/install': 'install_codex',
             '/api/image/codex/login': 'login_codex',
+            '/api/image/codex/test': 'test_codex_image',
             '/api/image/kling/install': 'install_kling',
             '/api/image/kling/connect': 'connect_kling',
         }
