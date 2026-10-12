@@ -35,6 +35,7 @@ class WorldLibrary:
                 'setting_set_ids':w.get('setting_set_ids',[]),'primary_card_id':w.get('primary_card_id',''),
                 'opening_scenes':w.get('opening_scenes',[]),'description':w.get('description',''),
                 'default_protagonist_id':w.get('default_protagonist_id','hachiman'),
+                'world_modes':__import__('world_defaults').mode_options(w),
                 'storylines':[{k:r.get(k) for k in ('id','title','description','version','protagonist_id')} for r in w.get('storylines',[])]} for w in worlds],
                 'setting_sets':[{'id':s['id'],'name':s['name'],'description':s.get('description',''),
                     'card_count':len(s['cards'])} for s in sets],'bindings':bindings}
@@ -83,6 +84,20 @@ class WorldLibrary:
             aliases=item.get('aliases',[])
             if not isinstance(aliases,list) or any(not isinstance(a,str) or len(a)>200 for a in aliases):
                 raise ValueError('人物别名格式不正确。')
+            fallback=item.pop('character_card_fallback',None)
+            if fallback is not None:
+                if item['kind']!='character' or not item.get('card_id'):raise ValueError('备用角色卡必须指定人物和 card_id。')
+                identifier(item['card_id'])
+                if not (self.root/'cards'/(item['card_id']+'.json')).exists():item['character_card']=fallback
+            if 'personal_background' in item:
+                background=item['personal_background']
+                if item['kind']!='character' or not isinstance(background,dict) or len(json.dumps(background,ensure_ascii=False))>12000:
+                    raise ValueError('人物背景必须是有界对象。')
+                facts=background.get('facts',[])
+                if not isinstance(facts,list) or len(facts)>30:raise ValueError('个人背景事实过多。')
+                for fact in facts:
+                    identifier(fact['id']);text(fact['text'],1200)
+                    if not isinstance(fact.get('sources',[]),list) or len(fact.get('sources',[]))>8:raise ValueError('背景事实来源格式不正确。')
             if item.get('character_card') is not None:
                 if item['kind']!='character':raise ValueError('只有人物卡可以包含酒馆角色卡。')
                 card=self.tavern.normalize_card(item.pop('character_card'))
@@ -112,10 +127,24 @@ class WorldLibrary:
                 'setting_set_ids':list(dict.fromkeys(sets)),'revision':1}
         result['world_gameplay']=copy.deepcopy(raw.get('world_gameplay',[]))
         for ref in result['world_gameplay']:ModuleStore(self.root,self.tavern).load(ref)
-        for field in ('calendar','initial_items','time'):
+        for field in ('calendar','initial_items','time','event_system','world_modes','world_defaults','player_homes','protagonist_defaults','map','schedules','daily_life','relation_policy','opening_hours','school_calendar'):
             if field in raw:
                 if not isinstance(raw[field],dict):raise ValueError(field+' 必须为对象。')
                 result[field]=copy.deepcopy(raw[field])
+        if 'fixed_events' in raw:
+            if not isinstance(raw['fixed_events'],list) or len(raw['fixed_events'])>64:raise ValueError('固定事件必须为有界数组。')
+            result['fixed_events']=copy.deepcopy(raw['fixed_events'])
+        if 'features' in raw:
+            if not isinstance(raw['features'],list) or set(raw['features'])-{'map_v1','exploration_v1','npc_schedule_v1'}:raise ValueError('Invalid optional world features')
+            result['features']=copy.deepcopy(raw['features'])
+        for actor,place in result.get('player_homes',{}).items():
+            identifier(actor);identifier(place)
+        for actor,preset in result.get('protagonist_defaults',{}).items():
+            identifier(actor)
+            if not isinstance(preset,dict) or set(preset)-{'home_id','classroom_id','room_id'}:raise ValueError('主角地点预设格式不正确。')
+            for value in preset.values():identifier(value)
+        from world_modes import validate_modes
+        validate_modes(result)
         if 'time' not in result:
             legacy=result.get('calendar',{})
             result['time']={'version':1,'start':{'date':legacy.get('date'),'minute':legacy.get('minute',960)}}
@@ -189,6 +218,9 @@ class WorldLibrary:
                 if not world.get('primary_card_id'):raise ValueError('剧本需要 primary_card_id。')
                 candidate.bind(world['primary_card_id'],world['id'],world['setting_set_ids'])
                 snap=candidate.snapshot(world['primary_card_id'],world['id'])
+                if snap.get('event_system'):
+                    from event_schema import validate_definition
+                    validate_definition(snap,snap['setting_sets'])
                 all_ids=set()
                 for settings in snap['setting_sets']:
                     for card in settings['cards']:
@@ -253,8 +285,13 @@ class WorldLibrary:
         for settings in world['setting_sets']:
             for entry in settings['cards']:
                 if entry.get('card_id'):
-                    _,record=self.tavern.find_record(self.root,'cards',entry['card_id'])
+                    try:_,record=self.tavern.find_record(self.root,'cards',entry['card_id'])
+                    except (ValueError,KeyError,self.tavern.TavernError) as error:
+                        raise ValueError('剧本人物缺少角色卡：'+entry['card_id']+'（'+entry['name']+'）。请先导入该角色卡或在剧本包中提供 character_card。') from error
                     entry['card_snapshot']=copy.deepcopy(record['card'])
+        if world.get('event_system'):
+            from event_schema import validate_definition
+            world['event_system_snapshot']=validate_definition(world,world['setting_sets'])
         return world
     def attach(self,session_id,world_id,setting_ids=None):
         with self.tavern.write_lock(self.root):
@@ -277,7 +314,8 @@ def world_context(snapshot,incoming='',recent=''):
         for card in settings['cards']:
             always=card['kind']=='rule'
             if not always and not any(name in haystack for name in [card['name'],*card.get('aliases',[])]):continue
-            value={k:copy.deepcopy(v) for k,v in card.items() if k!='card_snapshot'}
+            # Fallback card data is for import, not a second copy of the prompt.
+            value={k:copy.deepcopy(v) for k,v in card.items() if k not in ('card_snapshot','character_card_fallback')}
             if card.get('card_snapshot'):
                 data=card['card_snapshot']['data']
                 value['profile']={k:data.get(k,'') for k in ('name','description','personality','scenario')}
@@ -292,7 +330,7 @@ def main():
     from galgame import load_tavern
     tavern=load_tavern(Path(__file__).with_name('tavern.py'))
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--root',default=str(Path(__file__).resolve().parents[3]/'database/roleplay-library'))
+    parser.add_argument('--root',default=str(Path.home()/'Documents/Codex/roleplay-library'))
     commands=parser.add_subparsers(dest='command',required=True)
     commands.add_parser('list')
     for kind in ('import-world','import-set','import-protagonist','import-script','validate-script'):

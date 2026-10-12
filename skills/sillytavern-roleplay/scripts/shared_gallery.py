@@ -1,3 +1,4 @@
+from storage_codec import loads as storage_loads
 """Script-scoped confirmed artwork; branch refs are the only gallery unlocks."""
 import copy, hashlib, json, re, time
 from pathlib import Path
@@ -98,10 +99,10 @@ class SharedGallery:
         # Only saved/checkpoint artwork is confirmed. Never expose queued guesses.
         before=copy.deepcopy(self.data);sessions={}
         for p in (self.root/'sessions').glob('*.json'):
-            s=json.loads(p.read_text(encoding='utf-8-sig'));sessions[s['id']]=s
+            s=storage_loads(p.read_text(encoding='utf-8-sig'));sessions[s['id']]=s
         snapshots=list(sessions.values())
         for p in (self.root/'browser/checkpoints').glob('*/*.json'):
-            snapshots.append(json.loads(p.read_text(encoding='utf-8-sig')))
+            snapshots.append(storage_loads(p.read_text(encoding='utf-8-sig')))
         for s in snapshots:
             for key in branch_refs(s):
                 entry=cache.get(key)

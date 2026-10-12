@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "presets": {
+    "campus": {
+      "max_buildings": 2,
+      "max_floors": 4,
+      "max_rooms_per_floor": 8
+    },
+    "building": {
+      "max_floors": 4,
+      "max_rooms_per_floor": 8
+    },
+    "home": {
+      "max_floors": 4,
+      "max_rooms_per_floor": 8
+    },
+    "outdoor": {
+      "expansion": "fixed"
+    }
+  },
+  "description_types": [
+    "普通房间",
+    "普通教室",
+    "休息室",
+    "小庭院"
+  ],
+  "notice": "有限壳预设是游戏近似，不代表原著准确建筑图。模型不能增大容量或创造特殊设施。"
+}

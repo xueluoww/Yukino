@@ -51,7 +51,7 @@ class ImageService:
             self.close()
             self.messages=queue.Queue();self.buffer=[];self.threads={}
             folder=self.root/'browser/image-service';folder.mkdir(parents=True,exist_ok=True)
-            args=[self.cli,'app-server','--listen','stdio://',
+            args=[*(self.cli if isinstance(self.cli,(list,tuple)) else [self.cli]),'app-server','--listen','stdio://',
                   '-c','model_provider="visual_service"',
                   '-c','model_providers.visual_service={name="OpenAI",wire_api="responses",requires_openai_auth=true,supports_websockets=false}',
                   '-c','model_reasoning_effort="low"','-c','approval_policy="never"',

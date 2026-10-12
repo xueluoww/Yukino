@@ -17,3 +17,8 @@ Thumbs.db
 .venv/
 venv/
 /dist/
+
+/data/
+/runtime/
+/demo-data/
+*.zip

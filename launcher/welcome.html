@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<title>Yukino 0.9 — 正式测试版</title>
+<link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+<div class="glow"></div>
+<div class="particles" aria-hidden="true">
+  <i></i><i></i><i></i><i></i><i></i><i></i>
+</div>
+
+<header class="topbar">
+  <div class="wordmark"><span class="snow">❄</span>Yukino 0.9</div>
+  <div class="build">TEST BUILD</div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">WELCOME / FIRST LAUNCH</p>
+    <h1>Yukino 0.9</h1>
+    <p class="subtitle">本地单人 AI 文字冒险 · 正式测试版</p>
+    <p class="lead">
+      本页是启动器的首启提示页，运行在本机，只与本地服务通信。请按下面三步确认环境、阅读说明并填写 API Key，
+      随后即可进入游戏本体。
+    </p>
+  </section>
+
+  <section class="panel">
+    <header class="panel-head">
+      <p class="eyebrow">01 / REQUIREMENTS</p>
+      <h2>项目要求</h2>
+    </header>
+    <ul class="checks">
+      <li>
+        <strong>Windows 10 / 11</strong>
+        <span>其余平台未做适配与测试。</span>
+      </li>
+      <li>
+        <strong>Python 3.10 或更新</strong>
+        <span>启动器会自动检测本机 Python 版本；缺失或版本过低时会直接给出提示。</span>
+      </li>
+      <li>
+        <strong>一枚 DeepSeek API Key</strong>
+        <span>用于对话生成。请求由本机直连 DeepSeek，费用走你自己的账号。</span>
+      </li>
+      <li>
+        <strong>首次启动会创建 <code>data</code> 目录</strong>
+        <span>位于程序目录下，用于存放存档与本地配置。请勿在运行中删除该目录。</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <header class="panel-head">
+      <p class="eyebrow">02 / ABOUT</p>
+      <h2>项目介绍</h2>
+    </header>
+    <div class="prose">
+      <p>
+        Yukino 0.9 是一个运行在本机的单人 AI 文字冒险程序。它不联网托管、不设账号系统，
+        剧本、美术与全部存档都放在你自己的机器上，对话由你填入的 DeepSeek 密钥驱动。
+      </p>
+      <p>
+        当前提供两种玩法：<strong>世界模式</strong>通过时间、地点、事件与私有目标驱动人物活动，你可以自由说话、行动、拒绝或绕路；
+        <strong>沙盒模式</strong>保留以自由叙述与人物对话为主的玩法。
+        预制故事线另有阶段目标与收束节点，不等同于世界模式。每个存档的经历、记忆与状态互相独立。
+      </p>
+      <p>
+        公共包附带剧本、原创占位图与部分生成空场景，不附带原作人物美术，请按README补图。内容为日常向的校园生活：白天上课、社团活动、放学后的对话与事件，
+        人物关系随相处时间变化。
+      </p>
+      <p>
+        已知限制，请在开始前了解：存档变长之后，生成会明显变慢；恋爱线推进节奏很慢，短期内不会出现明显变化；
+        白天的课程内容仍在补充完善，部分时段只有简短而过。本版本不承诺上述以外尚未实现的功能。
+      </p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-head">
+      <p class="eyebrow">03 / API KEY</p>
+      <h2>填写 API Key</h2>
+    </header>
+
+    <p class="hint">
+      Key 校验通过后，以当前 Windows 用户的 DPAPI 加密保存在 <code>data</code> 目录。
+      校验和对白请求会将密钥发送给 DeepSeek 完成认证；不会写入游戏对白或日志。
+    </p>
+
+    <div class="field">
+      <label for="api-key">DeepSeek API Key</label>
+      <div class="key-row">
+        <input id="api-key" type="password" autocomplete="off" spellcheck="false"
+               placeholder="sk-..." aria-describedby="key-note">
+        <button id="toggle-key" class="ghost" type="button" aria-pressed="false">显示</button>
+        <button id="paste-key" class="ghost" type="button">粘贴</button>
+      </div>
+      <p class="note" id="key-note">
+        形如 <code>sk-</code> 开头的一串字符，不要带引号或空格。
+      </p>
+      <p class="link-row">
+        <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener noreferrer">如何获取 →</a>
+      </p>
+    </div>
+
+    <div class="actions">
+      <button id="action" class="primary" type="button">保存并校验</button>
+      <span class="spinner" id="spinner" hidden aria-hidden="true"></span>
+    </div>
+
+    <p id="msg" class="msg" role="status" aria-live="polite" hidden></p>
+  </section>
+
+  <section class="panel" id="image-setup">
+    <header class="panel-head">
+      <p class="eyebrow">04 / IMAGE GENERATION</p>
+      <h2>选择画面生成方式</h2>
+    </header>
+    <p class="note">已有图片始终可以使用。生图配置与文字密钥分开保存；登录、环境检测不代表已成功生成图片。设置改变后，请正常停止游戏再重新启动。</p>
+    <div class="image-options">
+      <article class="image-option">
+        <h3>仅使用已有图片</h3>
+        <p>不调用生图服务，适合先试玩或已经准备好素材的剧本。</p>
+        <button class="ghost" type="button" data-image-action="off">使用已有图片</button>
+      </article>
+      <article class="image-option">
+        <h3>Codex 原生生图</h3>
+        <p>使用 Codex 的图片能力。可以单独检测登录、安装本包工具，再由你完成官方浏览器授权；不会修改全局模型配置。</p>
+        <p class="note" id="codex-image-status">尚未检测</p>
+        <div class="image-actions">
+          <button class="ghost" type="button" data-image-action="codex-check">检测登录与连接</button>
+          <button class="ghost" type="button" data-image-action="codex-install">自动配置工具</button>
+          <button class="ghost" type="button" data-image-action="codex-login">打开 Codex 登录</button>
+          <button class="ghost" type="button" data-image-action="codex-save">使用 Codex 生图</button>
+        </div>
+        <p class="note">自动配置需要 Node.js/npm，将固定版本工具安装到本包 runtime，不全局安装；若未装 Node.js，请先从 <a href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer">官方站点</a>安装 LTS。账号是否支持生图与额度，仍以实际服务为准。</p>
+      </article>
+      <article class="image-option">
+        <h3>独立图片 API · 无需 Codex</h3>
+        <p>连接你选择的 OpenAI 兼容图片服务或本机兼容服务。需要图片模型自己的配置和额度；DeepSeek 文本密钥不能代替图片密钥。</p>
+        <label for="image-api-base">图片接口地址（含版本前缀）</label>
+        <input id="image-api-base" type="url" placeholder="https://你的图片服务/v1" autocomplete="off">
+        <label for="image-api-model">图片模型 ID</label>
+        <input id="image-api-model" type="text" placeholder="供应商实际支持的图片模型" autocomplete="off">
+        <label for="image-api-key">图片 API Key（留空沿用同一接口已保存的密钥）</label>
+        <input id="image-api-key" type="password" autocomplete="off" spellcheck="false">
+        <label for="image-reference-mode">人物参考图</label>
+        <select id="image-reference-mode"><option value="edits">支持图片编辑接口，保留人物参考图</option><option value="none">仅文生图；需要参考图的任务会停止并说明</option></select>
+        <label for="image-api-background">透明背景能力</label>
+        <select id="image-api-background"><option value="auto">使用供应商默认值</option><option value="transparent">接口支持时要求透明背景</option><option value="opaque">不透明背景</option></select>
+        <label class="image-local-option"><input id="image-local-no-key" type="checkbox">我连接的是本机、不需要密钥的兼容服务</label>
+        <button class="ghost" type="button" data-image-action="api-save">校验并保存图片接口</button>
+        <p class="note">校验只读取模型列表，不试画。参考图任务使用 /images/edits；不会忽略参考图后偷偷改用文生图，也不会在超时后自动重复扣费。</p>
+      </article>
+      <article class="image-option">
+        <h3>可灵账号 · 独立授权入口</h3>
+        <p>无需 Codex，通过可灵官方 MCP 服务与 OAuth 授权。此入口可安装连接器、检测账号和工具目录；自动绘图仍待实际工具协议验证，不会自动提交计费任务。</p>
+        <p class="note" id="kling-image-status">尚未连接；自动生图未启用</p>
+        <div class="image-actions">
+          <button class="ghost" type="button" data-image-action="kling-install">配置可灵连接器</button>
+          <button class="ghost" type="button" data-image-action="kling-connect">打开可灵授权并检测</button>
+        </div>
+        <p class="note">需要 Node.js/npm 和可灵账号。连接器沿用原插件的标准 OAuth 流程，不收集 Cookie 或让你粘贴 Token；可灵生成使用其自身额度。</p>
+      </article>
+    </div>
+    <p class="note" id="image-provider-status">当前方式：已有图片</p>
+    <p id="image-setup-msg" class="msg" role="status" aria-live="polite" hidden></p>
+  </section>
+
+  <footer class="foot">
+    <div class="footline">
+      <span>版本 #{version}</span>
+      <span class="sep">·</span>
+      <span>数据目录 <code>#{data_dir}</code></span>
+    </div>
+    <p class="legal">
+      本测试版包含5首 Kevin MacLeod 的 CC BY 4.0 音乐，来源见包内 CREDITS.md。
+      人物标签SVG是原创占位图，空场景PNG另有生成来源说明；原游戏人物美术不随公共包分发。
+    </p>
+  </footer>
+
+</main>
+
+<script src="welcome.js"></script>
+<script src="image-setup.js"></script>
+</body>
+</html>

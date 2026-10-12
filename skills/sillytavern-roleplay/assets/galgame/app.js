@@ -1,20 +1,20 @@
 "use strict";
 const $ = (id) => document.getElementById(id);
 let state, token, frameIndex = 0, typed = 0, typingTimer, autoTimer, auto = false;
-let speed = Number(localStorage.getItem("yukino-public-speed") || 28), submitting = false, latestError = "", visualKey = "", saving = false, toastTimer;
+let speed = Number(localStorage.getItem("yukima-speed") || 28), submitting = false, latestError = "", visualKey = "", saving = false, toastTimer;
 let pending=null, receiptUntil=0, imageSerial=0, choicesSignature="";
 const cgDismissed=new Set(), cgSkipped=new Set(), cgDecoded=new Set(), cgDecoding=new Set(), cgDecodeFailed=new Set();
 let selectedCardId="", selectedScenarioId="", selectedStorylineId="", rosterSignature="";
 let cursorQueue=Promise.resolve(), authoredPending=null;
 const modal = $("modal"), body = $("modal-body");
 async function api(path, data) {
-  const response = await fetch(path, data === undefined ? {signal:AbortSignal.timeout(10000)} : {signal:AbortSignal.timeout(10000),method:"POST",headers:{"Content-Type":"application/json","X-Session-Token":token},body:JSON.stringify(data)});
+  const response = await fetch(path, data === undefined ? {signal:AbortSignal.timeout(10000)} : {signal:AbortSignal.timeout(path==="/api/start"?120000:10000),method:"POST",headers:{"Content-Type":"application/json","X-Session-Token":token},body:JSON.stringify(data)});
   const result = await response.json();
   if (!response.ok) {const error=new Error(result.error || "暂时无法连接，请重试。");error.status=response.status;error.retryAsText=result.retry_as_text;throw error;}
   return result;
 }
 function toast(message, success=false) { clearTimeout(toastTimer); $("toast").textContent=message; $("toast").classList.toggle("success",success); $("toast").hidden=false; toastTimer=setTimeout(()=>$("toast").hidden=true,success?2000:4500); }
-function openModal(title) { $("modal-title").textContent=title; body.replaceChildren(); modal.classList.remove("profile-modal","affinity-modal","image-adjustments-modal"); if(!modal.open)modal.showModal(); }
+function openModal(title) { $("modal-title").textContent=title; body.replaceChildren(); modal.classList.remove("profile-modal","affinity-modal","image-adjustments-modal","events-modal"); if(!modal.open)modal.showModal(); }
 function textEl(tag, text, className) {const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el;}
 function safeAsset(url) {return typeof url==="string" && /^\/(?!\/)[\w\-./%]+$/.test(url) ? url : "";}
 async function swapImage(element, url) {
@@ -22,12 +22,20 @@ async function swapImage(element, url) {
   const image=new Image();image.src=url;
   try{await image.decode();element.src=url;element.hidden=false;}catch{element.hidden=true;}
 }
+function stageVisual(frame, view) {
+  const visible=frame?.stage?.visible_actor_ids ?? frame?.stage?.present_actor_ids;
+  const ambient=view.event_mode && frame?.kind==="narration";
+  const actorId=ambient ? visible?.find(id=>id!=="player" && view.actors?.[id]) : frame?.actor_id;
+  const onstage=visible?.includes(actorId) ?? (frame?.expression!=="absent");
+  const expression=ambient ? (onstage?"neutral":"absent") : frame?.expression || view.visual.expression;
+  return {actorId,onstage,expression};
+}
 async function renderVisual() {
-  const frame=state.frames[frameIndex], actor=state.actors?.[frame?.actor_id] || {};
-  const onstage=(frame?.stage?.visible_actor_ids ?? frame?.stage?.present_actor_ids)?.includes(frame?.actor_id) ?? (frame?.expression!=="absent");
-  const remote=state.scene_state?.contacts?.some(c=>c.actor_id===frame?.actor_id) || false;
-  const waiting=state.busy && onstage && (state.activity?.waiting_actor_ids || []).includes(frame?.actor_id) && frame?.expression!=="absent";
-  const expression=waiting?"thinking":frame?.expression || state.visual.expression;
+  const frame=state.frames[frameIndex], stage=stageVisual(frame,state), actor=state.actors?.[stage.actorId] || {};
+  const onstage=stage.onstage;
+  const remote=state.scene_state?.contacts?.some(c=>c.actor_id===stage.actorId) || false;
+  const waiting=state.busy && onstage && (state.activity?.waiting_actor_ids || []).includes(stage.actorId);
+  const expression=waiting?"thinking":stage.expression;
   const spriteUrl=onstage?(actor.sprites?.[expression] || actor.sprites?.neutral || ""):"";
   const avatarUrl=(onstage || remote)?actor.avatar || "":"", backgroundUrl=playingCg() || frame?.background || state.background;
   const key=backgroundUrl+"|"+spriteUrl+"|"+avatarUrl+"|"+frame?.actor_id+"|"+expression+"|"+waiting;
@@ -36,6 +44,7 @@ async function renderVisual() {
   // Hide the previous speaker immediately, including while another sprite decodes.
   $("sprite").hidden=true;$("portrait-wrap").hidden=true;
   const bg=safeAsset(backgroundUrl);
+  if(!bg && state.world_background_missing && !playingCg()){$("background").style.backgroundImage="none";$("background").dataset.source="";}
   if(bg && $("background").dataset.source!==bg){const im=new Image();im.src=bg;try{await im.decode();if(serial!==imageSerial)return;$("background").style.backgroundImage=`url("${bg}")`;$("background").dataset.source=bg;$("background").animate([{opacity:.35},{opacity:1}],{duration:900});}catch{}}
   if(serial!==imageSerial)return;
   const sprite=safeAsset(spriteUrl);
@@ -62,7 +71,7 @@ function renderAuthoredInput(){
 }
 function showFrame() {
   clearInterval(typingTimer);clearTimeout(autoTimer);const f=currentFrame();if(!f)return;
-  $("speaker").textContent=f.kind==="dialogue"?(f.speaker || state.name):f.kind==="thought"?`${f.speaker || state.actors?.[f.actor_id]?.name || state.name} · 心声`:"旁白";
+  $("speaker").textContent=f.system_feedback?"系统":f.kind==="dialogue"?(f.speaker || state.name):f.kind==="thought"?`${f.speaker || state.actors?.[f.actor_id]?.name || state.name} · 心声`:"旁白";
   $("dialogue").className=f.kind;$("frame-count").textContent=`${String(frameIndex+1).padStart(2,"0")} / ${String(state.frames.length).padStart(2,"0")}`;
   typed=0;$("dialogue").textContent="";rememberAuthoredCursor();renderVisual();updateContinue();renderAffinityBadge();
   if(speed===0 || matchMedia("(prefers-reduced-motion: reduce)").matches)completeText();
@@ -72,9 +81,9 @@ function next(){if(!state || !currentFrame())return;if(typed<currentFrame().text
 function applyState(nextState, reset=false) {
   const changed=!state || nextState.session_id!==state.session_id || nextState.turns.at(-1)?.turn_id!==state.turns.at(-1)?.turn_id;
   state=nextState;if(authoredPending && (authoredPending.session_id!==state.session_id || authoredPending.node_id!==state.authored?.node_id))authoredPending=null;recoverPending();renderFeedback();renderThoughts();$("location").textContent=state.location;$("mode").textContent=state.status==="paused"?"已暂停":state.persistent?"故事进行中":"试读";
-  $("chapter-number").textContent=`SCENE ${String(state.turns.length).padStart(2,"0")}`;$("chapter-title").textContent=state.story?.nodes?.at(-1)?.title || "初次相遇";
+  $("chapter-number").textContent=`第 ${String(state.turns.length).padStart(2,"0")} 幕`;$("chapter-title").textContent=state.story?.nodes?.at(-1)?.title || "初次相遇";
   $("save-state").textContent=state.persistent?"":"试读 · 可随时存档";
-  $("send-button").disabled=state.provider==="demo" || state.busy || submitting || state.status==="paused";$("save-button").disabled=state.busy || saving;$("message").disabled=state.provider==="demo" || state.busy || state.status==="paused";if(state.provider==="demo")$("message").placeholder="演示模式：可查看故事记录，配置文本服务后自由游玩";
+  $("send-button").disabled=state.busy || submitting || state.status==="paused";$("save-button").disabled=state.busy || saving;$("message").disabled=state.busy || state.status==="paused";
   if(changed || reset){frameIndex=Math.min(state.authored?.frame_cursor || 0,state.frames.length-1);showFrame();}else {renderVisual();updateContinue();}
   if(state.error && state.error!==latestError){if(!pending)toast(state.error);latestError=state.error;}if(!state.error)latestError="";
 
@@ -93,13 +102,25 @@ function saveBelongsToScript(save,script){
   // Only saves without an identity may use a uniquely bound legacy character.
   return script.world_id?(script.legacy_card_ids || []).includes(save.card_id):save.card_id===script.card_id;
 }
-async function chooseStory(){const card=selectedCard();if(!card)return;$("character-picker").hidden=true;$("story-picker").hidden=false;$("story-character-name").textContent=card.display_name;await swapImage($("story-sprite"),card.sprite || card.avatar);renderWorldPicker(card);$("player-name").value=state.user || "你";$("scenario-list").replaceChildren();selectedScenarioId=card.scenarios[0]?.id || "";selectedStorylineId="";
-  for(const scene of card.scenarios){const button=document.createElement("button");button.className="scenario-card";button.dataset.scenario=scene.id;const bg=card.backgrounds?.[scene.background];if(bg){const img=document.createElement("img");img.src=safeAsset(bg);img.alt=scene.title;button.append(img);}const details=document.createElement("div");details.append(textEl("strong",scene.title),textEl("p",scene.description));button.append(details,textEl("span","◇","scene-radio"));button.classList.toggle("selected",scene.id===selectedScenarioId);button.addEventListener("click",()=>{selectedStorylineId="";selectedScenarioId=scene.id;for(const b of $("scenario-list").children)b.classList.toggle("selected",b.dataset.scenario===scene.id);});$("scenario-list").append(button);}
-  for(const line of card.storylines || []){const b=textEl("button","","scenario-card authored-route-card");b.dataset.storyline=line.id;b.append(textEl("strong","预制故事 · "+line.title),textEl("p",line.description),textEl("small","阅读推进 · 剧情选择 · 可回溯"));b.addEventListener("click",()=>{selectedStorylineId=line.id;for(const item of $("scenario-list").children)item.classList.toggle("selected",item===b);if(line.protagonist_id)$("protagonist-select").value=line.protagonist_id;if($("player-name").value==="你")$("player-name").value="比企谷八幡";});$("scenario-list").append(b);}
+function updateModeChoice(authored=false){
+  const modes=selectedCard()?.world_modes;if(!modes)return;
+  const buttons=[...document.querySelectorAll("[data-game-mode]")];
+  for(const button of buttons)button.disabled=!(modes.enabled || ["sandbox","world"]).includes(button.dataset.gameMode)||(authored&&button.dataset.gameMode==="world");
+  if(authored || !buttons.some(b=>!b.disabled&&b.dataset.gameMode===$("game-mode").value))$("game-mode").value=buttons.find(b=>!b.disabled)?.dataset.gameMode || "sandbox";
+  for(const button of buttons){const selected=button.dataset.gameMode===$("game-mode").value;button.setAttribute("aria-checked",String(selected));button.tabIndex=selected&&!button.disabled?0:-1;}
+  $("game-mode-description").textContent=authored?"这条预制故事按沙盒模式播放。选择自由故事开场可体验世界模式。":"游玩方式随新存档保存，继续存档时沿用原来的方式。";
+}
+for(const button of document.querySelectorAll("[data-game-mode]")){
+  button.addEventListener("click",()=>{if(button.disabled)return;$("game-mode").value=button.dataset.gameMode;updateModeChoice(!!selectedStorylineId);});
+  button.addEventListener("keydown",event=>{if(!["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home","End"].includes(event.key))return;event.preventDefault();const buttons=[...document.querySelectorAll("[data-game-mode]")].filter(b=>!b.disabled),index=buttons.indexOf(button),forward=["ArrowRight","ArrowDown"].includes(event.key);const next=event.key==="Home"?buttons[0]:event.key==="End"?buttons.at(-1):buttons[(index+(forward?1:-1)+buttons.length)%buttons.length];if(next){next.click();next.focus();}});
+}
+async function chooseStory(){const card=selectedCard();if(!card)return;const modes=card.world_modes;$("game-mode-label").hidden=!modes;$("game-mode-description").hidden=!modes;if(modes){$("game-mode").value=modes.default || "sandbox";updateModeChoice(false);}$("character-picker").hidden=true;$("story-picker").hidden=false;$("story-character-name").textContent=card.display_name;await swapImage($("story-sprite"),card.sprite || card.avatar);renderWorldPicker(card);$("player-name").value=state.user || "你";$("scenario-list").replaceChildren();selectedScenarioId=card.scenarios[0]?.id || "";selectedStorylineId="";
+  for(const scene of card.scenarios){const button=document.createElement("button");button.className="scenario-card";button.dataset.scenario=scene.id;const bg=card.backgrounds?.[scene.background];if(bg){const img=document.createElement("img");img.src=safeAsset(bg);img.alt=scene.title;button.append(img);}const details=document.createElement("div");details.append(textEl("strong",scene.title),textEl("p",scene.description));button.append(details,textEl("span","◇","scene-radio"));button.classList.toggle("selected",scene.id===selectedScenarioId);button.addEventListener("click",()=>{selectedStorylineId="";updateModeChoice(false);selectedScenarioId=scene.id;for(const b of $("scenario-list").children)b.classList.toggle("selected",b.dataset.scenario===scene.id);});$("scenario-list").append(button);}
+  for(const line of card.storylines || []){const b=textEl("button","","scenario-card authored-route-card");b.dataset.storyline=line.id;b.append(textEl("strong","预制故事 · "+line.title),textEl("p",line.description),textEl("small","阅读推进 · 剧情选择 · 可回溯"));b.addEventListener("click",()=>{selectedStorylineId=line.id;updateModeChoice(true);for(const item of $("scenario-list").children)item.classList.toggle("selected",item===b);if(line.protagonist_id)$("protagonist-select").value=line.protagonist_id;if($("player-name").value==="你")$("player-name").value="比企谷八幡";});$("scenario-list").append(b);}
   $("saved-stories").replaceChildren();try{const result=await api("/api/sessions"),saves=result.sessions.filter(s=>saveBelongsToScript(s,card));renderSaveList($("saved-stories"),saves);if(!saves.length)$("saved-stories").append(textEl("p","这个剧本还没有存档。可以先选择一个开场，开启新故事。","hint"));storyTab(saves.length>0);}catch(error){$("lobby-notice").textContent=error.message;storyTab(false);}
 }
-function enterGame(newState){localStorage.setItem("yukino-public-view",newState.session_id);for(const url of Object.values(newState.sprites || {})){const img=new Image();img.src=safeAsset(url);img.decode().catch(()=>{});}$("lobby").hidden=true;$("game").hidden=false;visualKey="";applyState(newState,true);}
-async function beginStory(persistent){$("begin-story").disabled=true;$("preview-story").disabled=true;try{enterGame(await api("/api/start",{script_id:selectedCardId,card:selectedCard()?.card_id,user:$("player-name").value || "你",persistent,scenario:selectedScenarioId,storyline_id:selectedStorylineId || null,world_id:$("world-select").value,setting_ids:[...$("setting-select").selectedOptions].map(o=>o.value),protagonist_id:$("protagonist-select").value}));$("lobby-notice").textContent="";}catch(error){$("lobby-notice").textContent=error.message;}finally{$("begin-story").disabled=false;$("preview-story").disabled=false;}}
+function enterGame(newState){localStorage.setItem("yukima-view",newState.session_id);for(const url of Object.values(newState.sprites || {})){const img=new Image();img.src=safeAsset(url);img.decode().catch(()=>{});}$("lobby").hidden=true;$("game").hidden=false;visualKey="";applyState(newState,true);}
+async function beginStory(persistent){$("begin-story").disabled=true;$("preview-story").disabled=true;try{enterGame(await api("/api/start",{script_id:selectedCardId,game_mode:selectedCard()?.world_modes?$("game-mode").value:null,card:selectedCard()?.card_id,user:$("player-name").value || "你",persistent,scenario:selectedScenarioId,storyline_id:selectedStorylineId || null,world_id:$("world-select").value,setting_ids:[...$("setting-select").selectedOptions].map(o=>o.value),protagonist_id:$("protagonist-select").value}));$("lobby-notice").textContent="";}catch(error){$("lobby-notice").textContent=error.message;}finally{$("begin-story").disabled=false;$("preview-story").disabled=false;}}
 $("choose-story-button").addEventListener("click",chooseStory);$("back-to-characters").addEventListener("click",()=>{$("character-picker").hidden=false;$("story-picker").hidden=true;});$("new-story-tab").addEventListener("click",()=>storyTab(false));$("saved-story-tab").addEventListener("click",()=>storyTab(true));$("begin-story").addEventListener("click",()=>beginStory(true));$("preview-story").addEventListener("click",()=>beginStory(false));
 $("input-form").addEventListener("submit",event=>{event.preventDefault();const text=$("message").value.trim();if(!text || state.busy || submitting || cgBlocks())return;sendTurn(text);});
 $("retry-turn").addEventListener("click",()=>{if(pending && !state.busy)sendTurn(pending.text,pending.id,pending.gameplay);});
@@ -129,24 +150,31 @@ $("gallery-button").addEventListener("click",()=>{
 $("menu-button").addEventListener("click",async()=>{
   openModal("故事与设置");
   body.append(textEl("p",`${state.name} · ${state.user}`,"hint"));
-  const speedRow=textEl("label","文字速度","setting"),slider=document.createElement("input");slider.type="range";slider.min="0";slider.max="65";slider.value=String(speed);slider.setAttribute("aria-label","文字速度");slider.addEventListener("input",()=>{speed=Number(slider.value);localStorage.setItem("yukino-public-speed",String(speed));});speedRow.append(slider);body.append(speedRow);
+  const speedRow=textEl("label","文字速度","setting"),slider=document.createElement("input");slider.type="range";slider.min="0";slider.max="65";slider.value=String(speed);slider.setAttribute("aria-label","文字速度");slider.addEventListener("input",()=>{speed=Number(slider.value);localStorage.setItem("yukima-speed",String(speed));});speedRow.append(slider);body.append(speedRow);
   const music=window.YukimaMusic.snapshot();
   const musicRow=textEl("label","背景音乐","setting"),musicToggle=document.createElement("input");musicToggle.type="checkbox";musicToggle.checked=music.enabled;musicToggle.setAttribute("aria-label","背景音乐");musicToggle.addEventListener("change",()=>window.YukimaMusic.setEnabled(musicToggle.checked));musicRow.append(musicToggle);body.append(musicRow);
   const volumeRow=textEl("label","音乐音量","setting"),volumeSlider=document.createElement("input");volumeSlider.type="range";volumeSlider.min="0";volumeSlider.max="100";volumeSlider.value=String(Math.round(music.volume*100));volumeSlider.setAttribute("aria-label","音乐音量");volumeSlider.addEventListener("input",()=>window.YukimaMusic.setVolume(Number(volumeSlider.value)/100));volumeRow.append(volumeSlider);body.append(volumeRow);
   const trackRow=textEl("label","选曲","setting"),trackSelect=document.createElement("select");trackSelect.setAttribute("aria-label","选曲");const automatic=textEl("option","随剧情切换");automatic.value="auto";trackSelect.append(automatic);for(const track of music.tracks){const option=textEl("option",track.label+" · "+track.title);option.value=track.id;trackSelect.append(option);}trackSelect.value=music.manual;trackSelect.addEventListener("change",()=>window.YukimaMusic.setTrack(trackSelect.value));trackRow.append(trackSelect);body.append(trackRow);
   const credits=textEl("button","音乐库与署名","music-credits-button");credits.addEventListener("click",()=>{openModal("音乐库与署名");body.append(textEl("p","录音：Kevin MacLeod · incompetech.com。以 CC BY 4.0 许可使用，原始音频未修改；播放时可循环和淡入淡出。","hint"));const license=textEl("a","Creative Commons Attribution 4.0");license.href="https://creativecommons.org/licenses/by/4.0/";license.target="_blank";license.rel="noopener noreferrer";body.append(license);for(const track of window.YukimaMusic.snapshot().tracks){const card=textEl("section","","music-credit");card.append(textEl("h3",track.title),textEl("p",track.label+" · "+track.duration+" · 录音 "+track.artist+" · 作曲 "+track.composer));const source=textEl("a","作者原始曲目页");source.href=track.source;source.target="_blank";source.rel="noopener noreferrer";card.append(source);body.append(card);}});body.append(credits);
   const imageRow=textEl("label","随剧情生成新画面","setting"),imageToggle=document.createElement("input");imageToggle.type="checkbox";imageToggle.checked=state.dynamic_images;imageToggle.setAttribute("aria-label","随剧情生成新画面");imageToggle.addEventListener("change",async()=>{try{applyState(await api("/api/settings",{dynamic_images:imageToggle.checked}));}catch(error){toast(error.message);imageToggle.checked=state.dynamic_images;}});imageRow.append(imageToggle);body.append(imageRow);
-  const returnButton=textEl("button","返回主界面","primary");returnButton.disabled=state.busy;returnButton.addEventListener("click",async()=>{try{if(state.status!=="paused")applyState(await api("/api/pause",{}));localStorage.removeItem("yukino-public-view");modal.close();$("game").hidden=true;$("lobby").hidden=false;$("character-picker").hidden=false;$("story-picker").hidden=true;}catch(error){toast(error.message);}});body.append(returnButton);
+  const returnButton=textEl("button","返回主界面","primary");returnButton.disabled=state.busy;returnButton.addEventListener("click",async()=>{try{if(state.status!=="paused")applyState(await api("/api/pause",{}));localStorage.removeItem("yukima-view");modal.close();$("game").hidden=true;$("lobby").hidden=false;$("character-picker").hidden=false;$("story-picker").hidden=true;}catch(error){toast(error.message);}});body.append(returnButton);
   const pauseButton=textEl("button","暂停当前剧情","primary");pauseButton.disabled=state.busy || state.status==="paused";pauseButton.addEventListener("click",async()=>{try{applyState(await api("/api/pause",{}));modal.close();}catch(error){toast(error.message);}});body.append(pauseButton);
+  if(state.busy){const cancel=textEl("button","取消本轮回应");cancel.addEventListener("click",async()=>{try{await api("/api/cancel-turn",{});toast("已请求取消，本轮不会继续推进故事。",true);modal.close();}catch(e){toast(e.message);}});body.append(cancel);}
+  const exit=textEl("button","关闭游戏服务");exit.addEventListener("click",async()=>{if(!confirm(state.busy?"取消当前回应并关闭游戏？已保存的故事会保留。":"关闭游戏服务？"))return;try{await api("/api/shutdown",{force:true});modal.close();toast("游戏服务已关闭。",true);}catch(e){toast(e.message);}});body.append(exit);
   const manager=textEl("button","管理存档与回收站");manager.addEventListener("click",openSaveManager);body.append(manager);body.append(textEl("h3","继续存档"));try{const result=await api("/api/sessions");if(!result.sessions.length)body.append(textEl("p","还没有保存的故事。","hint"));const tree=textEl("div","","save-tree");body.append(tree);renderSaveList(tree,result.sessions);}catch(error){body.append(textEl("p",error.message,"hint"));}
 });
-async function poll(){try{const nextState=await api("/api/state");applyState(nextState);}catch{if(pending && !["complete","failed"].includes(pending.stage)){pending.stage="uncertain";persistPending();renderFeedback();}$("menu-button").title="连接已中断，请重新启动游戏";}finally{setTimeout(poll,state?.busy?300:state?.transition?.active?600:1200);}}
-(async()=>{try{token=(await api("/api/session-token")).token;applyState(await api("/api/state"));if(state.provider==="demo" || pending || localStorage.getItem("yukino-public-view")===state.session_id)enterGame(state);poll();}catch(error){$("lobby-notice").textContent=error.message;}})();
+let progressStamp=null,lastFullPoll=0;
+async function poll(){try{const progress=await api("/api/progress");const changed=progress.stamp!==progressStamp;progressStamp=progress.stamp;
+  // A composing turn needs fresh stage/elapsed feedback, not a rebuilt history.
+  if(state && progress.session_id===state.session_id && progress.busy){state={...state,...progress};renderFeedback();}
+  else if(changed || Date.now()-lastFullPoll>15000){applyState(await api("/api/state"));lastFullPoll=Date.now();}
+}catch{if(pending && !["complete","failed"].includes(pending.stage)){pending.stage="uncertain";persistPending();renderFeedback();}$("menu-button").title="连接已中断，请重新启动游戏";}finally{setTimeout(poll,state?.busy?600:state?.transition?.active?600:1500);}}
+(async()=>{try{token=(await api("/api/session-token")).token;applyState(await api("/api/state"));if(pending || localStorage.getItem("yukima-view")===state.session_id)enterGame(state);poll();}catch(error){$("lobby-notice").textContent=error.message;}})();
 
 function updateMusicButton(){const music=window.YukimaMusic.snapshot();$("music-button").textContent=music.enabled?"♫":"♪";$("music-button").setAttribute("aria-label",music.enabled?"静音背景音乐":"开启背景音乐");$("music-button").setAttribute("aria-pressed",String(music.enabled));}
-document.addEventListener("yukino-public-music-change",updateMusicButton);$("music-button").addEventListener("click",()=>window.YukimaMusic.setEnabled(!window.YukimaMusic.snapshot().enabled));updateMusicButton();
+document.addEventListener("yukima-music-change",updateMusicButton);$("music-button").addEventListener("click",()=>window.YukimaMusic.setEnabled(!window.YukimaMusic.snapshot().enabled));updateMusicButton();
 
-function pendingKey(){return "yukino-public-pending-"+state.session_id;}
+function pendingKey(){return "yukima-pending-"+state.session_id;}
 function persistPending(){if(pending)localStorage.setItem(pendingKey(),JSON.stringify(pending));else localStorage.removeItem(pendingKey());}
 function recoverPending(){
   if(pending?.session_id!==state.session_id){pending=null;receiptUntil=0;try{pending=JSON.parse(localStorage.getItem(pendingKey()) || "null");}catch{}}
@@ -224,7 +252,10 @@ function preloadPredictions(){
     preloadedPredictionUrls.add(safe);const image=new Image();image.src=safe;image.decode().catch(()=>preloadedPredictionUrls.delete(safe));
   }
 }
-function renderInputPrefixes(){for(const button of document.querySelectorAll("[data-prefix]"))button.disabled=state.busy || submitting || state.status==="paused" || state.authored?.free_window?.can_send===false;}
+function renderInputPrefixes(){
+  let hint=document.getElementById("pending-input-hint");if(!hint){hint=textEl("p","","hint");hint.id="pending-input-hint";$("input-form").before(hint);}
+  hint.hidden=!state.pending_input;hint.textContent=state.pending_input?(state.pending_input.questions || []).map(q=>q.question).join("；")+"（可继续说明，或输入取消）":"";
+for(const button of document.querySelectorAll("[data-prefix]"))button.disabled=state.busy || submitting || state.status==="paused" || state.authored?.free_window?.can_send===false;}
 for(const button of document.querySelectorAll("[data-prefix]"))button.addEventListener("click",()=>{
   const input=$("message"),prefix="【"+button.dataset.prefix+"】",start=input.selectionStart,end=input.selectionEnd;
   const line=start>0 && input.value[start-1]!=="\n"?"\n":"";
@@ -349,7 +380,7 @@ function historyCard(turn){
   const block=textEl("section","","log-turn");
   if(turn.saved_at)block.append(textEl("small",turn.saved_at,"hint"));
   if(turn.user)block.append(textEl("small",state.user),textEl("p",turn.user,"log-user"));
-  if(turn.frames?.length){for(const frame of turn.frames){block.append(textEl("small",frame.kind==="narration"?"旁白":frame.speaker || "未标注人物"),textEl("p",frame.text,frame.kind));}}
+  if(turn.frames?.length){for(const frame of turn.frames){block.append(textEl("small",frame.system_feedback?"系统":frame.kind==="narration"?"旁白":frame.speaker || "未标注人物"),textEl("p",frame.text,frame.kind));}}
   else block.append(textEl("small","历史文本"),textEl("p",turn.assistant.replaceAll("*","")));
   return block;
 }
@@ -373,7 +404,7 @@ function renderCg(){
   $("cg-wait-status").textContent=ready?"这一幕，已经展开":failed?"这幅画面暂未抵达":"为这一幕，稍作停留";
   $("cg-continue").hidden=!ready;$("cg-skip").textContent=failed?"继续故事 · 稍后到画廊查看":"先继续故事";
   $("cg-retry").hidden=!failed || !state.dynamic_images;
-  $("send-button").disabled=state.provider==="demo" || state.busy || submitting || state.status==="paused" || cgBlocks();
+  $("send-button").disabled=state.busy || submitting || state.status==="paused" || cgBlocks();
   // Keep the draft editable while waiting; sending and choices stay gated.
   if(active && cue.url && !ready && !cgDecoding.has(id) && !cgDecodeFailed.has(id)){
     cgDecoding.add(id);const im=new Image();im.src=safeAsset(cue.url);

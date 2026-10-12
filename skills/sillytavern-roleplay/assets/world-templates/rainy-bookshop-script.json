@@ -9,7 +9,7 @@
     "setting_set_ids": [
       "rainy-bookshop-core"
     ],
-    "default_protagonist_id": "visitor",
+    "default_protagonist_id": "hachiman",
     "opening_scenes": [
       {
         "id": "rain-at-door",
@@ -80,21 +80,15 @@
         ]
       }
     ],
-    "visual_locations": {
-      "bookshop-rain": [
-        "旧书屋",
-        "旧书店",
-        "书店",
-        "柜台",
-        "海边小镇旧书屋柜台"
-      ],
-      "bookshop-after-rain": [
-        "雨后旧书屋"
-      ],
-      "street": [
-        "商店街",
-        "车站"
-      ]
+    "time": {
+      "version": 1,
+      "start": {
+        "minute": 1020,
+        "label": "雨后书屋 · 开篇"
+      },
+      "durations": {
+        "travel": 10
+      }
     }
   },
   "setting_sets": [
@@ -125,16 +119,7 @@
             "scenario": "现代海边小镇旧书屋，营业至19时，雨后傍晚。",
             "first_mes": "欢迎。你是来找书，还是避一会儿雨？",
             "mes_example": "{{user}}：这段题记一定是情书吧？\n{{char}}：也许，但现在还没有足够的线索。先确认写下它的时间，会更稳妥。"
-          },
-          "initial_affinity": {
-            "default": {
-              "score": 25,
-              "relationship": "初次见面，礼貌而保持距离。",
-              "basis": "原创演示开篇双方尚不相识。",
-              "version": 1
-            }
-          },
-          "avatar": "/images/demo/lin-neutral.svg"
+          }
         },
         {
           "id": "a-che",
@@ -156,16 +141,7 @@
             "personality": "直率爽朗，说话自然，愿意帮忙但重视承诺和物品归属。对含糊的请求会直接追问，越界要求会明确拒绝，确认误会后也愿意解释和道歉。",
             "scenario": "现代海边小镇，与旧书屋店员相熟，但与玩家的关系由实际剧情建立。",
             "first_mes": "你也是来这儿找书的？"
-          },
-          "initial_affinity": {
-            "default": {
-              "score": 25,
-              "relationship": "初次见面，礼貌而保持距离。",
-              "basis": "原创演示开篇双方尚不相识。",
-              "version": 1
-            }
-          },
-          "avatar": "/images/demo/ache-neutral.svg"
+          }
         },
         {
           "id": "bookshop",

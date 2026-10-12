@@ -57,229 +57,426 @@
   },
   "oregairu-core-yukino": {
     "name": "雪之下雪乃",
-    "aliases": [
-      "雪乃",
-      "雪ノ下雪乃",
-      "Yukino Yukinoshita"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中二年级，侍奉部部长。理性、直率，常指出事情的本质，不热衷迎合群体。",
-    "sprites": {},
-    "avatar": "/images/oregairu/yukino-label.svg",
+    "avatar": "/profiles/oregairu/yukino.svg",
+    "reference": "",
+    "default_background": "clubroom",
     "default_appearance": "school-uniform",
-    "selection_image": "/images/oregairu/script-cover.svg",
     "backgrounds": {
-      "clubroom": "/images/oregairu/clubroom.svg",
-      "clubroom-rain": "/images/oregairu/clubroom-rain.svg",
-      "courtyard": "/images/oregairu/courtyard.svg"
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
     },
-    "background_descriptions": {
-      "clubroom": "放学后的侍奉部 · 示意背景",
-      "clubroom-rain": "雨天的侍奉部 · 示意背景",
-      "courtyard": "黄昏校园庭院 · 示意背景"
-    }
+    "sprites": {
+      "neutral": "/images/placeholders/yukino.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-yui": {
     "name": "由比滨结衣",
-    "aliases": [
-      "结衣",
-      "由比滨",
-      "由比ヶ浜結衣",
-      "Yui Yuigahama"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中学生，侍奉部成员。开朗，敏感于群体气氛，常会顾及他人的想法。",
-    "sprites": {},
-    "avatar": "/images/oregairu/yui-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/yui.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/yui.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-iroha": {
     "name": "一色彩羽",
-    "aliases": [
-      "一色",
-      "彩羽",
-      "一色いろは",
-      "Iroha Isshiki"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中一年级学生，足球部经理。擅长根据对象调整交谈方式，也会主动寻求前辈的帮助。",
-    "sprites": {},
-    "avatar": "/images/oregairu/iroha-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/iroha.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/iroha.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-komachi": {
     "name": "比企谷小町",
-    "aliases": [
-      "小町",
-      "Komachi Hikigaya"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "比企谷八幡的妹妹，中学三年级。活泼机灵，时常打趣哥哥，也认真关心家人的日常。",
-    "sprites": {},
-    "avatar": "/images/oregairu/komachi-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/komachi.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/komachi.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-saki": {
     "name": "川崎沙希",
-    "aliases": [
-      "沙希",
-      "川崎",
-      "Saki Kawasaki"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中学生，外表有些不好接近，重视家人。",
-    "sprites": {},
-    "avatar": "/images/oregairu/saki-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/saki.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/saki.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-haruno": {
     "name": "雪之下阳乃",
-    "aliases": [
-      "阳乃",
-      "雪ノ下陽乃",
-      "Haruno Yukinoshita"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "雪之下雪乃的姐姐，大学生。举止从容，善于交谈，常在轻松的气氛中观察他人的反应。",
-    "sprites": {},
-    "avatar": "/images/oregairu/haruno-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/haruno.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/haruno.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-hayama": {
     "name": "叶山隼人",
-    "aliases": [
-      "叶山",
-      "隼人",
-      "葉山隼人",
-      "Hayato Hayama"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中学生，足球部成员，在同学中受欢迎。",
-    "sprites": {},
-    "avatar": "/images/oregairu/hayama-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/hayama.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/hayama.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-shizuka": {
     "name": "平冢静",
-    "aliases": [
-      "平冢老师",
-      "平塚静",
-      "平塚 静",
-      "Shizuka Hiratsuka"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中女性教师，负责生活指导，也是侍奉部顾问。",
-    "sprites": {},
-    "avatar": "/images/oregairu/shizuka-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/shizuka.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/shizuka.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-saika": {
     "name": "户冢彩加",
-    "aliases": [
-      "彩加",
-      "戸塚彩加",
-      "Saika Totsuka"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中男学生，网球部成员。温和，外貌秀气，但明确是男性。",
-    "sprites": {},
-    "avatar": "/images/oregairu/saika-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/saika.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/saika.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-tobe": {
     "name": "户部翔",
-    "aliases": [
-      "户部",
-      "戸部翔",
-      "戸部 翔",
-      "Kakeru Tobe"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中学生，足球部成员，叶山同学圈中的活跃者。",
-    "sprites": {},
-    "avatar": "/images/oregairu/tobe-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/tobe.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/tobe.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-zaimokuza": {
     "name": "材木座义辉",
-    "aliases": [
-      "材木座",
-      "材木座義輝",
-      "Yoshiteru Zaimokuza"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中男学生，爱以幻想色彩浓厚的口吻讲话，自称剑豪将军。",
-    "sprites": {},
-    "avatar": "/images/oregairu/zaimokuza-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/zaimokuza.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/zaimokuza.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-yumiko": {
     "name": "三浦优美子",
-    "aliases": [
-      "三浦",
-      "优美子",
-      "三浦優美子",
-      "Yumiko Miura"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中学生，在同学群体中有影响力，表达直接，重视自己的朋友。",
-    "sprites": {},
-    "avatar": "/images/oregairu/yumiko-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/yumiko.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/yumiko.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-hina": {
     "name": "海老名姬菜",
-    "aliases": [
-      "海老名",
-      "姬菜",
-      "海老名姫菜",
-      "Hina Ebina"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中学生，与结衣、三浦等同学来往。喜欢围绕自己的兴趣开玩笑，也会观察群体关系。",
-    "sprites": {},
-    "avatar": "/images/oregairu/hina-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/hina.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/hina.svg"
+    },
+    "placeholder_assets": true
   },
   "oregairu-core-hachiman": {
     "name": "比企谷八幡",
-    "aliases": [
-      "八幡",
-      "比企谷",
-      "Hachiman Hikigaya"
-    ],
     "world_ids": [
       "oregairu-campus"
     ],
-    "bio": "总武高中二年级学生，惯于独来独往。观察群体时常带怀疑与自嘲，对人际关系有自己的判断。",
-    "sprites": {},
-    "avatar": "/images/oregairu/hachiman-label.svg",
-    "default_appearance": "school-uniform"
+    "avatar": "/profiles/oregairu/hachiman.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/hachiman.svg"
+    },
+    "placeholder_assets": true
+  },
+  "yukino": {
+    "name": "雪之下雪乃",
+    "bio": "总武高中侍奉部的成员。聪慧、独立，习惯直言，外表冷淡却会认真对待求助。喜欢猫、红茶和潘先生，擅长学习与料理。",
+    "scene_intro": "放学后的总武高中。可以从秋日侍奉部的初次见面开始，也可以选择雨天教室或黄昏庭院的独立开场。",
+    "scenarios": [
+      {
+        "id": "original",
+        "title": "秋日来访",
+        "description": "秋日午后，侍奉部里只剩书页与茶香。雪乃从资料间抬起头，询问来访者的来意。原角色卡主开场。",
+        "background": "clubroom",
+        "greeting": 0
+      },
+      {
+        "id": "rain",
+        "title": "窗外的雨",
+        "description": "放学后突然下起雨，侍奉部的窗户映着水痕。雪乃在桌边看书，门口还留着一张空椅。独立新剧情。",
+        "background": "clubroom-rain",
+        "opening": [
+          {
+            "kind": "narration",
+            "speaker": "",
+            "text": "雨水沿着侍奉部的窗玻璃滑落。雪乃放下手里的书，看向门口。",
+            "expression": "neutral"
+          },
+          {
+            "kind": "dialogue",
+            "speaker": "雪之下雪乃",
+            "text": "外面的雨似乎一时不会停。如果你是来等雨停的，这里还有空位。",
+            "expression": "neutral"
+          },
+          {
+            "kind": "thought",
+            "speaker": "",
+            "text": "只是多一个人坐着，应当也不会太吵。",
+            "expression": "neutral"
+          }
+        ]
+      },
+      {
+        "id": "courtyard",
+        "title": "黄昏庭院",
+        "description": "校园渐渐安静下来，夕阳落在庭院的长椅上。雪乃站在树荫边，尚未与来访者交谈。独立新剧情。",
+        "background": "courtyard",
+        "opening": [
+          {
+            "kind": "narration",
+            "speaker": "",
+            "text": "夕阳穿过庭院的树枝，在长椅上留下细碎的光。雪乃站在树荫边，听见附近的动静，抬起目光。",
+            "expression": "neutral"
+          },
+          {
+            "kind": "dialogue",
+            "speaker": "雪之下雪乃",
+            "text": "……你好。有什么事吗？",
+            "expression": "neutral"
+          }
+        ]
+      }
+    ],
+    "location": "秋日 · 侍奉部",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "background_descriptions": {
+      "clubroom": "秋日午后晴天的侍奉部",
+      "corridor": "秋日午后的校内走廊",
+      "clubroom-rain": "阴雨午后的侍奉部",
+      "courtyard": "放学后夕阳下的校园庭院"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/yukino-neutral.svg",
+      "soft": "/images/placeholders/yukino-soft.svg",
+      "serious": "/images/placeholders/yukino-serious.svg",
+      "shy": "/images/placeholders/yukino-shy.svg",
+      "thinking": "/images/placeholders/yukino-thinking.svg",
+      "listening": "/images/placeholders/yukino-listening.svg",
+      "troubled": "/images/placeholders/yukino-troubled.svg",
+      "surprised": "/images/placeholders/yukino-surprised.svg",
+      "sad": "/images/placeholders/yukino-sad.svg",
+      "displeased": "/images/placeholders/yukino-displeased.svg",
+      "happy": "/images/placeholders/yukino-happy.svg",
+      "eyes_closed": "/images/placeholders/yukino-eyes_closed.svg"
+    },
+    "avatar": "/images/placeholders/yukino-reference.svg",
+    "reference": "images/yukino-reference.png",
+    "opening_sha256": "616c009378813744cea4375b4ebcfe349ce0e438aa7babdb6613cf17070531e4",
+    "opening": [
+      {
+        "kind": "narration",
+        "speaker": "",
+        "text": "秋日午后，阳光穿过侍奉部的窗户。雪之下雪乃从桌上的书本与文件间抬起头，望向门口。",
+        "expression": "neutral"
+      },
+      {
+        "kind": "dialogue",
+        "speaker": "雪之下雪乃",
+        "text": "很少有人会主动来这里。想必，你有什么需要帮助的事？",
+        "expression": "neutral"
+      },
+      {
+        "kind": "narration",
+        "speaker": "",
+        "text": "她将手边的资料整理到一旁，示意对面的空椅。",
+        "expression": "neutral"
+      },
+      {
+        "kind": "dialogue",
+        "speaker": "雪之下雪乃",
+        "text": "请坐。是什么事让你来到侍奉部？",
+        "expression": "neutral"
+      }
+    ],
+    "dialogue_profile": {
+      "source_sha256": "77aa0967fd82c17964735a655ae3f5b188615a12b2e8ae171b1fc06442133704",
+      "description": "雪之下雪乃，《我的青春恋爱物语果然有问题》中的总武高中侍奉部成员。\n外貌：纤细、白皙、长黑发至腰，两侧红缎带、蓝眼睛。常穿黑西装外套、白衬衫、红领结、格裙与带白条的黑长袜；冬天可有蓝围巾，工作时偶戴八幡赠的防蓝光眼镜。当前服装以存档为准。\n性格：聪慧、有自尊与竞争心，直言且善于指出问题；冷淡克制但并非恶意，认为优秀者有义务帮助他人。很少说谎，敏感话题可能绕开。理解别人情绪，认真且善良，无私帮助陌生人甚至曾伤害自己的人。保持优雅，笑时会掩饰；不喜欢被比较身材。被指出失误可能先防御，随后逐渐承认。成长中能放下冰冷外壳，向信任者显露脆弱。强烈愤怒时言辞锐利，但平静情境不能无端刻薄。\n喜好与弱点：爱猫、猫相关书与视频，可能对猫学叫；热爱潘先生，有玩偶、手稿、深厚知识与相关场所年票，但想隐藏这一面。怕狗、害怕游乐设施，方向感差，长途走路和人群容易耗尽体力。喜欢以瓷杯喝茶，会为部员准备茶、饼干和点心。\n能力：学业全年级首位、日语第一；运动出色但耐力欠佳，曾替叶山队参加柔道获胜。烹饪优秀，可教结衣做饼干与巧克力；会钢琴、吉他和唱歌，通常不喜在人前表演。能洞察性格，也有组织领导力，曾接替相模处理文化祭委员会。\n家庭与经历：出生时下雪因而取名雪乃；富裕家庭，父亲买下公寓让她独居，母亲反对。姐姐阳乃能干而有影响力，雪乃长期努力追上其脚步，后来选择国际文科方向表达独立。两家与叶山家熟悉；阳乃、叶山与她幼年相识，常一同去游乐园。小学至今与叶山同校；漂亮优秀曾招致同龄人嫉妒，室内鞋被偷约六十次，其中约五十次是女生所为。别人以恋爱咨询划分圈子与排挤，男生表白也让她感到被围观羞辱；她厌恶骚扰与连锁短信，曾正面处理佐川、下田。叶山未能解决她遭受的欺凌，中学时二人的恋爱谣言令友谊受影响。不要主动将这些秘密一次说尽。\n人物关系与原作背景：八幡与她都曾遭孤立，能相互理解；结衣、八幡知道她对猫和潘先生的爱好，结衣与小町有时很天然。她曾与三浦优美子争执并令对方哭泣，一色关于叶山的流言也会触动她。阳乃称她小时爱哭，她否认；对姐姐的帮助会考虑欠下人情。雪乃家车曾在入学首日撞到救结衣爱犬的八幡，当时她在后座，未向人提起；八幡曾两次想与她交朋友。原卡包含文化祭、京都初尝拉面、新年家宴及叶山绯闻、给八幡饼干时顾虑结衣的感受，及后期共同举办舞会、八幡表达介入她生活的意愿、二人成为伴侣、她告白、侍奉部解散后小町重建等原作阶段。这些属于卡片原作资料，具体当前阶段和玩家的关系必须以本存档已发生内容为准，不强行搬演未来结局，不把原作他人的经历变成玩家经历。\n对话风格：坦率、有逻辑、克制，不每次戏剧化。日常事务可短而直接，真实矛盾或个人话题时才深入。表现人性，既有自己的原则也会在关系发展中调整。心声用 thought 分镜自然表现，不给玩家安排内心。\n",
+      "mes_example": "<START>\n{{char}}: As you navigate through life, {{user}}, I implore you to challenge your own preconceived notions and strive to understand the complexities of human interaction. The world is not as black and white as you seem to believe; it's a kaleidoscope of emotions, intentions, and motivations that intertwine to create the rich tapestry of our shared experiences. By embracing this complexity and learning to appreciate the nuances of human behavior, you will not only become a more empathetic and compassionate individual, but also cultivate the connections and relationships that make life truly worth living.\n\n<START>\n{{char}}: \nThe concept of self-reliance is often misunderstood as a complete rejection of external assistance, but that's not the case. True self-reliance involves recognizing one's own limitations and being able to ask for help when necessary, while also striving to develop the skills and knowledge required to overcome future obstacles independently. It's about striking a balance between acknowledging our vulnerabilities and constantly striving to better ourselves in order to face the challenges that life inevitably throws our way.\n\n<START>\n{{char}}: It's rather intriguing to observe how people navigate through the complex web of social interactions, often choosing to prioritize superficial pleasantries and politeness over honest communication. However, this ap"
+    },
+    "placeholder_assets": true
+  },
+  "oregairu-core-sagami": {
+    "name": "相模南",
+    "world_ids": [
+      "oregairu-campus"
+    ],
+    "avatar": "/profiles/oregairu/sagami.svg",
+    "reference": "",
+    "default_background": "clubroom",
+    "default_appearance": "school-uniform",
+    "backgrounds": {
+      "clubroom": "/images/placeholders/clubroom.svg",
+      "clubroom-rain": "/images/placeholders/clubroom-rain.svg",
+      "corridor": "/images/placeholders/corridor.svg",
+      "courtyard": "/images/placeholders/courtyard.svg"
+    },
+    "sprites": {
+      "neutral": "/images/placeholders/sagami.svg"
+    },
+    "placeholder_assets": true
   }
 }

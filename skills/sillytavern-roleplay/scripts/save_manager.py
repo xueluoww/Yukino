@@ -10,11 +10,23 @@ import uuid
 import zipfile
 from gameplay import ModuleStore,key
 from long_memory import MemoryStore
+from storage_codec import loads,decode_document
 
 LIMIT=32*1024*1024
 
 class SaveManager:
     def __init__(self,root,tavern):self.root=Path(root).resolve();self.tavern=tavern
+    def image_shared(self,sid,excluded=()):
+        marker='/images/'+sid+'/'
+        paths=[p for p in (self.root/'sessions').glob('*.json') if p.stem not in excluded]
+        paths += [p for p in (self.root/'browser/checkpoints').glob('*/*.json') if p.parent.name not in excluded]
+        paths += [self.root/'browser/shared-gallery.json']
+        for p in paths:
+            # Compressed historical checkpoints may be the only surviving
+            # reference. Search decoded data before deciding an image is unused.
+            if p.exists() and marker in json.dumps(loads(p.read_text(encoding='utf-8-sig')),ensure_ascii=False).replace('\\','/'):
+                return True
+        return False
     def session(self,sid):
         return self.tavern.find_record(self.root,'sessions',key(sid))[1]
     def edit(self,sid,title,note):
@@ -22,6 +34,7 @@ class SaveManager:
             raise ValueError('存档名称或备注格式不正确。')
         with self.tavern.write_lock(self.root):
             session=self.session(sid);session['title']=title.strip();session['save_note']=note
+            session['save_title_custom']=True
             session['updated_at']=self.tavern.now();session['revision']+=1
             self.tavern.atomic_json(self.root/'sessions'/(sid+'.json'),session)
         return session
@@ -29,12 +42,13 @@ class SaveManager:
         result=[]
         for path in (self.root/'recycle-bin').glob('*/manifest.json'):
             record=json.loads(path.read_text(encoding='utf-8'))
+            if record.get('status')=='restored':continue
             result.append({k:record[k] for k in ('id','deleted_at','saves')})
         return sorted(result,key=lambda r:r['deleted_at'],reverse=True)
     def delete(self,sid,subtree=False):
         key(sid)
         with self.tavern.write_lock(self.root):
-            sessions={p.stem:json.loads(p.read_text(encoding='utf-8')) for p in (self.root/'sessions').glob('*.json')}
+            sessions={p.stem:loads(p.read_text(encoding='utf-8')) for p in (self.root/'sessions').glob('*.json')}
             if sid not in sessions:raise ValueError('存档不存在。')
             selected={sid}
             if subtree:
@@ -47,50 +61,84 @@ class SaveManager:
             token=uuid.uuid4().hex[:16];folder=self.root/'recycle-bin'/token;folder.mkdir(parents=True)
             mappings=[]
             for iid in selected:
-                for relative in (Path('sessions')/(iid+'.json'),Path('browser/checkpoints')/iid,Path('memory')/iid):
+                shared=self.image_shared(iid,selected)
+                paths=[Path('sessions')/(iid+'.json'),Path('browser/checkpoints')/iid,Path('memory')/iid,Path('browser/jobs')/iid]
+                if not shared:paths.append(Path('images')/iid)
+                for relative in paths:
                     source=(self.root/relative).resolve()
                     if not source.is_relative_to(self.root):raise ValueError('存档路径越界。')
                     if source.exists():mappings.append(str(relative).replace('\\','/'))
             record={'id':token,'deleted_at':self.tavern.now(),'saves':[{'id':iid,'title':sessions[iid]['title'],'branch':sessions[iid].get('branch',{})} for iid in sorted(selected)],'paths':mappings}
+            record.update(status='deleting',progress={relative:'pending' for relative in mappings})
             self.tavern.atomic_json(folder/'manifest.json',record)
             moved=[]
             try:
                 for relative in mappings:
                     dest=folder/relative;dest.parent.mkdir(parents=True,exist_ok=True)
                     shutil.move(str(self.root/relative),str(dest));moved.append(relative)
+                    record['progress'][relative]='recycled';self.tavern.atomic_json(folder/'manifest.json',record)
             except OSError:
                 for relative in reversed(moved):shutil.move(str(folder/relative),str(self.root/relative))
                 raise
             # Parent metadata remains a tombstone; descendants keep their real parent IDs.
             for iid in selected:
                 self.tavern.atomic_json(self.root/'save-tombstones'/(iid+'.json'),record['saves'][sorted(selected).index(iid)])
+            record['status']='deleted';self.tavern.atomic_json(folder/'manifest.json',record)
             return record
     def restore(self,token):
         key(token);folder=self.root/'recycle-bin'/token
         with self.tavern.write_lock(self.root):
             record=json.loads((folder/'manifest.json').read_text(encoding='utf-8'))
+            if record.get('status')=='restored':return {'restored':record['saves'],'already_restored':True}
             for relative in record['paths']:
                 source=(folder/relative).resolve();target=(self.root/relative).resolve()
-                if not source.is_relative_to(folder.resolve()) or not target.is_relative_to(self.root) or target.exists():raise ValueError('恢复路径冲突。')
-            restored=[]
-            try:
-                for relative in record['paths']:
-                    target=self.root/relative;target.parent.mkdir(parents=True,exist_ok=True)
-                    shutil.move(str(folder/relative),str(target));restored.append(relative)
-            except OSError:
-                for relative in reversed(restored):shutil.move(str(self.root/relative),str(folder/relative))
-                raise
+                if not source.is_relative_to(folder.resolve()) or not target.is_relative_to(self.root):raise ValueError('恢复路径冲突。')
+                if source.exists() and target.exists():raise ValueError('恢复路径冲突，请保留两份内容后检查。')
+                if not source.exists():
+                    if not target.exists():raise ValueError('待恢复内容缺失，请检查回收记录。')
+                    progress=record.get('progress',{}).get(relative)
+                    if progress not in ('restoring','restored') and not(record.get('status')=='deleting' and progress=='pending'):
+                        raise ValueError('待恢复内容已不在回收站，原路径归属不能确认。')
+            record['status']='restoring';self.tavern.atomic_json(folder/'manifest.json',record)
+            # Journal intent before moving, so a process crash can be resumed idempotently.
+            for relative in record['paths']:
+                target=self.root/relative;target.parent.mkdir(parents=True,exist_ok=True)
+                record.setdefault('progress',{})[relative]='restoring'
+                self.tavern.atomic_json(folder/'manifest.json',record)
+                if (folder/relative).exists():shutil.move(str(folder/relative),str(target))
+                record['progress'][relative]='restored'
+                self.tavern.atomic_json(folder/'manifest.json',record)
             for save in record['saves']:
                 tombstone=self.root/'save-tombstones'/(save['id']+'.json')
                 if tombstone.exists():tombstone.unlink()
-            (folder/'manifest.json').unlink()
+            record['status']='restored';self.tavern.atomic_json(folder/'manifest.json',record)
         return {'restored':record['saves']}
+    def purge(self,token):
+        """Explicit permanent removal, including leftovers from older delete implementations."""
+        key(token);folder=self.root/'recycle-bin'/token
+        with self.tavern.write_lock(self.root):
+            record=json.loads((folder/'manifest.json').read_text(encoding='utf-8'))
+            if record.get('status') not in (None,'deleted'):raise ValueError('请先完成恢复或回收，再彻底清除。')
+            ids=[key(save['id']) for save in record['saves']]
+            if any((self.root/'sessions'/(sid+'.json')).exists() for sid in ids):raise ValueError('存档仍存在，不能清除。')
+            snapshots=[loads(p.read_text(encoding='utf-8')) for p in (self.root/'sessions').glob('*.json')]
+            targets=[folder]
+            for sid in ids:
+                targets.append(self.root/'browser/jobs'/sid)
+                if not self.image_shared(sid):targets.append(self.root/'images'/sid)
+            for target in targets:
+                if not target.exists():continue
+                if not target.resolve().is_relative_to(self.root) or (target.is_symlink() or getattr(target,"is_junction",lambda:False)()) or any(not p.resolve().is_relative_to(self.root) or p.is_symlink() or getattr(p,"is_junction",lambda:False)() for p in target.rglob('*')):
+                    raise ValueError('清除路径包含外部联接，未删除。')
+            for target in targets:
+                if target.exists():shutil.rmtree(target)
+            return {'purged':ids}
     def export(self,sid):
         session=self.session(sid);out=io.BytesIO();store=ModuleStore(self.root,self.tavern)
         world=session.get('world_snapshot') or session.get('facts',{}).get('browser_world_snapshot',{})
         snapshots=[]
         for path in (self.root/'browser/checkpoints'/sid).glob('*.json'):
-            snapshots.append(json.loads(path.read_text(encoding='utf-8')))
+            snapshots.append(loads(path.read_text(encoding='utf-8')))
         refs={}
         for snap in [session,*snapshots]:
             snapworld=snap.get('world_snapshot') or snap.get('facts',{}).get('browser_world_snapshot',{})
@@ -112,9 +160,13 @@ class SaveManager:
             for info in bundle.infolist():
                 name=info.filename
                 if name in files or not re.fullmatch(r'(manifest|session)\.json|(?:modules|checkpoints|memory)/[A-Za-z0-9_-]+\.json',name):raise ValueError('存档包含不允许的路径。')
-                files[name]=json.loads(bundle.read(info).decode('utf-8-sig'))
+                files[name]=loads(bundle.read(info).decode('utf-8-sig'))
         if files.get('manifest.json',{}).get('spec')!='yukima_save_v1':raise ValueError('存档包类型不正确。')
-        session=files.get('session.json');original=session.get('id') if isinstance(session,dict) else None
+        session=files.get('session.json')
+        if isinstance(session,dict) and session.get('facts',{}).get('browser_world_state'):
+            from inspect_world import inspect
+            inspect(session)
+        original=session.get('id') if isinstance(session,dict) else None
         key(original)
         if not isinstance(session.get('turns'),list) or not session['turns'] or not isinstance(session.get('facts'),dict) or not isinstance(session.get('card_snapshot'),dict):raise ValueError('存档结构不完整。')
         if len({t['turn_id'] for t in session['turns']})!=len(session['turns']):raise ValueError('存档回合 ID 重复。')
@@ -144,6 +196,9 @@ class SaveManager:
         ids={t['turn_id'] for t in session['turns']}
         for name,record in files.items():
             if name.startswith('checkpoints/'):
+                if record.get('facts',{}).get('browser_world_state'):
+                    from inspect_world import inspect
+                    inspect(record)
                 tid=Path(name).stem
                 if tid not in ids or record.get('id')!=original:raise ValueError('回溯快照不属于存档。')
                 count=len(record.get('turns',[]))
@@ -166,7 +221,8 @@ class SaveManager:
                 from gameplay import digest
                 self.tavern.atomic_json(target,{'id':session['card_id'],'digest':digest(session['card_snapshot']),
                     'imported_at':self.tavern.now(),'source':'save-bundle','aliases':[],'card':session['card_snapshot']})
-            for tid,record in checkpoints.items():self.tavern.atomic_json(self.root/'browser/checkpoints'/new_id/(tid+'.json'),record)
+            from storage_codec import pack_checkpoint
+            for tid,record in checkpoints.items():self.tavern.atomic_json(self.root/'browser/checkpoints'/new_id/(tid+'.json'),pack_checkpoint(record))
             for iid,record in memories.items():self.tavern.atomic_json(self.root/'memory'/new_id/(key(iid)+'.json'),record)
             self.tavern.atomic_json(self.root/'sessions'/(new_id+'.json'),session)
         return {'session_id':new_id,'title':session['title']}

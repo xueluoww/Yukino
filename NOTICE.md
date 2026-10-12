@@ -24,3 +24,8 @@ The recordings in assets/galgame/music/*.mp3 are by Kevin MacLeod (incompetech.c
 ## 0.5 图片来源
 
 春物人物仅提供原创SVG姓名标签，不附带完整人物立绘。终卷短篇附带两张Codex原生生图生成的无人背景，生成描述和哈希在assets/galgame/storyline-backgrounds的prompts.json、library.json（项目根下须加skills/sillytavern-roleplay前缀）。玩家补齐的人物和动态图片不包含在公共发行包。安装与補图方法见项目README开头。
+
+
+## Yukino 0.9 图像接口参考
+
+独立图片 API 参考 ankye/dsh-image-generation 的后端分离设计；可灵授权连接器参考 klingai-dev/deepseek-plugin 的 MCP/OAuth 参数。两项目均为 MIT，来源及许可在 third-party-notices。Python 适配层按本项目 AGPL 分发，不打包 DeepSeek Harness 或其会话。可灵原插件只读检测与自动计费生成的边界明确保留。

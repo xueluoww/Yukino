@@ -3,25 +3,33 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="在场景中与角色相遇，自由推进属于你的故事。">
-  <title>Yukino · 剧本剧场</title>
+  <title>雪间 · 剧本剧场</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css"><script src="music.js" defer></script><script src="app.js" defer></script><script src="image-adjustments.js" defer></script><script src="save-map.js" defer></script><script src="engine-ui.js" defer></script><link rel="stylesheet" href="engine-ui.css">
+  <script src="world-map.js" defer></script>
+  <script src="easter-egg.js" defer></script>
 </head>
 <body>
   <section id="lobby" aria-label="剧本与存档选择">
-    <div class="lobby-header"><div class="wordmark"><span class="snow">❄</span><span>Yukino</span><small>0.5</small></div><div class="lobby-actions"><span id="library-count"></span><button id="lobby-manage-saves">存档管理</button></div></div>
+    <div class="lobby-header"><div class="wordmark"><span class="snow">❄</span><span>雪间</span><small>YUKIMA</small></div><div class="lobby-actions"><span id="library-count"></span><button id="lobby-world-events">事件</button><button id="lobby-manage-saves">存档管理</button></div></div>
     <div id="character-picker" class="character-picker">
-      <div class="picker-heading"><span class="eyebrow">SCRIPTS</span><h1>选择剧本</h1><p>选择一个世界，从一次相遇开始。</p></div>
+      <div class="picker-heading"><span class="eyebrow">剧本</span><h1>选择剧本</h1><p>选择一个世界，从一次相遇开始。</p></div>
       <div class="selection-layout"><div id="character-roster" class="character-roster" aria-label="剧本选择"></div>
-        <article class="character-intro"><span class="eyebrow">PROFILE</span><h2 id="selected-name"></h2><div class="small-divider"></div><p id="selected-bio"></p><h3>开场场景</h3><p id="selected-scene"></p><h3>登场人物</h3><p id="selected-cast"></p><button id="view-script-cards" class="catalog-entry">查看人物卡 <span>↗</span></button><button id="choose-story-button" class="primary">选择存档与场景 <span>◇</span></button></article>
+        <article class="character-intro"><span class="eyebrow">人物资料</span><h2 id="selected-name"></h2><div class="small-divider"></div><p id="selected-bio"></p><h3>开场场景</h3><p id="selected-scene"></p><h3>登场人物</h3><p id="selected-cast"></p><button id="view-script-cards" class="catalog-entry">查看人物卡 <span>↗</span></button><button id="choose-story-button" class="primary">选择存档与场景 <span>◇</span></button></article>
       </div>
     </div>
     <div id="story-picker" class="story-picker" hidden>
       <button id="back-to-characters" class="back-button">返回剧本选择</button>
       <div class="story-layout"><aside class="story-character"><img id="story-sprite" alt="已选择剧本的立绘"><h2 id="story-character-name"></h2></aside>
-        <section class="story-options"><span class="eyebrow">YOUR STORY</span><h1>选择故事</h1>
+        <section class="story-options"><span class="eyebrow">你的故事</span><h1>选择故事</h1>
           <div class="story-tabs"><button id="new-story-tab" class="selected">新建存档</button><button id="saved-story-tab">继续存档</button></div>
-          <div id="new-story-pane"><label class="player-name">你的称呼<input id="player-name" maxlength="80" value="你"></label><div class="world-picker"><select id="world-select" hidden aria-label="剧本世界观"></select><p id="world-description" class="hint"></p><select id="setting-select" hidden aria-label="剧本设定集" multiple></select><p id="script-settings-summary" class="hint"></p><label>主角卡<select id="protagonist-select" aria-label="主角卡"></select></label></div><button id="view-protagonist-cards" class="catalog-entry">查看主角卡 <span>↗</span></button><h3>选择开场场景</h3><div id="scenario-list"></div><div class="start-actions"><button id="begin-story" class="primary">新建存档并开始</button><button id="preview-story">先试读</button></div></div>
+          <div id="new-story-pane"><label class="player-name">你的称呼<input id="player-name" maxlength="80" value="你"></label><div class="world-picker"><select id="world-select" hidden aria-label="剧本世界观"></select><p id="world-description" class="hint"></p><select id="setting-select" hidden aria-label="剧本设定集" multiple></select><p id="script-settings-summary" class="hint"></p><label>主角卡<select id="protagonist-select" aria-label="主角卡"></select></label></div><button id="view-protagonist-cards" class="catalog-entry">查看主角卡 <span>↗</span></button><section id="game-mode-label" class="mode-choice" hidden aria-label="游玩方式">
+            <h3>选择游玩方式</h3><input id="game-mode" type="hidden" value="sandbox">
+            <div class="mode-cards" role="radiogroup" aria-label="游玩模式">
+              <button type="button" class="mode-card" role="radio" data-game-mode="sandbox" aria-checked="true"><span class="mode-card-mark" aria-hidden="true">◇</span><span class="mode-card-copy"><strong>沙盒模式</strong><small>由你展开故事</small><span>自由表达、行动与想象，按自己的节奏与人物相遇。</span></span></button>
+              <button type="button" class="mode-card" role="radio" data-game-mode="world" aria-checked="false" tabindex="-1"><span class="mode-card-mark" aria-hidden="true">✧</span><span class="mode-card-copy"><strong>世界模式</strong><small>人物也有自己的生活</small><span>决定自己的言行，发现人物的计划，让世界与你一起前进。</span></span></button>
+            </div><p id="game-mode-description" class="hint">游玩方式随新存档保存。</p>
+          </section><h3>选择开场场景</h3><div id="scenario-list"></div><div class="start-actions"><button id="begin-story" class="primary">新建存档并开始</button><button id="preview-story">先试读</button></div></div>
           <div id="saved-story-pane" hidden><div id="saved-stories"></div></div>
         </section>
       </div>
@@ -29,7 +37,7 @@
     <p id="lobby-notice" role="status"></p>
   </section>
   <section id="save-map-screen" aria-label="存档分支页面" hidden>
-    <header class="save-map-header"><div><span class="eyebrow">STORY BRANCHES</span><h1 id="save-map-title"></h1><p id="save-map-count"></p></div><div class="save-map-controls"><button id="save-map-latest">定位最近存档</button><button id="save-map-exit">退出分支图</button></div></header>
+    <header class="save-map-header"><div><span class="eyebrow">故事分支</span><h1 id="save-map-title"></h1><p id="save-map-count"></p></div><div class="save-map-controls"><button id="save-map-latest">定位最近存档</button><button id="save-map-exit">退出分支图</button></div></header>
     <div id="save-map-viewport" tabindex="0" aria-label="可拖动的横向存档分支图"><div id="save-map-canvas"></div></div>
     <footer class="save-map-footer"><label for="save-map-scroll">拖动查看故事线</label><input id="save-map-scroll" type="range" min="0" max="0" value="0" step="1" aria-label="横向拖动故事线"><small>拖动空白处移动 · 点击存档继续 · Esc 返回</small></footer>
   </section>
@@ -38,13 +46,13 @@
     <div class="particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <img id="sprite" class="sprite" alt="角色立绘" hidden>
     <header class="topbar interface">
-      <div class="wordmark"><span class="snow">❄</span><span>Yukino</span><small>0.5</small><span id="story-clock"></span></div>
+      <div class="wordmark"><span class="snow">❄</span><span>雪间</span><small>YUKIMA</small><span id="story-clock"></span></div>
       <div class="chapter"><span id="location">秋日 · 侍奉部</span><span class="chapter-line"></span><span id="mode">试读</span></div>
       <nav aria-label="游戏菜单">
-        <button id="music-button" aria-label="静音背景音乐" aria-pressed="true" title="背景音乐">♫</button><button id="thought-button" aria-expanded="false" aria-controls="thought-panel">心声</button><button id="affinity-button">关系</button><button id="plot-button">脉络</button><button id="log-button" title="对话记录">回看</button><button id="gallery-button">画廊</button><button id="save-button">存档</button><button id="gameplay-button">手记</button><button id="manage-saves-button">管理</button><button id="menu-button" aria-label="打开设置">⋯</button>
+        <button id="music-button" aria-label="静音背景音乐" aria-pressed="true" title="背景音乐">♫</button><button id="thought-button" aria-expanded="false" aria-controls="thought-panel">心声</button><button id="affinity-button">关系</button><button id="plot-button">脉络</button><button id="log-button" title="对话记录">回看</button><button id="gallery-button">画廊</button><button id="save-button">存档</button><button id="game-world-map" title="查看主角已知的地图" hidden>地图</button><button id="gameplay-button">手记</button><button id="game-world-events">事件</button><button id="manage-saves-button">管理</button><button id="menu-button" aria-label="打开设置">⋯</button>
       </nav>
     </header>
-    <div class="scene-caption interface"><span id="chapter-number">CHAPTER 01</span><p id="chapter-title">初次相遇</p><div></div></div>
+    <div class="scene-caption interface"><span id="chapter-number">第 01 幕</span><p id="chapter-title">初次相遇</p><div></div></div>
     <button id="restore-ui" hidden>显示对话</button>
     <aside id="transition" class="scene-transition interface" hidden role="status"><span class="transition-path" aria-hidden="true"><i></i><i></i><i></i></span><div><small id="transition-label">转场</small><p id="transition-target"></p></div><button id="retry-image" hidden>重试画面</button></aside>
     <aside id="cg-wait" class="cg-wait interface" aria-label="剧情插图" role="status" hidden><span class="thinking-orbit" aria-hidden="true"><i></i><i></i><i></i></span><small>剧情插图</small><h3 id="cg-wait-title"></h3><p id="cg-wait-status"></p><div><button id="cg-continue" hidden>欣赏完毕 · 继续故事</button><button id="cg-retry" hidden>重新等待画面</button><button id="cg-skip">先继续故事</button></div></aside>
@@ -65,6 +73,11 @@
     </section>
     <aside id="toast" role="status" hidden></aside>
   </main>
-    <dialog id="modal"><div class="modal-header"><div><span class="eyebrow">0.5</span><h2 id="modal-title"></h2></div><button id="close-modal" aria-label="关闭弹窗">×</button></div><div id="modal-body"></div></dialog>
+    <dialog id="modal"><div class="modal-header"><div><span class="eyebrow">YUKIMA</span><h2 id="modal-title"></h2></div><button id="close-modal" aria-label="关闭弹窗">×</button></div><div id="modal-body"></div></dialog>
+  <dialog id="name-easter-dialog" class="name-easter-dialog" aria-labelledby="name-easter-message">
+    <button id="close-name-easter" class="name-easter-close" type="button" aria-label="关闭祝福窗口">×</button>
+    <p id="name-easter-message">祝你玩的开心</p>
+    <footer>design by xlww</footer>
+  </dialog>
 </body>
 </html>

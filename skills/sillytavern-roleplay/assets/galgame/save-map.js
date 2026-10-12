@@ -54,7 +54,7 @@
     active.group=group;draw();
   }
   function manage(save){
-    openModal("管理存档");body.append(textEl("h3",save.latest_event || save.title),textEl("p",save.summary || save.scene || "故事刚刚开始。","hint"));
+    openModal("管理存档");body.append(textEl("h3",save.display_title || save.title),textEl("p",save.summary || save.scene || "故事刚刚开始。","hint"));
     const back=textEl("button","返回分支图"),edit=textEl("button","名称与备注"),remove=textEl("button","移入回收站","danger-action"),download=textEl("a","导出存档包");
     back.addEventListener("click",()=>modal.close());edit.addEventListener("click",()=>editSave(save,async()=>{modal.close();await refresh();}));
     remove.disabled=state.busy || (save.id===state.session_id && state.persistent && !fromLobby());
@@ -73,9 +73,9 @@
     for(const e of map.edges){const path=document.createElementNS(svg.namespaceURI,"path"),bend=(e.x1+e.x2)/2;path.setAttribute("d",`M ${e.x1} ${e.y1} C ${bend} ${e.y1}, ${bend} ${e.y2}, ${e.x2} ${e.y2}`);svg.append(path);}canvas.append(svg);
     for(const n of map.nodes){
       const s=n.save,card=textEl("article","","save-map-node"+(s.id===state.session_id?" current-save":""));card.dataset.session=s.id;card.style.left=n.x+"px";card.style.top=n.y+"px";
-      const button=textEl("button","","save-map-load");button.setAttribute("aria-label",`读取存档 #${s.id.slice(0,8)} · ${s.latest_event || s.title}`);button.disabled=state.busy;
+      const button=textEl("button","","save-map-load");button.setAttribute("aria-label",`读取存档 #${s.id.slice(0,8)} · ${s.display_title || s.title}`);button.disabled=state.busy;
       const tag=s.id===state.session_id?"当前进度":group.roots.some(r=>r.id===s.id)?"起始存档":({manual:"手动留档",rollback:"回溯分支","module-upgrade":"玩法更新"}[s.branch?.kind] || "故事分支");
-      button.append(textEl("small",tag+" · #"+s.id.slice(0,8),"save-kind"),textEl("h3",s.latest_event || s.title),textEl("p",`${s.turn_count || 0} 回合 · ${new Date(s.updated_at).toLocaleString("zh-CN")}`,"save-card-meta"),textEl("p",s.summary || s.scene || "故事刚刚开始。","save-map-preview"));
+      button.append(textEl("small",tag+" · #"+s.id.slice(0,8),"save-kind"),textEl("h3",s.display_title || s.title),textEl("p",`${s.turn_count || 0} 回合 · ${new Date(s.updated_at).toLocaleString("zh-CN")}`,"save-card-meta"),textEl("p",s.summary || s.scene || "故事刚刚开始。","save-map-preview"));
       button.title=s.summary || s.scene || "";
       button.addEventListener("click",async()=>{button.disabled=true;try{const next=await api("/api/resume",{session_id:s.id});leave(false);enterGame(next);}catch(e){toast(e.message);button.disabled=state.busy;}});
       const more=textEl("button","管理","save-map-manage");more.setAttribute("aria-label","管理存档 #"+s.id.slice(0,8));more.addEventListener("click",()=>manage(s));card.append(button,more);canvas.append(card);

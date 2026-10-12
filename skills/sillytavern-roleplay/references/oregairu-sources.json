@@ -82,5 +82,14 @@
     "score_status": "authored game design inference; not official numerical affection",
     "age_policy": "start-of-school-year ages; Haruno 19–20 range, Hiratsuka adult with exact age undisclosed",
     "timeline": "known opening relationships only; no later-season friendship or revelations"
+  },
+  "classroom_metadata": {
+    "source": "https://zh.wikipedia.org/wiki/果然我的青春戀愛喜劇搞錯了。角色列表",
+    "cross_checks": [
+      "https://anibase.net/ja/character/10yV8/",
+      "https://www.tbs.co.jp/anime/oregairu/1st/disc/"
+    ],
+    "note": "班级和同班关系可确认；楼层、房间号不臆造。相模南新增；非学生不分配总武高中班号。",
+    "verified_at": "2026-10-06"
   }
 }

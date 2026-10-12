@@ -30,12 +30,13 @@ from image_adjustments import ImageAdjustments
 HERE = Path(__file__).resolve()
 ASSETS = HERE.parent.parent / 'assets' / 'galgame'
 MAX_BODY = 256 * 1024
-APP_VERSION = '5.6.0'
+APP_VERSION = '5.7.10-world-trial'
 EXPRESSIONS = ['neutral','soft','serious','shy','thinking','listening','troubled','surprised','sad','displeased','happy','eyes_closed','absent']
 BEATS = ['setup','development','revelation','turning_point','resolution']
 
 def read_json(path):
-    return json.loads(Path(path).read_text(encoding='utf-8-sig'))
+    from storage_codec import loads
+    return loads(Path(path).read_text(encoding='utf-8-sig'))
 
 def load_tavern(path):
     spec = importlib.util.spec_from_file_location('galgame_tavern', path)
@@ -140,7 +141,9 @@ def turn_schema(backgrounds):
     schema['properties']['world_updates']=proposal_schema()
     return schema
 
-class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
+from world_turn import WorldRuntime
+
+class Player(WorldRuntime, ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
     def __init__(self, root, assets, tavern, card=None, provider='deepseek', cli=None, dynamic_images=True):
         self.root = Path(root).resolve()
         self.assets = Path(assets).resolve()
@@ -150,9 +153,10 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
         self.predictions = {}
         self.prediction_budget = {}
         self.prediction_last_turn = {}
-        self.cli = None if provider == 'demo' else cli or shutil.which('codex')
+        self.cli = cli or shutil.which('codex')
         self.lock = threading.RLock()
         self.busy = False
+        self.cancel_turn = threading.Event()
         self.error = ''
         self.current = None
         self.persistent = False
@@ -168,7 +172,7 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
         self.metrics = {}
         self.image_busy = 0
         self.image_error = ''
-        self.dynamic_images = dynamic_images and provider != 'demo'
+        self.dynamic_images = dynamic_images
         self.cache_file = self.root / 'browser' / 'asset-cache.json'
         self.cache = read_json(self.cache_file) if self.cache_file.exists() else {}
         self.manifests = read_json(self.assets / 'characters.json')
@@ -183,7 +187,8 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
         self.start(card, '你', False)
 
     def command(self, command, *args):
-        return self.tavern.run(self.tavern.parser().parse_args(['--root', str(self.root), command, *map(str, args)]))
+        if not hasattr(self,'_command_parser'):self._command_parser=self.tavern.parser()
+        return self.tavern.run(self._command_parser.parse_args(['--root', str(self.root), command, *map(str, args)]))
 
     def descriptor(self, card_id=None):
         # Library additions made in any Codex chat appear without restarting a story.
@@ -214,7 +219,7 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
             descriptor = self.descriptor(card['id'])
             data = self.command('show', card['id'])['card']['data']
             card.update({'display_name': descriptor.get('name', card['name']),
-                'sprite': descriptor.get('selection_image') or descriptor.get('sprites', {}).get('neutral', ''), 'avatar': descriptor.get('avatar', ''),
+                'sprite': descriptor.get('sprites', {}).get('neutral', ''), 'avatar': descriptor.get('avatar', ''),
                 'backgrounds': descriptor.get('backgrounds', {}),
                 'bio': descriptor.get('bio', data.get('personality', '')[:200]),
                 'scene_intro': descriptor.get('scene_intro', data.get('scenario') or '从角色卡设定的开场开始。'),
@@ -222,7 +227,7 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
                     'description': data.get('scenario') or '使用这张角色卡的预设开场。', 'greeting':i} for i in range(1+len(data.get('alternate_greetings',[])))]})
         return result
 
-    def start(self, card, user, persistent, scenario=None, world_id=None, setting_ids=None, protagonist_id=None, script_id=None, storyline_id=None):
+    def start(self, card, user, persistent, scenario=None, world_id=None, setting_ids=None, protagonist_id=None, script_id=None, storyline_id=None, game_mode=None):
         with self.lock:
             if self.busy:
                 raise ValueError('当前回合尚未结束。')
@@ -234,6 +239,8 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
             record = self.command('show', card)
             descriptor = self.descriptor(record['card_id'])
             world=self.worlds.snapshot(record['card_id'],world_id,setting_ids)
+            if storyline_id and game_mode=='world' and not world.get('event_system'):
+                raise ValueError('这条预制线暂用沙盒模式播放；世界模式可从自由故事开场试玩。')
             if storyline_id:
                 route=next((r for r in world.get('storylines',[]) if r['id']==storyline_id),None)
                 if not route:raise ValueError('找不到这条预制故事线。')
@@ -242,6 +249,11 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
             chosen = next((s for s in available if s['id']==scenario), None) if scenario else available[0]
             if not chosen:
                 raise ValueError('请选择该角色已有的开场场景。')
+            if game_mode=='world' and not world.get('event_system'):
+                from world_defaults import prepare_world
+                world=prepare_world(world,player_snapshot(self.root,protagonist_id),chosen)
+            from world_modes import freeze_mode
+            world=freeze_mode(world,game_mode)
             result = self.command('preview', card, '--user', user[:80] or '你', '--greeting', chosen.get('greeting',0))
             context = result['context']
             snapshot = copy.deepcopy(record['card'])
@@ -261,8 +273,10 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
                 'created_at': self.tavern.now(), 'updated_at': self.tavern.now(),
                 'turns': [{'turn_id': 'opening', 'user': '', 'assistant': greeting}]}
             self.current['world_snapshot']=world
+            self.current['game_mode']=world['game_mode']
             self.current['script_id']=script_id or world.get('id') or 'card-'+record['card_id']
             if world.get('opening_scenes'):self.current['title']=f"{world['name']} · {chosen['title']} · {user}"
+            self.current['save_title_generated']=self.current['title']
             self.current['protagonist_snapshot']=player_snapshot(self.root,protagonist_id)
             self.persistent = False
             matching = hashlib.sha256(result['greeting'].encode('utf-8')).hexdigest() == descriptor.get('opening_sha256')
@@ -376,6 +390,7 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
                 'turns': [{'turn_id':t['turn_id'],'user': t['user'], 'assistant': canonical_text(self.current['facts']['browser_opening_frames']) if t['turn_id'] == 'opening' and self.current['facts'].get('browser_opening_frames') else t['assistant']} for t in self.current['turns']],
                 'cards': self.card_list(), 'saved': self.persistent,
                 'app_version':APP_VERSION, 'activity': self.activity | ({'elapsed':round(time.monotonic()-self.activity['started'],1)} if self.busy and self.activity else {}),
+                'pending_input':next(({'questions':[{'question':__import__('player_feedback').readable(q['question'])} for q in c['value'].get('questions',[])]} for c in reversed(list(self.current.get('facts',{}).get('browser_world_state',{}).get('cards',{}).values())) if c['template']=='pending_input' and c['value'].get('status')=='needs_clarification'),None),
                 'metrics':self.metrics, 'story':self.story_state(), 'branch':branch_metadata(self.current),
                 'memory_scope':self.current['id'], 'prediction_preloads':self.prediction_preloads(),
                 'image_tasks':{key:{k:v for k,v in task.items() if k in {'kind','status','session_id','card_id','speculative','name'}} for key,task in self.image_tasks.items() if task.get('session_id')==self.current['id'] or key in self.visual.values()},
@@ -385,8 +400,19 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
                 'library': {'backgrounds': [{'url': url, 'name': descriptor.get('background_descriptions', {}).get(key, key)} for key, url in descriptor.get('backgrounds', {}).items()]+[{'url':x['url'],'name':x.get('prompt','场景')} for x in generated if x.get('kind')=='background'],
                     'portraits': [{'url': url, 'name': {'neutral':'平静','soft':'温柔','serious':'认真','shy':'害羞','thinking':'思考','listening':'倾听','troubled':'迟疑','surprised':'惊讶','sad':'低落','displeased':'不悦','happy':'愉快','eyes_closed':'闭目'}.get(key,key)} for key, url in descriptor.get('sprites', {}).items()]+[{'url':x['url'],'name':x.get('prompt','人物')} for x in generated if x.get('kind')=='portrait']}}
 
+    def cancel_current_turn(self):
+        with self.lock:
+            if not self.busy:raise ValueError('当前没有正在生成的回应。')
+            if self.activity.get('stage') in ('saving','complete'):
+                raise ValueError('本轮已进入保存阶段，请等待保存完成。')
+            if not self.current.get('facts',{}).get('browser_world_state'):
+                raise ValueError('此存档请使用关闭游戏服务退出。')
+            self.cancel_turn.set()
+            return {'ok':True,'message':'已请求取消，正在结束本轮处理。'}
+
     def engine_env(self):
         env = os.environ.copy()
+        env.pop('DEEPSEEK_API_KEY',None)
         if os.name == 'nt' and self.cli:
             user_profile = next((p for p in Path(self.cli).resolve().parents if p.parent.name == 'Users'), None)
             if user_profile:
@@ -404,8 +430,6 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
                for key,item in self.cache.items() if item.get('kind') == 'cg' and (item.get('session_id') == self.current['id'] or key in inherited)])
 
     def submit(self, text, request_id, session_id=None):
-        if self.provider == "demo":
-            raise ValueError("演示模式不调用模型。请配置文本服务后以正式模式启动。")
         text = text.strip()
         if not text or len(text)>8000: raise ValueError('请输入 1–8000 字的台词或动作。')
         if not re.fullmatch(r'[a-zA-Z0-9_-]{8,100}',request_id): raise ValueError('Invalid request ID')
@@ -424,6 +448,7 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
             if self.current['status']!='active': raise ValueError('剧情已暂停，请从存档恢复后继续。')
             self.authorize_authored_input()
             self.busy=True;self.error=''
+            self.cancel_turn.clear()
             self.activity={'id':request_id,'text':text,'stage':'received','started':time.monotonic(),'session_id':self.current['id']}
             from story_history import waiting_ids
             from perception import current_scene
@@ -457,8 +482,14 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
 
     def story_state(self):
         result=copy.deepcopy(self.current['facts'].get('browser_story') or {'nodes':[{'id':t['turn_id'],'title':'故事开场' if i==0 else f'已发生的片段 {i}','beat':'setup' if i==0 else 'development','milestone':i==0,'scene':'','turn_index':i} for i,t in enumerate(self.current['turns'])],'choices':[],'thread':''})
+        from world_presentation import story_projection
+        result=story_projection(self.current,result)
+        from world_choices import current_choices
+        result=current_choices(self.current,result)
+        folder=self.root/'browser'/'checkpoints'/self.current['id']
+        available={p.stem for p in folder.glob('*.json') if p.is_file()}
         for node in result['nodes']:
-            node['can_branch']=bool(re.fullmatch(r'[a-zA-Z0-9_-]{1,100}',node['id'])) and (self.root/'browser'/'checkpoints'/self.current['id']/(node['id']+'.json')).is_file()
+            node['can_branch']=bool(re.fullmatch(r'[a-zA-Z0-9_-]{1,100}',node['id'])) and node['id'] in available
             node['cg_url']=self.cache.get(node.get('cg_asset'),{}).get('url','')
         return result
 
@@ -466,13 +497,28 @@ class Player(ImageAdjustments, AuthoredRuntime, EngineV5, RuntimeV4):
         if not self.persistent:return
         if not re.fullmatch(r'[a-zA-Z0-9_-]{1,100}',self.current['turns'][-1]['turn_id']):return
         try:
-            snapshot=copy.deepcopy(self.current)
+            snapshot=dict(self.current);snapshot['facts']=dict(self.current['facts'])
             snapshot['facts']['browser_visual']=self.visual
             snapshot['facts']['browser_latest_frames']=self.frames
             target=self.root/'browser'/'checkpoints'/self.current['id']/(self.current['turns'][-1]['turn_id']+'.json')
-            if force or not target.exists():self.tavern.atomic_json(target,snapshot)
+            if force or not target.exists():
+                from storage_codec import pack_checkpoint
+                self.tavern.atomic_json(target,pack_checkpoint(snapshot))
         except OSError:
             pass  # The canonical save is authoritative; an unavailable optional branch is hidden.
+
+    def progress_state(self):
+        """No history, actor registry, catalogue I/O, or private NPC state."""
+        with self.lock:
+            tasks=[(k,v.get('status')) for k,v in self.image_tasks.items() if v.get('session_id')==self.current['id']]
+            activity=dict(self.activity)
+            if self.busy and activity.get('started'):activity['elapsed']=round(time.monotonic()-activity['started'],1)
+            transition=self.transition_state() if hasattr(self,'transition_state') else {'active':False}
+            stamp=hashlib.sha256(json.dumps([self.current['id'],self.version,self.current['revision'],self.busy,
+                self.error,self.image_busy,self.image_error,self.dynamic_images,tasks,self.visual,
+                activity.get('id'),activity.get('stage'),transition],sort_keys=True,default=str).encode()).hexdigest()[:24]
+            return {'stamp':stamp,'session_id':self.current['id'],'version':self.version,'busy':self.busy,
+                'error':self.error,'activity':activity,'image_busy':self.image_busy,'image_error':self.image_error,'transition':transition}
 
     def branch(self,node_id,session_id=None):
         with self.lock:
@@ -619,6 +665,11 @@ illustration用于已发生的独特情感、揭示、转折或重要氛围，�
         if not isinstance(story.get('choices'),list) or len(story['choices'])>3 or any(not isinstance(c,dict) or any(not isinstance(c.get(k),str) or not c[k].strip() or len(c[k])>300 for k in ('label','text')) for c in story['choices']):raise ValueError('Invalid story choices')
 
     def respond(self, text, request_id):
+        if self.current.get('facts',{}).get('browser_world_state'):
+            return WorldRuntime.respond(self,text,request_id)
+        return self.legacy_respond(text,request_id)
+
+    def legacy_respond(self, text, request_id):
         job = self.root / 'browser' / 'jobs' / self.current['id'] / request_id
         committed=False
         try:
@@ -701,6 +752,8 @@ illustration用于已发生的独特情感、揭示、转折或重要氛围，�
                 self.checkpoint()
                 if self.flash:self.metrics.update(self.flash.metrics)
                 self.after_engine_commit(request_id)
+                from job_retention import retain
+                retain(self.root,self.current['id'],request_id)
                 if self.dynamic_images:
                     try:self.queue_images(jobs,self.current['id'],self.current['card_id'])
                     except OSError:self.image_error='本次画面未能准备，故事仍可继续。'
@@ -715,6 +768,9 @@ illustration用于已发生的独特情感、揭示、转折或重要氛围，�
                          'status': 'pending', 'scene': reply['scene'], **reply['illustration']})
                 except OSError:self.image_error='插图暂未就绪，故事仍可继续。'
         except Exception as exc:
+            if getattr(self,'experimental_trace',False):
+                import traceback
+                (job/'experimental-trace.txt').write_text(traceback.format_exc(),encoding='utf-8')
             with self.lock:
                 if committed:
                     self.error=''
@@ -760,8 +816,16 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = unquote(parsed.path)
         try:
+            if path == '/api/world-map':
+                params=parse_qs(parsed.query)
+                return self.send(200,self.server.player.world_navigation(params.get('session_id',[''])[0],params.get('revision',[None])[0]))
+            if path == '/api/world-events':
+                params=parse_qs(parsed.query)
+                return self.send(200,self.server.player.world_events(params.get('session_id',[''])[0],params.get('view',['protagonist'])[0],int(params.get('cursor',['0'])[0]),int(params.get('limit',['50'])[0])))
             if path == '/api/state':
                 return self.send(200, self.server.player.state())
+            if path == '/api/progress':
+                return self.send(200,self.server.player.progress_state())
             if path == '/api/save-bundle':
                 query=parse_qs(parsed.query)
                 with self.server.player.lock:
@@ -778,7 +842,12 @@ class Handler(BaseHTTPRequestHandler):
                         if not re.fullmatch(r'[a-zA-Z0-9_-]{1,100}',sid):raise ValueError('Invalid session ID')
                         _,session=player.tavern.find_record(player.root,'sessions',sid)
                     scope=params.get('scope',['story'])[0];format=params.get('format',['txt'])[0]
-                    document=export(session,history(player.root,session),scope,format)
+                    if scope in('protagonist-events','world-events'):
+                        from actor_context import export_events
+                        if not session['facts'].get('browser_world_state'):raise ValueError('Old save has no world-event journal')
+                        document=export_events([t['world_packet']for t in session['turns']if t.get('world_packet')],session['facts']['browser_world_definition'],
+                            'world'if scope=='world-events'else'protagonist',format)
+                    else:document=export(session,history(player.root,session),scope,format)
                 filename=re.sub(r'[\\/:*?"<>|\r\n]','_',session.get('title','故事'))[:70]+'-'+session['id']+'-'+scope+'.'+format
                 return self.send(200,document,'text/plain; charset=utf-8' if format=='txt' else 'text/markdown; charset=utf-8',filename)
             if path == '/api/profiles':
@@ -790,7 +859,8 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/sessions':
                 return self.send(200, session_listing(self.server.player.root,self.server.player.tavern))
             if path == '/health':
-                return self.send(200, {'ok':True,'app':'galgame','app_version':APP_VERSION,'root':str(self.server.player.root),'provider':self.server.player.provider})
+                return self.send(200, {'ok':True,'app':'galgame','app_version':APP_VERSION,'root':str(self.server.player.root),'provider':self.server.player.provider,
+                    'image_provider':self.server.player.image_provider,'dynamic_images':self.server.player.dynamic_images})
             if path.startswith('/media/images/'):
                 target = within(self.server.player.root / 'images', self.server.player.root / path.removeprefix('/media/'))
                 if target.suffix.lower() not in {'.png', '.jpg', '.jpeg', '.webp'}:
@@ -808,7 +878,7 @@ class Handler(BaseHTTPRequestHandler):
             if not target.is_file():
                 return self.send(404, {'error': 'Not found'})
             return self.send(200, target.read_bytes(), mimetypes.guess_type(target.name)[0] or 'application/octet-stream')
-        except (ValueError, OSError):
+        except (ValueError, OSError, self.server.player.tavern.TavernError):
             return self.send(404, {'error': 'Not found'})
 
     def do_POST(self):
@@ -837,7 +907,7 @@ class Handler(BaseHTTPRequestHandler):
             elif path == '/api/story-clock':
                 result=self.server.player.set_story_clock(data['session_id'],data.get('date'),data['minute'])
             elif path == '/api/start':
-                result = self.server.player.start(data.get('card',''), data.get('user', '你'), data.get('persistent', False) is True, data.get('scenario'),data.get('world_id'),data.get('setting_ids'),data.get('protagonist_id'),data.get('script_id'),data.get('storyline_id'))
+                result = self.server.player.start(data.get('card',''), data.get('user', '你'), data.get('persistent', False) is True, data.get('scenario'),data.get('world_id'),data.get('setting_ids'),data.get('protagonist_id'),data.get('script_id'),data.get('storyline_id'),data.get('game_mode'))
             elif path == '/api/storyline/advance':
                 result=self.server.player.advance_authored(data['session_id'],data['request_id'],data['node_id'],data.get('choice_id'))
             elif path == '/api/storyline/cursor':
@@ -854,8 +924,12 @@ class Handler(BaseHTTPRequestHandler):
                 result=self.server.player.retry_images()
             elif path == '/api/retry-preview':
                 result=self.server.player.retry_preview(data['key'])
+            elif path == '/api/cancel-turn':
+                result=self.server.player.cancel_current_turn()
             elif path == '/api/shutdown':
-                if self.server.player.busy or self.server.player.image_busy or self.server.player.planning:raise ValueError('仍有回应或画面正在处理，暂不能更新服务。')
+                if self.server.player.busy or self.server.player.image_busy or self.server.player.planning:
+                    if data.get('force') is not True:raise ValueError('仍有回应或画面正在处理，可选择取消本轮并退出。')
+                    self.server.player.cancel_turn.set()
                 result={'ok':True}
                 threading.Thread(target=self.server.shutdown,daemon=True).start()
             elif path == '/api/save':
@@ -893,7 +967,7 @@ def main():
     parser.add_argument('--session', help='Resume only an explicitly selected save')
     parser.add_argument('--persistent', action='store_true', help='Save the new opening immediately')
     parser.add_argument('--port', type=int, default=18765)
-    parser.add_argument('--provider', choices=['deepseek', 'codex', 'bridge', 'demo'], default='deepseek')
+    parser.add_argument('--provider', choices=['deepseek', 'codex', 'bridge'], default='deepseek')
     parser.add_argument('--codex-bin')
     parser.add_argument('--no-images',action='store_true',help='Disable image generation and prediction for isolated checks')
     parser.add_argument('--next-illustration', action='store_true')
@@ -923,7 +997,7 @@ def main():
     server.token = secrets.token_urlsafe(32)
     tavern.atomic_json(Path(args.root) / 'browser' / 'server.json', {'pid': os.getpid(), 'url': f'http://127.0.0.1:{args.port}', 'root': str(player.root), 'provider': args.provider})
     print(json.dumps({'url': f'http://127.0.0.1:{args.port}', 'root': str(player.root), 'provider': args.provider}, ensure_ascii=False), flush=True)
-    if player.image_service and player.dynamic_images:
+    if player.image_service:
         def warm_images():
             try:player.image_service.start()
             except Exception:pass

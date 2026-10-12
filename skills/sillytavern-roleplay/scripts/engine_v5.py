@@ -256,6 +256,7 @@ class EngineV5:
                 if result['id']==self.current['id']:self.current=result;self.version+=1
                 return {'ok':True}
             if operation=='restore':return self.saves.restore(data['recycle_id'])
+            if operation=='purge':return self.saves.purge(data['recycle_id'])
             if operation=='import':return self.saves.import_bundle(base64.b64decode(data['bundle'],validate=True))
             if operation=='delete':
                 target=self.saves.session(data['session_id'])

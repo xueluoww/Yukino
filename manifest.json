@@ -1,879 +1,1656 @@
 {
   "project": "Yukino",
-  "version": "0.8",
-  "package_version": "0.5",
-  "runtime": "5.6.0",
-  "update_theme": "预制线、画面版本与记忆实验",
-  "date": "2026-10-07",
-  "default_script": "oregairu-campus",
-  "script_character_count": 15,
-  "demo_saves": 1,
-  "demo_is_prewritten": true,
+  "version": "0.9",
+  "runtime": "5.7.10-world-trial",
+  "date": "2026-10-12",
+  "update_theme": "世界玩法同步、独立启动、分开的图片后端与中文界面",
+  "private_data_included": false,
+  "technical_report": "技术报告.md",
   "files": [
     {
       "file": ".gitattributes",
-      "sha256": "e31c1c4e33e73b5f22f0136d03ae140f93284429565ff359fe59611d9d414535",
-      "bytes": 116
+      "bytes": 116,
+      "sha256": "e31c1c4e33e73b5f22f0136d03ae140f93284429565ff359fe59611d9d414535"
     },
     {
       "file": ".gitignore",
-      "sha256": "5e3d11a7fbbcf3ca830fd7b056cd9e07e69a43f230951670f818cd92da53e5d6",
-      "bytes": 231
+      "bytes": 267,
+      "sha256": "58fdb5cc5cbc490cd1ebb52d0e8993f13d37b476c65016055c49c2457b3bcace"
+    },
+    {
+      "file": "AGENTS.md",
+      "bytes": 563,
+      "sha256": "442361599f37e2f43a463a0c6c4644afc96ceaecfa52d3f0ce5854d0cadad11b"
     },
     {
       "file": "CHANGELOG.md",
-      "sha256": "9f8156641cb31d59d448c35151e6ffe870258e1ee2d84424d94c53e5dd01252f",
-      "bytes": 4875
+      "bytes": 5492,
+      "sha256": "8df073fa964bde8d160e9b24f3131f543eb29cb13a8a99eadc2b26653e29f065"
     },
     {
       "file": "docs/0.5验证报告.md",
-      "sha256": "e1a573b1a9eaaacceddcbd8ae1eab2c6012485efd6414b12271aa60f73d6618b",
-      "bytes": 2358
+      "bytes": 2358,
+      "sha256": "e1a573b1a9eaaacceddcbd8ae1eab2c6012485efd6414b12271aa60f73d6618b"
+    },
+    {
+      "file": "docs/0.9验证说明.md",
+      "bytes": 2996,
+      "sha256": "0260ca51171f46829241318c0144e37b65a34d6d181bc1fa1b80aa74d8c677e6"
     },
     {
       "file": "docs/创建剧本.md",
-      "sha256": "3e22d2ea4ae3c0b6ebb38407f5d242d7bdc719f937dd9af4587aa068addaa6c1",
-      "bytes": 16870
+      "bytes": 16828,
+      "sha256": "0becfd35dd71bca3b3801fe221f0edffb1b292efbf3cf3459a30a328257cb47a"
     },
     {
       "file": "docs/剧本与壳.md",
-      "sha256": "b16ef779b23f3f0845a3f295cd4a3e576a4e40f12cbfb64a4c1181664d17241d",
-      "bytes": 6212
+      "bytes": 6212,
+      "sha256": "b16ef779b23f3f0845a3f295cd4a3e576a4e40f12cbfb64a4c1181664d17241d"
+    },
+    {
+      "file": "docs/生图配置与接入评估.md",
+      "bytes": 5086,
+      "sha256": "2eb3919fb41979f49e7f5a7c53fb339de179bc9b39853dcf0b8fd8846c3278be"
     },
     {
       "file": "docs/预制线制作方法.md",
-      "sha256": "9fca92cd2f7de741fc7dab6cad0d05a6d6b29fc70059fca36f497c2283348b11",
-      "bytes": 13893
+      "bytes": 13893,
+      "sha256": "9fca92cd2f7de741fc7dab6cad0d05a6d6b29fc70059fca36f497c2283348b11"
     },
     {
       "file": "examples/demo-library/browser/asset-cache.json",
-      "sha256": "68019144e52eefc56fd86f5cd0df236ebda6c9af5da8feacf3320db9e987a6f2",
-      "bytes": 212
+      "bytes": 212,
+      "sha256": "68019144e52eefc56fd86f5cd0df236ebda6c9af5da8feacf3320db9e987a6f2"
     },
     {
       "file": "examples/demo-library/browser/checkpoints/demo000000000001/demo-001.json",
-      "sha256": "2b6ab21c0255b7354903cc9dc7ba824c8ec88562d5e59bdcdb9792307916db6e",
-      "bytes": 70741
+      "bytes": 70741,
+      "sha256": "2b6ab21c0255b7354903cc9dc7ba824c8ec88562d5e59bdcdb9792307916db6e"
     },
     {
       "file": "examples/demo-library/browser/checkpoints/demo000000000001/demo-002.json",
-      "sha256": "d63fe30f3364098c133f83fb59947f648a6bed2108aef05d0f86e928d62a6c2f",
-      "bytes": 71158
+      "bytes": 71158,
+      "sha256": "d63fe30f3364098c133f83fb59947f648a6bed2108aef05d0f86e928d62a6c2f"
     },
     {
       "file": "examples/demo-library/browser/checkpoints/demo000000000001/opening.json",
-      "sha256": "11d17f31d103760708613c2b5e0c3bf0da3ff362dd1aaec910e573085800c559",
-      "bytes": 67670
+      "bytes": 67670,
+      "sha256": "11d17f31d103760708613c2b5e0c3bf0da3ff362dd1aaec910e573085800c559"
     },
     {
       "file": "examples/demo-library/browser/shared-gallery.json",
-      "sha256": "0732cd2b85cc6cca8ad82a849faf8c230d769530b23bd68ee166e04709ee5f4d",
-      "bytes": 36
+      "bytes": 36,
+      "sha256": "0732cd2b85cc6cca8ad82a849faf8c230d769530b23bd68ee166e04709ee5f4d"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-hachiman.json",
-      "sha256": "9f04bb286bc0e1350b5669f7559324f56d2ef22b5e91f50497b028d20935451a",
-      "bytes": 1924
+      "bytes": 1924,
+      "sha256": "9f04bb286bc0e1350b5669f7559324f56d2ef22b5e91f50497b028d20935451a"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-haruno.json",
-      "sha256": "abf9f98072ec882921b1983e08110d0eb81605f8937182b7d78cc4f7727b343a",
-      "bytes": 1795
+      "bytes": 1795,
+      "sha256": "abf9f98072ec882921b1983e08110d0eb81605f8937182b7d78cc4f7727b343a"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-hayama.json",
-      "sha256": "67aceadc7640afb6865f7b49808e051efb8da89444b5e2b3a72abfd43bd726ae",
-      "bytes": 1783
+      "bytes": 1783,
+      "sha256": "67aceadc7640afb6865f7b49808e051efb8da89444b5e2b3a72abfd43bd726ae"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-hina.json",
-      "sha256": "e9a1e596c472ae8cc25e8a3d1d4a37210e073741f7baea6f760df08361dcbefb",
-      "bytes": 1825
+      "bytes": 1825,
+      "sha256": "e9a1e596c472ae8cc25e8a3d1d4a37210e073741f7baea6f760df08361dcbefb"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-iroha.json",
-      "sha256": "313424ff8dbdb1f3736f523e7e2d08924a5a7886dacde4d4c36a564691f4f0c1",
-      "bytes": 1872
+      "bytes": 1872,
+      "sha256": "313424ff8dbdb1f3736f523e7e2d08924a5a7886dacde4d4c36a564691f4f0c1"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-komachi.json",
-      "sha256": "96e601a1a988803afa4a782cfe7864a7ce42d4c929a0fbfabb1667dee78f4cec",
-      "bytes": 1846
+      "bytes": 1846,
+      "sha256": "96e601a1a988803afa4a782cfe7864a7ce42d4c929a0fbfabb1667dee78f4cec"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-sagami.json",
-      "sha256": "264cffc39898a7a0b88f3ef045075d846caa145a8789ca951a29b3f9a4c077b0",
-      "bytes": 2663
+      "bytes": 2663,
+      "sha256": "264cffc39898a7a0b88f3ef045075d846caa145a8789ca951a29b3f9a4c077b0"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-saika.json",
-      "sha256": "05be6af4d4a0f4f8a09a9ec6b6456aa10dead41bf43b950cde7355903295faa2",
-      "bytes": 1786
+      "bytes": 1786,
+      "sha256": "05be6af4d4a0f4f8a09a9ec6b6456aa10dead41bf43b950cde7355903295faa2"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-saki.json",
-      "sha256": "e4ab71f67ae115e52967264b7529c8000c57415588fbb1aeedde7d0c915654c2",
-      "bytes": 1737
+      "bytes": 1737,
+      "sha256": "e4ab71f67ae115e52967264b7529c8000c57415588fbb1aeedde7d0c915654c2"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-shizuka.json",
-      "sha256": "dac4287dca4b84cc59be36adf5d07b9f4ab00d7c0104449fbd7d7d5a64b6d7e3",
-      "bytes": 1837
+      "bytes": 1837,
+      "sha256": "dac4287dca4b84cc59be36adf5d07b9f4ab00d7c0104449fbd7d7d5a64b6d7e3"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-tobe.json",
-      "sha256": "29ff867d26d2814159f019418d62c4dd9553d3f06a12a07e7061354f6bb14839",
-      "bytes": 1765
+      "bytes": 1765,
+      "sha256": "29ff867d26d2814159f019418d62c4dd9553d3f06a12a07e7061354f6bb14839"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-yui.json",
-      "sha256": "856287847f49b2eecacaae7fb21c0ff65bc5e05c3f0c8737b0491f63dee66ad7",
-      "bytes": 1837
+      "bytes": 1837,
+      "sha256": "856287847f49b2eecacaae7fb21c0ff65bc5e05c3f0c8737b0491f63dee66ad7"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-yukino.json",
-      "sha256": "c7a26051d77850df244c6dc3c6f719916ab936f7d8f7d1a91315bcea12d53800",
-      "bytes": 1943
+      "bytes": 1943,
+      "sha256": "c7a26051d77850df244c6dc3c6f719916ab936f7d8f7d1a91315bcea12d53800"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-yumiko.json",
-      "sha256": "8d4b40614b5e9884a503487dd5fef48bf76e01ee6b7ea5c79904caa55722be48",
-      "bytes": 1797
+      "bytes": 1797,
+      "sha256": "8d4b40614b5e9884a503487dd5fef48bf76e01ee6b7ea5c79904caa55722be48"
     },
     {
       "file": "examples/demo-library/cards/oregairu-core-zaimokuza.json",
-      "sha256": "ae36a084b7e93e85a6fb995fe765053e3d49318bf89cb2b39b451b370414eaeb",
-      "bytes": 1847
+      "bytes": 1847,
+      "sha256": "ae36a084b7e93e85a6fb995fe765053e3d49318bf89cb2b39b451b370414eaeb"
     },
     {
       "file": "examples/demo-library/cards/rainy-bookshop-a-che.json",
-      "sha256": "de865a71d607553d3dba7dbd8c472e7fce2934fd43302d96635577f3c6aa5a31",
-      "bytes": 1130
+      "bytes": 1130,
+      "sha256": "de865a71d607553d3dba7dbd8c472e7fce2934fd43302d96635577f3c6aa5a31"
     },
     {
       "file": "examples/demo-library/cards/rainy-bookshop-lin-deng.json",
-      "sha256": "a56ae83032d66ef944c99bc2c9100765894c6cf40b87eb77d4cae3f2659699bf",
-      "bytes": 1440
+      "bytes": 1440,
+      "sha256": "a56ae83032d66ef944c99bc2c9100765894c6cf40b87eb77d4cae3f2659699bf"
     },
     {
       "file": "examples/demo-library/gameplay-modules/oregairu-campus/service-commissions/63d9fd1da68fb90788e479669519f86752f2e7a879259009cd15d38e0a7cf647/module.json",
-      "sha256": "d2540076e91f00a4a5d47cec880f2fddf2dd7930ebdb640bc0c3c746d5e3e8ec",
-      "bytes": 6059
+      "bytes": 6059,
+      "sha256": "d2540076e91f00a4a5d47cec880f2fddf2dd7930ebdb640bc0c3c746d5e3e8ec"
     },
     {
       "file": "examples/demo-library/protagonists/hachiman.json",
-      "sha256": "3223e03f97ebad7ab114bad1ddeeda0104beeb2908e6a465a6c8d8661e2c4103",
-      "bytes": 1001
+      "bytes": 1001,
+      "sha256": "3223e03f97ebad7ab114bad1ddeeda0104beeb2908e6a465a6c8d8661e2c4103"
     },
     {
       "file": "examples/demo-library/protagonists/visitor.json",
-      "sha256": "0386ff734a1fe2fb1347bd7d436476a48aaa485d278d21185fd26dd5d82b3ee3",
-      "bytes": 578
+      "bytes": 578,
+      "sha256": "0386ff734a1fe2fb1347bd7d436476a48aaa485d278d21185fd26dd5d82b3ee3"
     },
     {
       "file": "examples/demo-library/sessions/demo000000000001.json",
-      "sha256": "d63fe30f3364098c133f83fb59947f648a6bed2108aef05d0f86e928d62a6c2f",
-      "bytes": 71158
+      "bytes": 71158,
+      "sha256": "d63fe30f3364098c133f83fb59947f648a6bed2108aef05d0f86e928d62a6c2f"
     },
     {
       "file": "examples/demo-library/setting-sets/oregairu-core.json",
-      "sha256": "3054bb850ca5c99cb4996fbb398b74ee4c5eaf83fa70a42247584c9007896b50",
-      "bytes": 40234
+      "bytes": 40234,
+      "sha256": "3054bb850ca5c99cb4996fbb398b74ee4c5eaf83fa70a42247584c9007896b50"
     },
     {
       "file": "examples/demo-library/setting-sets/rainy-bookshop-core.json",
-      "sha256": "1da800fb965a8fc925e9f06c374e6a0197bb90cfc553f78ce26b406c7dacf884",
-      "bytes": 4016
+      "bytes": 4016,
+      "sha256": "1da800fb965a8fc925e9f06c374e6a0197bb90cfc553f78ce26b406c7dacf884"
     },
     {
       "file": "examples/demo-library/world-bindings.json",
-      "sha256": "928f65734e2e476ac7ddb16db38379352cbf574207f484af8056c32fecbf2202",
-      "bytes": 253
+      "bytes": 253,
+      "sha256": "928f65734e2e476ac7ddb16db38379352cbf574207f484af8056c32fecbf2202"
     },
     {
       "file": "examples/demo-library/worlds/oregairu-campus.json",
-      "sha256": "3404b752f44ee21734e28a9532f1e0a0671488ee25581a32884c8b10ee58075d",
-      "bytes": 47214
+      "bytes": 47214,
+      "sha256": "3404b752f44ee21734e28a9532f1e0a0671488ee25581a32884c8b10ee58075d"
     },
     {
       "file": "examples/demo-library/worlds/rainy-bookshop.json",
-      "sha256": "98b9756ae87e0525000dbe75e530c17e98421dcd2ba626020d5a0a08218e9e75",
-      "bytes": 3748
+      "bytes": 3748,
+      "sha256": "98b9756ae87e0525000dbe75e530c17e98421dcd2ba626020d5a0a08218e9e75"
     },
     {
       "file": "examples/hachiman.json",
-      "sha256": "3223e03f97ebad7ab114bad1ddeeda0104beeb2908e6a465a6c8d8661e2c4103",
-      "bytes": 1001
+      "bytes": 1001,
+      "sha256": "3223e03f97ebad7ab114bad1ddeeda0104beeb2908e6a465a6c8d8661e2c4103"
     },
     {
       "file": "examples/oregairu.json",
-      "sha256": "93b4fc27f65ce80b672924cc105e8a9309856bb92901729cb24fac0700de7e5e",
-      "bytes": 123607
+      "bytes": 123607,
+      "sha256": "93b4fc27f65ce80b672924cc105e8a9309856bb92901729cb24fac0700de7e5e"
     },
     {
       "file": "examples/protagonist.json",
-      "sha256": "0386ff734a1fe2fb1347bd7d436476a48aaa485d278d21185fd26dd5d82b3ee3",
-      "bytes": 578
+      "bytes": 578,
+      "sha256": "0386ff734a1fe2fb1347bd7d436476a48aaa485d278d21185fd26dd5d82b3ee3"
     },
     {
       "file": "examples/rainy-bookshop.json",
-      "sha256": "2c06a0d493783b24e77eb9bf188df1ea02140e9a1a83faf07e9fafa9f89c787c",
-      "bytes": 9724
+      "bytes": 9724,
+      "sha256": "2c06a0d493783b24e77eb9bf188df1ea02140e9a1a83faf07e9fafa9f89c787c"
     },
     {
       "file": "experiments/memory-v56/experiment_memory.py",
-      "sha256": "231495b3290be7437e660f33dd2b044c849e84c1c623498c11ef22cee1f55f2a",
-      "bytes": 11959
+      "bytes": 11959,
+      "sha256": "231495b3290be7437e660f33dd2b044c849e84c1c623498c11ef22cee1f55f2a"
     },
     {
       "file": "experiments/memory-v56/layered_memory.py",
-      "sha256": "0955477aa4a63a8bff00349dcd419da8a3cc12b5de83e7298e1426b20f8a7656",
-      "bytes": 9593
+      "bytes": 9593,
+      "sha256": "0955477aa4a63a8bff00349dcd419da8a3cc12b5de83e7298e1426b20f8a7656"
     },
     {
       "file": "experiments/memory-v56/memory-experiment-result.json",
-      "sha256": "5706e0f671763e3e5cc99fcd468e086bbfe8ba0e9eb587b82bdd1205c0462445",
-      "bytes": 38724
+      "bytes": 38724,
+      "sha256": "5706e0f671763e3e5cc99fcd468e086bbfe8ba0e9eb587b82bdd1205c0462445"
     },
     {
       "file": "experiments/memory-v56/记忆实验报告.md",
-      "sha256": "ba26cbef80020f1ee88972757f571be24cb57da9819d3ab86a7d74003a1e4e9a",
-      "bytes": 3654
+      "bytes": 3654,
+      "sha256": "ba26cbef80020f1ee88972757f571be24cb57da9819d3ab86a7d74003a1e4e9a"
     },
     {
       "file": "launch.py",
-      "sha256": "2e81d023eea5560054cfb5f31b3a555efe180639c73196009173f38f0c60b185",
-      "bytes": 3730
+      "bytes": 2203,
+      "sha256": "344ef70de0e762fcdfc77a4c7ae1b2e3580b28d286475b072f1289fc63da7be1"
+    },
+    {
+      "file": "launcher/bootstrap.ps1",
+      "bytes": 9607,
+      "sha256": "0306edb6c4a0cafb83920ce6a4d0182ae7292cc1a000964711e615cf6b9bd892"
+    },
+    {
+      "file": "launcher/image-setup.js",
+      "bytes": 4973,
+      "sha256": "9413211eb52b2d0a9b4f1ac9e7355422cc786f1ced0b6552502ac9ab30b7fa01"
+    },
+    {
+      "file": "launcher/image_setup.py",
+      "bytes": 13934,
+      "sha256": "c87e5a59739e7fa01db002d8f1918e18c20c1c416e750315ca25dca167b01c6b"
+    },
+    {
+      "file": "launcher/service_control.py",
+      "bytes": 9204,
+      "sha256": "1beeb04b61a13ea6a8b0b4d32e11467e3769fce07c3f4e99824c0eb5db834eaf"
+    },
+    {
+      "file": "launcher/setup.py",
+      "bytes": 18261,
+      "sha256": "90414716ca929f5b8263bc1b684c3a8700b6eac2c64ef085bbd486b94a1b9681"
+    },
+    {
+      "file": "launcher/welcome.css",
+      "bytes": 8269,
+      "sha256": "c24552857d8b61447b0b6f29fea62cbe5db2b2f95e3c350a8d2e550cbae2c781"
+    },
+    {
+      "file": "launcher/welcome.html",
+      "bytes": 10175,
+      "sha256": "0fdc6b670691c4a1f75cd5cd469e3377a35c2d4f03df06a7ce4d7ae278c21a72"
+    },
+    {
+      "file": "launcher/welcome.js",
+      "bytes": 11753,
+      "sha256": "cfe96776ca64de16ec5c6cad39eab7056e9cf47fa4c553fefacf0aeb8a33b617"
     },
     {
       "file": "LICENSE",
-      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
-      "bytes": 34523
+      "bytes": 34523,
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
     },
     {
       "file": "NOTICE.md",
-      "sha256": "8ca1dd0081d7048a40996e2c454df72a9b3f61e20a11eaf4cccf1f6fb74fceed",
-      "bytes": 2572
+      "bytes": 2983,
+      "sha256": "7a096f7de98dfebc54b00e0c2bf4daee85095172b2928c854fec55690780e755"
     },
     {
       "file": "README.md",
-      "sha256": "f6cef96932d589b89010c90cc3bb6b816ee4750c95431806fda0db158abee6b1",
-      "bytes": 23526
+      "bytes": 8698,
+      "sha256": "8a4f1c9cef0dc3d15e1905429f7823271021241fc459e3cef4724ab0f085d749"
     },
     {
       "file": "skills/sillytavern-roleplay/agents/openai.yaml",
-      "sha256": "fa2be5a6aa972f59c1b44e2a75a57d712da785e75b44d15dbaab185ca4be8333",
-      "bytes": 332
+      "bytes": 332,
+      "sha256": "fa2be5a6aa972f59c1b44e2a75a57d712da785e75b44d15dbaab185ca4be8333"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/demo-card.json",
-      "sha256": "6808e55258c447b249475bbbd57c2332a05cef9a1a2fc31234354b26e82bce23",
-      "bytes": 3380
+      "bytes": 3032,
+      "sha256": "f99c6b2a967a45ebbaa98d46ba8aa6ea13f777428ed9bb7b1cbc041c0adc0069"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/app.js",
-      "sha256": "6b380fe390fefbc9ee27fc8e51130c8a2d4e7a3d3d31e62662fc0c13302dae00",
-      "bytes": 50815
+      "bytes": 54481,
+      "sha256": "da246dcf2fd543c4694b8525abc3e5476e062359a7e2e4ad0759c5994ad53008"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/characters.json",
-      "sha256": "03d4909c6cc4e56eb40f547733bc1fce8567fc9dd014516228422642641c6603",
-      "bytes": 8920
+      "bytes": 21731,
+      "sha256": "7cc93338c0badfba668f754c3ad9ebf42a764b2937967f808ff15dd5445d4123"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/easter-egg.js",
+      "bytes": 906,
+      "sha256": "f01d84269874ca8588a87a0de59a4f16e75f98d489df21a275416285cdb2917d"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/engine-ui.css",
-      "sha256": "be1bfa4075b098091cbb685d9e84482ad971cc852c3aacd4a1af4492c90b0c54",
-      "bytes": 6706
+      "bytes": 11199,
+      "sha256": "e848e0a256c6e057015e74e78c8641050ea0b2f4fbb30f8dd15c4c1399f7ceba"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/engine-ui.js",
-      "sha256": "e26f3cf753f01cbc0ae2a4dc9f898620b3bcf351fdb6d0382aa1e9296fe28469",
-      "bytes": 11134
+      "bytes": 16790,
+      "sha256": "581c6f007fd28ca219832914d78a953b3fbca002b9881886444959bfded3e5df"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/favicon.svg",
-      "sha256": "15a30d0e0cac76806b52d3523b31bd50697d32a2082733dd6a253319bf1a3063",
-      "bytes": 318
+      "bytes": 318,
+      "sha256": "15a30d0e0cac76806b52d3523b31bd50697d32a2082733dd6a253319bf1a3063"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/image-adjustments.js",
-      "sha256": "5700f5cc317b0e1da1521ccf35cdf5c858c0768fe3387087ef7dd2e6b0085bb4",
-      "bytes": 5623
+      "bytes": 5623,
+      "sha256": "5700f5cc317b0e1da1521ccf35cdf5c858c0768fe3387087ef7dd2e6b0085bb4"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/ache-neutral.svg",
-      "sha256": "d4488c609d9aec649401bc7a614707b31e9ba63ac914ef4c84506961b6e75492",
-      "bytes": 1465
+      "bytes": 1465,
+      "sha256": "d4488c609d9aec649401bc7a614707b31e9ba63ac914ef4c84506961b6e75492"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/ache-serious.svg",
-      "sha256": "009fa919ff1e1271c4e987c543aa211a9825297a3822bd5dae2a12f8789f1c00",
-      "bytes": 1465
+      "bytes": 1465,
+      "sha256": "009fa919ff1e1271c4e987c543aa211a9825297a3822bd5dae2a12f8789f1c00"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/ache-soft.svg",
-      "sha256": "e59e32647dbfc552a145eb053585433efc76159292013543624de895fa8ab0c6",
-      "bytes": 1462
+      "bytes": 1462,
+      "sha256": "e59e32647dbfc552a145eb053585433efc76159292013543624de895fa8ab0c6"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/ache-thinking.svg",
-      "sha256": "0668e9567c08ed5561308512b6aca177baa4bafccaae10c7a238478d9997095a",
-      "bytes": 1459
+      "bytes": 1459,
+      "sha256": "0668e9567c08ed5561308512b6aca177baa4bafccaae10c7a238478d9997095a"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/book-cg.svg",
-      "sha256": "fd884691746680df52a6830e5a444dd66c27bc6818381a9e16006df6a27a0705",
-      "bytes": 729
+      "bytes": 729,
+      "sha256": "fd884691746680df52a6830e5a444dd66c27bc6818381a9e16006df6a27a0705"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/bookshop-after-rain.svg",
-      "sha256": "1ebfd3fa4f838316f2ac90ad2c104371cdbd9d333a0561af240ae514f7299e09",
-      "bytes": 3676
+      "bytes": 3676,
+      "sha256": "1ebfd3fa4f838316f2ac90ad2c104371cdbd9d333a0561af240ae514f7299e09"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/bookshop-rain.svg",
-      "sha256": "04c9fea61e0ce22793b7a3d233158784cb9af2a0d230d92f95dad6598280a27e",
-      "bytes": 3676
+      "bytes": 3676,
+      "sha256": "04c9fea61e0ce22793b7a3d233158784cb9af2a0d230d92f95dad6598280a27e"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/lin-neutral.svg",
-      "sha256": "60e82eb663bda944e35015180793dbe54ae4ab0eb3600b7a64a1d99cb147648d",
-      "bytes": 1465
+      "bytes": 1465,
+      "sha256": "60e82eb663bda944e35015180793dbe54ae4ab0eb3600b7a64a1d99cb147648d"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/lin-serious.svg",
-      "sha256": "da45fcadcfc8619768c24b5da4706c2a3d56b59dc135e60e31efbae256196a4f",
-      "bytes": 1465
+      "bytes": 1465,
+      "sha256": "da45fcadcfc8619768c24b5da4706c2a3d56b59dc135e60e31efbae256196a4f"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/lin-soft.svg",
-      "sha256": "0c50f44c55edc1d8276373baaf211d146e3cd6407d1734852138444d32c97431",
-      "bytes": 1462
+      "bytes": 1462,
+      "sha256": "0c50f44c55edc1d8276373baaf211d146e3cd6407d1734852138444d32c97431"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/lin-thinking.svg",
-      "sha256": "b9ca3cf2461c552f196d06725a6dd5ca7260599bc3707ffdc933b59601a2011b",
-      "bytes": 1459
+      "bytes": 1459,
+      "sha256": "b9ca3cf2461c552f196d06725a6dd5ca7260599bc3707ffdc933b59601a2011b"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/NOTICE.md",
-      "sha256": "ddb898bf827517bf383d6be85979cb239c796bd22caba5aba2bbbaea3cad070f",
-      "bytes": 153
+      "bytes": 153,
+      "sha256": "ddb898bf827517bf383d6be85979cb239c796bd22caba5aba2bbbaea3cad070f"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/street.svg",
-      "sha256": "0089c3620bf4f17a92190259643c0bb57929a3ac603c84b8fa9621bcedeb5c5c",
-      "bytes": 493
+      "bytes": 493,
+      "sha256": "0089c3620bf4f17a92190259643c0bb57929a3ac603c84b8fa9621bcedeb5c5c"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/demo/visitor-neutral.svg",
-      "sha256": "213b839477f74ec0714f61b8a3e4feac4ce00dd31b755f25675d1b0f39ca758f",
-      "bytes": 1465
+      "bytes": 1465,
+      "sha256": "213b839477f74ec0714f61b8a3e4feac4ce00dd31b755f25675d1b0f39ca758f"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/expressions.json",
+      "bytes": 1228,
+      "sha256": "672fc2ae122b289ffc4fa78e84aa2e64a065dbf0d84fc80464d5a400abf9dabe"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/clubroom-rain.svg",
-      "sha256": "0b995cbfdf1724ca2c678c81001b16c40c67f135d74bc85d406c5453d8134e18",
-      "bytes": 698
+      "bytes": 698,
+      "sha256": "0b995cbfdf1724ca2c678c81001b16c40c67f135d74bc85d406c5453d8134e18"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/clubroom.svg",
-      "sha256": "ce26342a2571ffae9910b47f0d8aa85377794aa3ffc94ec9a96cadf5550848ba",
-      "bytes": 701
+      "bytes": 701,
+      "sha256": "ce26342a2571ffae9910b47f0d8aa85377794aa3ffc94ec9a96cadf5550848ba"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/courtyard.svg",
-      "sha256": "f6c356fe3e608d3668d72728ac7100de43548951142f3b1d37839affa6ed276b",
-      "bytes": 701
+      "bytes": 701,
+      "sha256": "f6c356fe3e608d3668d72728ac7100de43548951142f3b1d37839affa6ed276b"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/hachiman-label.svg",
-      "sha256": "48c2b443d290f0d1566587342ee1c1d34a22e8a6636ebc0a94039b73133626df",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "48c2b443d290f0d1566587342ee1c1d34a22e8a6636ebc0a94039b73133626df"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/haruno-label.svg",
-      "sha256": "3413c911decbd24f360e9b5815688364f31cbb71eb7a0a1d6fa9ca9c8bd54bb6",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "3413c911decbd24f360e9b5815688364f31cbb71eb7a0a1d6fa9ca9c8bd54bb6"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/hayama-label.svg",
-      "sha256": "fdcd63402e838eef554ff8e51416b75d055680168124ee29d177afc7f35a5077",
-      "bytes": 434
+      "bytes": 434,
+      "sha256": "fdcd63402e838eef554ff8e51416b75d055680168124ee29d177afc7f35a5077"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/hina-label.svg",
-      "sha256": "5942e12e7281f22ab6dd3050296216b38c403a59c314843bec702ca964993642",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "5942e12e7281f22ab6dd3050296216b38c403a59c314843bec702ca964993642"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/iroha-label.svg",
-      "sha256": "bf4d579b13e52bfb152c90fb3ead8260c49baa42ccf95a19f96c50f889527979",
-      "bytes": 434
+      "bytes": 434,
+      "sha256": "bf4d579b13e52bfb152c90fb3ead8260c49baa42ccf95a19f96c50f889527979"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/komachi-label.svg",
-      "sha256": "3aae562f24fc3e51b24daff4e903079ab3282db7c285ec96093bf4e850ba5c0c",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "3aae562f24fc3e51b24daff4e903079ab3282db7c285ec96093bf4e850ba5c0c"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/NOTICE.md",
-      "sha256": "4d1d4b5f64b23f1989c7ea76cb3c990767bce91b6c4a899ffa6c23ec9dc2939e",
-      "bytes": 307
+      "bytes": 307,
+      "sha256": "4d1d4b5f64b23f1989c7ea76cb3c990767bce91b6c4a899ffa6c23ec9dc2939e"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/request-cg.svg",
-      "sha256": "f4698cd1a83c17b8def68d3a78d1f821e2d7efa0ee7dd5a71e858602aa6e2a2f",
-      "bytes": 969
+      "bytes": 969,
+      "sha256": "f4698cd1a83c17b8def68d3a78d1f821e2d7efa0ee7dd5a71e858602aa6e2a2f"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/sagami-label.svg",
-      "sha256": "3002bc4ddb349aa67ede4d26051c12768d638bdb16bb3b04fc7dd7c45b94cffc",
-      "bytes": 313
+      "bytes": 313,
+      "sha256": "3002bc4ddb349aa67ede4d26051c12768d638bdb16bb3b04fc7dd7c45b94cffc"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/saika-label.svg",
-      "sha256": "6ac5becf76cd6a8192c2ee3335ebbfb3a8a7afb100113a3483c02534c822825a",
-      "bytes": 434
+      "bytes": 434,
+      "sha256": "6ac5becf76cd6a8192c2ee3335ebbfb3a8a7afb100113a3483c02534c822825a"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/saki-label.svg",
-      "sha256": "8ae20eded9c6ff00a52976bc22462350316533c7fb0399aa932a9afef458dbdb",
-      "bytes": 434
+      "bytes": 434,
+      "sha256": "8ae20eded9c6ff00a52976bc22462350316533c7fb0399aa932a9afef458dbdb"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/script-cover.svg",
-      "sha256": "cf8ec20e4535f1b7ae648000ab1cb945c014fb29cd6623d2ae253fa639bc72a6",
-      "bytes": 743
+      "bytes": 743,
+      "sha256": "cf8ec20e4535f1b7ae648000ab1cb945c014fb29cd6623d2ae253fa639bc72a6"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/shizuka-label.svg",
-      "sha256": "59db8ed23f7bd0b4556849e5bf1fa6cf595673c9e97da83835568301d3e9c439",
-      "bytes": 431
+      "bytes": 431,
+      "sha256": "59db8ed23f7bd0b4556849e5bf1fa6cf595673c9e97da83835568301d3e9c439"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/tobe-label.svg",
-      "sha256": "ecf41d5ba95b42bd7ef8899c4513f3274a8bd608ffcf33ddb6bd76f4fb1b2543",
-      "bytes": 431
+      "bytes": 431,
+      "sha256": "ecf41d5ba95b42bd7ef8899c4513f3274a8bd608ffcf33ddb6bd76f4fb1b2543"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/yui-label.svg",
-      "sha256": "69b65b52d0dac3ac0c8e12277cfce5192ec3d2562a30c652e6a1328e35d3145f",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "69b65b52d0dac3ac0c8e12277cfce5192ec3d2562a30c652e6a1328e35d3145f"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/yukino-label.svg",
-      "sha256": "bc02c25ec179ba0d8b3804b5d52b1f0500892791f28d2065e54d5440a0640e5b",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "bc02c25ec179ba0d8b3804b5d52b1f0500892791f28d2065e54d5440a0640e5b"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/yumiko-label.svg",
-      "sha256": "8c76f555c77deea9be394fdb14316adc5a1534f22f245504ecefe765fde16427",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "8c76f555c77deea9be394fdb14316adc5a1534f22f245504ecefe765fde16427"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/images/oregairu/zaimokuza-label.svg",
-      "sha256": "978abe5881eed5a137e1d56579c75f76742370018c637d0428c2b4aca4e9ba60",
-      "bytes": 437
+      "bytes": 437,
+      "sha256": "978abe5881eed5a137e1d56579c75f76742370018c637d0428c2b4aca4e9ba60"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/clubroom-rain.svg",
+      "bytes": 499,
+      "sha256": "f4cdb653c1d0a103638454641eaf7590d6a95e8eccbcff5a4f5d9d2fedaf671a"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/clubroom.svg",
+      "bytes": 499,
+      "sha256": "f4cdb653c1d0a103638454641eaf7590d6a95e8eccbcff5a4f5d9d2fedaf671a"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/corridor.svg",
+      "bytes": 487,
+      "sha256": "2f058673aa680ce99913f9955dfcd5aba46d262ea70b9c935870a9660f87129d"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/courtyard.svg",
+      "bytes": 487,
+      "sha256": "fffa49927e8577e926ae2e0aeed3f3cf95c7d2ddd98c10ee32112338edad663e"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/hachiman.svg",
+      "bytes": 493,
+      "sha256": "e02f6db78afba7d751d294e0544ba8b311db30ce49ff83d5750966bcb8803949"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/haruno.svg",
+      "bytes": 493,
+      "sha256": "ac86f93d20dfa171e3b3331449bc355abc0778538f8e7c8eb86f6633ae454f82"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/hayama.svg",
+      "bytes": 487,
+      "sha256": "d9b2c44248d3a294d618a958574307ba73cb87a563a60f917b223f328303ff64"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/hina.svg",
+      "bytes": 493,
+      "sha256": "e88c918711f658cae6493a3c9ab242a0ab86895ed1f5e7e728f65880d4119518"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/iroha.svg",
+      "bytes": 487,
+      "sha256": "278391e1cd7cfdda988720d0c02f155049d1590021dfa962d6ac46440b019c83"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/komachi.svg",
+      "bytes": 493,
+      "sha256": "13d35c660fb45e2544d0f482971d15122625326ac8f96a8981dfcd16aeaa7a25"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/sagami.svg",
+      "bytes": 481,
+      "sha256": "199c7ff504cb05d6cfdd632bc8fe2b8c2d1ee380765e61df5f00a2bc08666c46"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/saika.svg",
+      "bytes": 487,
+      "sha256": "5bc41c93ce29d25b855c39f6d6b3db62d26453e8a32ed3caad242ada00d36e16"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/saki.svg",
+      "bytes": 487,
+      "sha256": "b04d13eb882751d07a0fc7edce1fec2992f3e869bcd920419a6a4576577eaaef"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/shizuka.svg",
+      "bytes": 481,
+      "sha256": "87265ffccef11c34f00a7261dfd69c04edba15f23b1c0b8cfdc904c34a8c8186"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/tobe.svg",
+      "bytes": 481,
+      "sha256": "dd4afe3ddd1db1f7aaca4bad33ae5c3bfdc5296e3bfa11adff85bd44e12b70a0"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yui.svg",
+      "bytes": 493,
+      "sha256": "bf0b8e93c85f6d201df9e2c5197f0c4ccab5d2afaef85010c076896519d77ab3"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-displeased.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-eyes_closed.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-happy.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-listening.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-neutral.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-reference.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-sad.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-serious.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-shy.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-soft.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-surprised.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-thinking.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino-troubled.svg",
+      "bytes": 493,
+      "sha256": "6837d0f10d694f738941b829ca9899f4045e498c608c000046c20df9be17f895"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yukino.svg",
+      "bytes": 493,
+      "sha256": "efb2242ef17a8840063dd0f9679d302141e7c6f08249f0bf3064919846621435"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/yumiko.svg",
+      "bytes": 493,
+      "sha256": "c7d3a73ce49a68c94b5c541899970d9d73dbe45e10e962b0f2e0f9a676e9052d"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/images/placeholders/zaimokuza.svg",
+      "bytes": 493,
+      "sha256": "fb5197f2a96c5a29217f5b6fe4a800d8e6eaeccfb3f51a24d2d656c3c42e0f7a"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/index.html",
-      "sha256": "b356340abc0e5455fbf808070b776977993052c4427c3e6f84d81d8a9bf1e9fc",
-      "bytes": 9578
+      "bytes": 11310,
+      "sha256": "0ac3160f9681cce968eb4819ac68b6693a63fa5403723c91d708021861ef3c4a"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music/calm.mp3",
-      "sha256": "8cba6bb3da51066ad39520ec218a327bb6222d8fb32bc52f28a1e90b67756f70",
-      "bytes": 7487656
+      "bytes": 7487656,
+      "sha256": "8cba6bb3da51066ad39520ec218a327bb6222d8fb32bc52f28a1e90b67756f70"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music/CREDITS.md",
-      "sha256": "ac1dcde5a7fe1f18ad591ee2aedfc9341ca6e532a8fa88dc0d8a38f6b19044a7",
-      "bytes": 1624
+      "bytes": 1624,
+      "sha256": "ac1dcde5a7fe1f18ad591ee2aedfc9341ca6e532a8fa88dc0d8a38f6b19044a7"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music/library.json",
-      "sha256": "2d69275b0cb5c287123041c2af3184bf4790b3513e18cb6ab103990486601d0f",
-      "bytes": 3532
+      "bytes": 3532,
+      "sha256": "2d69275b0cb5c287123041c2af3184bf4790b3513e18cb6ab103990486601d0f"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music/reflective.mp3",
-      "sha256": "5195c266275c694f9186dceb23e667c45ed74767d97f6615df01021fed3f048e",
-      "bytes": 5397796
+      "bytes": 5397796,
+      "sha256": "5195c266275c694f9186dceb23e667c45ed74767d97f6615df01021fed3f048e"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music/sad.mp3",
-      "sha256": "b888fa087b580959d5bd49e61340b44dc0b9f85cd3b4c2d35042d47edea77ae8",
-      "bytes": 3947252
+      "bytes": 3947252,
+      "sha256": "b888fa087b580959d5bd49e61340b44dc0b9f85cd3b4c2d35042d47edea77ae8"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music/tense.mp3",
-      "sha256": "43cea2c91a80524d3fdaee00c0823d8e3b001a40332253f8d0b3ea8b36ff73a4",
-      "bytes": 7808360
+      "bytes": 7808360,
+      "sha256": "43cea2c91a80524d3fdaee00c0823d8e3b001a40332253f8d0b3ea8b36ff73a4"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music/warm.mp3",
-      "sha256": "a621a943ab940567f4136060e0f1f0637038b8a03c10ff8926f956e1b2ef34e7",
-      "bytes": 2971312
+      "bytes": 2971312,
+      "sha256": "a621a943ab940567f4136060e0f1f0637038b8a03c10ff8926f956e1b2ef34e7"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/music.js",
-      "sha256": "e634912ef05cc5bdc5d8050c1a5cd741736d599203bacb0ce7c5e8b0e90be168",
-      "bytes": 5334
+      "bytes": 5285,
+      "sha256": "5e10183d581defd8ee0848775161c25300374113ea739679807873e66d85ca46"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/hachiman.svg",
+      "bytes": 488,
+      "sha256": "fd93ba5084b5ae42ef1aa6084378929129afda40839f5d7f598e796be85ffd7c"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/haruno.svg",
+      "bytes": 488,
+      "sha256": "6e021d1c824bdc285df7e13c456685d0b1c734a0cd8d7153efee6c3fc38e8454"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/hayama.svg",
+      "bytes": 482,
+      "sha256": "e84ff962b90954072e18c1074c9ff87a7a5c2dc459ea89460a5290ddc55a05bb"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/hina.svg",
+      "bytes": 488,
+      "sha256": "485e8a0993640b68a8fa89028cbdbe431c66eb4ab3da54704148fc0a3a987b17"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/iroha.svg",
+      "bytes": 482,
+      "sha256": "25c443783dbde04cdf026b4222b23f489f0bc85279a38fee3d58f9471c3a679d"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/komachi.svg",
+      "bytes": 488,
+      "sha256": "186a1a6d3dc4d8b2226b809d6fe0634fdf4d3834e70f38d679a747a3483ffdb6"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/sagami.svg",
+      "bytes": 476,
+      "sha256": "dfb302c1e89b9dc109f82a33703c6985079ab56942afc8104215127979145092"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/saika.svg",
+      "bytes": 482,
+      "sha256": "1ccb84ff3bce038fe84a557b4cab14b8e366ed7e3cbe8656c5928d0f59a0ebd7"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/saki.svg",
+      "bytes": 482,
+      "sha256": "1d28becf6f2e3595ef4bae5c03130da4a8142a5c9514e9ffa072d3aab64422db"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/shizuka.svg",
+      "bytes": 476,
+      "sha256": "657003aa1f2764433f0390bdb12810e64c718b2d0b0db63bbfbc6e28fc2e757c"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/sources.json",
+      "bytes": 172,
+      "sha256": "fe03431fcab2e939ff67cd0fc18d79ddc3d097204abdc0dc9f2fe3b79793bc40"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/tobe.svg",
+      "bytes": 476,
+      "sha256": "bee79e9d7121fc1b343fb464b035e8ecbf751825238d0eca9985b18dbb64c5bb"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/yui.svg",
+      "bytes": 488,
+      "sha256": "40f6767d388bdce0a48e5bffeac4935580cce7c93ba4206197ba5adf4fd3380a"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/yukino.svg",
+      "bytes": 488,
+      "sha256": "df1cda16f7d871fcb2c64568a62c1966c28a2d3c8bddb6638bb6d894a0ca1a39"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/yumiko.svg",
+      "bytes": 488,
+      "sha256": "be15560bd32caae4ff33e62ab2c43eac6a6d153ff85bdfc12c67f244fd3f2072"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/profiles/oregairu/zaimokuza.svg",
+      "bytes": 488,
+      "sha256": "9066521469ed1366e2ba73a2fbf2839ebcacd343ca9a07af7209858a606fd984"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/save-map.js",
-      "sha256": "9af93b4238e370844a24b40954665bce1757d8356e45cdcb0b91d127016fde35",
-      "bytes": 10017
+      "bytes": 10020,
+      "sha256": "00f96024d66b8fef58b123c78340d339fdf2f166fae3f9595e6fb9db090b201a"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/storyline-backgrounds/clubroom-spring-rain.png",
-      "sha256": "704c9b9d0270ee37d23c78adc5f9cf78697558dc47b769f86c8589990164aafa",
-      "bytes": 2220575
+      "bytes": 2220575,
+      "sha256": "704c9b9d0270ee37d23c78adc5f9cf78697558dc47b769f86c8589990164aafa"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/storyline-backgrounds/corridor-spring-evening.png",
-      "sha256": "2de64a2d1d5a7c6e8bdcabdacd4ecee8961925f10daf3f4c3acafbf6cb6dc4c7",
-      "bytes": 2165401
+      "bytes": 2165401,
+      "sha256": "2de64a2d1d5a7c6e8bdcabdacd4ecee8961925f10daf3f4c3acafbf6cb6dc4c7"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/storyline-backgrounds/library.json",
-      "sha256": "2248297f2e8a54ae9ee968124d155daa3b9fed68a13a725e12a2180c7533395d",
-      "bytes": 666
+      "bytes": 665,
+      "sha256": "ae4dcfc6237ef61c4bc1869a604932be49bbbbb19dace7df72a6d1ef859910ee"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/storyline-backgrounds/prompts.json",
-      "sha256": "df6ee478675e6b4847dd4c68aad48e9eeb8fa3fe1d8bf2f6f399e1bb805368a6",
-      "bytes": 1808
+      "bytes": 1883,
+      "sha256": "c4dace94c18d6e07e883638de3ff5b6d475799996fd412b60de20d184ea541c7"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/galgame/style.css",
-      "sha256": "401601addfa96b28baffe4c871dae51ce2e5e785ecbdb700b45dd7e78f79bb20",
-      "bytes": 34149
+      "bytes": 34149,
+      "sha256": "401601addfa96b28baffe4c871dae51ce2e5e785ecbdb700b45dd7e78f79bb20"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/galgame/world-map.js",
+      "bytes": 5875,
+      "sha256": "8062d77d6b88fa1ac3a20f5797b9cea673861dd799ef333298c4860786454ca1"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/oregairu-fixed-events.md",
+      "bytes": 3179,
+      "sha256": "f941e3896dae9924d0d693d91c2312f9549353305f70b50939504344850c9118"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/protagonists/hachiman.json",
+      "bytes": 2384,
+      "sha256": "ba49805056cb32284e92f1209873ccfb85838500d6a19a6ccfd6324dfbc17abd"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/script-readme.md",
+      "bytes": 7296,
+      "sha256": "785d683d2b26f42402cbbc4c954081fa7f34f575498de5808432e3bb2e069cac"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/storylines/oregairu-volume14-short.json",
-      "sha256": "39f027ba9492e4ea8e69bce9826a55d854a509a3546fcfa49d2264914b6c359f",
-      "bytes": 35317
+      "bytes": 35317,
+      "sha256": "39f027ba9492e4ea8e69bce9826a55d854a509a3546fcfa49d2264914b6c359f"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/gameplay/combat.py",
-      "sha256": "ad6b4286c1723a77f7292226d063639c5730f99c637df934e4bf9829bd7a7b1c",
-      "bytes": 2119
+      "bytes": 2119,
+      "sha256": "ad6b4286c1723a77f7292226d063639c5730f99c637df934e4bf9829bd7a7b1c"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/gameplay/quests.py",
-      "sha256": "2873f52f068373621f7499adfbe91ce81efeb00cdeb0a142d1c60bc92c34e164",
-      "bytes": 5343
+      "bytes": 5343,
+      "sha256": "2873f52f068373621f7499adfbe91ce81efeb00cdeb0a142d1c60bc92c34e164"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/gameplay-training-script.json",
-      "sha256": "a962b64044c794b9ffd32c7f37fa2a5e3414d6ba02e302252c9f521b03150b9c",
-      "bytes": 8899
+      "bytes": 8899,
+      "sha256": "a962b64044c794b9ffd32c7f37fa2a5e3414d6ba02e302252c9f521b03150b9c"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/world-templates/location-presets.json",
+      "bytes": 579,
+      "sha256": "818c13a07c24a5a1b132d3a135d6ea8acb7853d22a5ed82e24ec8232f22ae496"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/world-templates/map-schedule-lab-script.json",
+      "bytes": 9872,
+      "sha256": "9074b89b9fb65c40564a21744551b0cdf117611037915fbb79bfbc91f23f9893"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/module-package-example/combat.module.json",
-      "sha256": "bb22ef33db844cc347bf6608109fdbfd6747bf5f7a3fe37c33a634d172f31e65",
-      "bytes": 214
+      "bytes": 215,
+      "sha256": "f17839b772c71752597f4e03f15996d53e390851e23bd765bcf0f4e0e793b79c"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/module-package-example/combat.py",
-      "sha256": "ad6b4286c1723a77f7292226d063639c5730f99c637df934e4bf9829bd7a7b1c",
-      "bytes": 2119
+      "bytes": 2119,
+      "sha256": "ad6b4286c1723a77f7292226d063639c5730f99c637df934e4bf9829bd7a7b1c"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/world-templates/module-package-example/manifest.json",
+      "bytes": 155,
+      "sha256": "790d74bbbadc90deff2b29e5f03f669fa542532772a58f2f24c21a69fe7813ba"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/module-package-example/settings.json",
-      "sha256": "a81b192bdc8b6f50c170e2be616ba1f9823f56578233bd4d0852e85ecfa9dc2b",
-      "bytes": 4855
+      "bytes": 4856,
+      "sha256": "f809265193607b3e1b78226519aed2416c4bac41cae2924c5d79256df87c75e4"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/module-package-example/world.json",
-      "sha256": "50fa67f4a3ad1a9941c372814d16e037594233811c0a59babd0d18e78a38a32d",
-      "bytes": 1117
+      "bytes": 1118,
+      "sha256": "b6abbd17345b35e05bf017b1bc3fc93a8b777a36937685853bab1dc156d9e6b4"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/world-templates/oregairu-core.json",
+      "bytes": 97454,
+      "sha256": "52f8f27c114b5efc7f720218030627466416e81cc46ad3347094ee23c9e5a08d"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/oregairu-script.json",
-      "sha256": "93b4fc27f65ce80b672924cc105e8a9309856bb92901729cb24fac0700de7e5e",
-      "bytes": 123607
+      "bytes": 242572,
+      "sha256": "153d1724ccd4b32ca30c35a9efedc0b2b59bf94211ca6de9ab173b1edb544eec"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/assets/world-templates/oregairu-world.json",
+      "bytes": 123598,
+      "sha256": "750c9b7f4264e59947b1f91242e32388eb77ee0ef3505ec2334b3cf1b350c26c"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/rainy-bookshop-script.json",
-      "sha256": "2c06a0d493783b24e77eb9bf188df1ea02140e9a1a83faf07e9fafa9f89c787c",
-      "bytes": 9724
+      "bytes": 8936,
+      "sha256": "8ef902a61c55636d8933b231dd3ec6cb1233186eb145661c49dab2b5980307dc"
     },
     {
       "file": "skills/sillytavern-roleplay/assets/world-templates/time-module-example.json",
-      "sha256": "b847a4d766bd60cd386695440549eae83d0386ca065b1c259da6da212fb837ae",
-      "bytes": 819
+      "bytes": 819,
+      "sha256": "b847a4d766bd60cd386695440549eae83d0386ca065b1c259da6da212fb837ae"
     },
     {
       "file": "skills/sillytavern-roleplay/LICENSE",
-      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
-      "bytes": 34523
+      "bytes": 34523,
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
     },
     {
       "file": "skills/sillytavern-roleplay/NOTICE.md",
-      "sha256": "8ca1dd0081d7048a40996e2c454df72a9b3f61e20a11eaf4cccf1f6fb74fceed",
-      "bytes": 2572
+      "bytes": 2572,
+      "sha256": "8ca1dd0081d7048a40996e2c454df72a9b3f61e20a11eaf4cccf1f6fb74fceed"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/action-admission.md",
+      "bytes": 6259,
+      "sha256": "9be1a2d24bf1b93747df5a643032493cf353cc564fe20b69600d3595b3f8df4b"
     },
     {
       "file": "skills/sillytavern-roleplay/references/affinity.md",
-      "sha256": "7575b7aea866856ffd6b9d72e6c394ad8cea8cccecafed75df7c5449b9fe8d60",
-      "bytes": 6181
+      "bytes": 6181,
+      "sha256": "7575b7aea866856ffd6b9d72e6c394ad8cea8cccecafed75df7c5449b9fe8d60"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/agent-memory.md",
+      "bytes": 5734,
+      "sha256": "fdcb9ec2e153b83ee081472fd05adb9f4acfd3e8c1495bdaf6e2fd83fb1484c5"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/audit-fixes.md",
+      "bytes": 5862,
+      "sha256": "47f360d64c94bc8662ca5c35c6e55aa24fe60ed2d6c04150285144f037b0a021"
     },
     {
       "file": "skills/sillytavern-roleplay/references/browser.md",
-      "sha256": "e2295b293a90bba12681496fa0d10a161315cd68c912e03afdf17dc50f7276c5",
-      "bytes": 2228
+      "bytes": 30042,
+      "sha256": "a01d8bc4f146ac28246a2b1fa2590cb68349ccdfa52d3bd702cba5d7c27387ab"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/calendar-authoring.md",
+      "bytes": 6858,
+      "sha256": "390a7c3e11dd44644b9cc0c34980e38bc94978e577b01333b45e209cd786254a"
     },
     {
       "file": "skills/sillytavern-roleplay/references/compatibility.md",
-      "sha256": "e1259c7a7140dd7f758a5e5eb92c4d70136a187fc2bbb2b4dedee6a6f34fdf75",
-      "bytes": 3324
+      "bytes": 3324,
+      "sha256": "e1259c7a7140dd7f758a5e5eb92c4d70136a187fc2bbb2b4dedee6a6f34fdf75"
     },
     {
       "file": "skills/sillytavern-roleplay/references/gameplay.md",
-      "sha256": "3b8d6f6d68205e94197f36c3dd513d22edc2c08cd7f2e4eaa4e002ef4071dae3",
-      "bytes": 11613
+      "bytes": 11613,
+      "sha256": "3b8d6f6d68205e94197f36c3dd513d22edc2c08cd7f2e4eaa4e002ef4071dae3"
     },
     {
       "file": "skills/sillytavern-roleplay/references/illustrations.md",
-      "sha256": "b2dfc4aeb38a4f495e3c2d8c4eab2911c43b3b500f311fe0f1757641956f8db0",
-      "bytes": 3909
+      "bytes": 3909,
+      "sha256": "b2dfc4aeb38a4f495e3c2d8c4eab2911c43b3b500f311fe0f1757641956f8db0"
     },
     {
       "file": "skills/sillytavern-roleplay/references/image-adjustments.md",
-      "sha256": "e2c69c4e939c57a58306c837bb271a901956642fa5b928841001531ddc6ced78",
-      "bytes": 1669
+      "bytes": 1669,
+      "sha256": "e2c69c4e939c57a58306c837bb271a901956642fa5b928841001531ddc6ced78"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/location-exploration.md",
+      "bytes": 6809,
+      "sha256": "ae497d0dae524bfb81ea5a64b05c12fed053d33d20e32bd024dd64d49c41de1f"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/npc-schedules.md",
+      "bytes": 7425,
+      "sha256": "3c2272d569aeb497f68d9bfef3e9c048798310ba093ead80e8d766dd4f478ee0"
     },
     {
       "file": "skills/sillytavern-roleplay/references/oregairu-art.md",
-      "sha256": "e111a7592db9f8c598808c5f020b36bdef8bde661b985956b3b90a8102ab364c",
-      "bytes": 4352
+      "bytes": 4352,
+      "sha256": "e111a7592db9f8c598808c5f020b36bdef8bde661b985956b3b90a8102ab364c"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/oregairu-personal-background.md",
+      "bytes": 4386,
+      "sha256": "409dedf1555869e114e1f8a43e269f704cf6fce729693c6d0c0b120092d74708"
     },
     {
       "file": "skills/sillytavern-roleplay/references/oregairu-sources.json",
-      "sha256": "f992077e4d83e7c313a5d11fb64b39140eacf37236c27b5ece5e201410d77576",
-      "bytes": 3357
+      "bytes": 3792,
+      "sha256": "4ab3cd3826990e4fb5f7dac1684a9b85eabc89f3b53179a475ab5635396f1699"
     },
     {
       "file": "skills/sillytavern-roleplay/references/perception.md",
-      "sha256": "e9a47f431ff39f3efc52c42556d02374a4850af66e92a611d575dff9a869724a",
-      "bytes": 10632
+      "bytes": 10632,
+      "sha256": "e9a47f431ff39f3efc52c42556d02374a4850af66e92a611d575dff9a869724a"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/response-suggestions.md",
+      "bytes": 1461,
+      "sha256": "67e0b6cc3deead02c32c5c2a173abe427bdfa743ac532d437073be50a5741f7d"
     },
     {
       "file": "skills/sillytavern-roleplay/references/roleplay.md",
-      "sha256": "9dd7030eb087cfd1c002d7a418dbe3a00c0f85df7cfffb7286141f71cfc1378d",
-      "bytes": 2387
+      "bytes": 2387,
+      "sha256": "9dd7030eb087cfd1c002d7a418dbe3a00c0f85df7cfffb7286141f71cfc1378d"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/school-calendar.md",
+      "bytes": 3963,
+      "sha256": "67e72de6444499db09a1c97fc18dfe8a783a04156e249cef0767304454acad9d"
     },
     {
       "file": "skills/sillytavern-roleplay/references/script-creation.md",
-      "sha256": "40149f2cb9e71f66af51ba6bd9251576a278411a765a9ee4ed1d0375dd440924",
-      "bytes": 16800
+      "bytes": 18181,
+      "sha256": "64282695a365c99b91100360be173f06d74efbfcebbed215d35162c00816fa7d"
     },
     {
       "file": "skills/sillytavern-roleplay/references/scripts.md",
-      "sha256": "9948382eac50e4bc0697f98563b56286821e89b8aa666690d538e19fd3c41818",
-      "bytes": 9904
+      "bytes": 9904,
+      "sha256": "9948382eac50e4bc0697f98563b56286821e89b8aa666690d538e19fd3c41818"
     },
     {
       "file": "skills/sillytavern-roleplay/references/shared-gallery.md",
-      "sha256": "f86726573a78a8bb83b2a7acedc8d136d0628d4debecf0be3ac0998fc4fa93f1",
-      "bytes": 3415
+      "bytes": 3415,
+      "sha256": "f86726573a78a8bb83b2a7acedc8d136d0628d4debecf0be3ac0998fc4fa93f1"
     },
     {
       "file": "skills/sillytavern-roleplay/references/storage.md",
-      "sha256": "163331dca740cdbb9d804c12e06a483dad6bc492f36b836508663228ced8a529",
-      "bytes": 3327
+      "bytes": 3327,
+      "sha256": "163331dca740cdbb9d804c12e06a483dad6bc492f36b836508663228ced8a529"
     },
     {
       "file": "skills/sillytavern-roleplay/references/story-export.md",
-      "sha256": "5336f1a585d7f8487fd9c0ca1e9b1d35126bf8d4e94874f9acfccf010a344e0a",
-      "bytes": 1366
+      "bytes": 1366,
+      "sha256": "5336f1a585d7f8487fd9c0ca1e9b1d35126bf8d4e94874f9acfccf010a344e0a"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/story-presentation.md",
+      "bytes": 1846,
+      "sha256": "68a1d2232fb57cc71f440496afadf6dcef741e574c22df28865c07b01f930af5"
     },
     {
       "file": "skills/sillytavern-roleplay/references/storyline-authoring.md",
-      "sha256": "a5bf73441a7e863ba124012844fae4bef3048df090a73a4cd8fe9e3a369499b0",
-      "bytes": 13809
+      "bytes": 13809,
+      "sha256": "a5bf73441a7e863ba124012844fae4bef3048df090a73a4cd8fe9e3a369499b0"
     },
     {
       "file": "skills/sillytavern-roleplay/references/storylines.md",
-      "sha256": "d1504681572f5611476a2381da414158c53d3d21895d59e24482f561ed1b186a",
-      "bytes": 7060
+      "bytes": 7060,
+      "sha256": "d1504681572f5611476a2381da414158c53d3d21895d59e24482f561ed1b186a"
     },
     {
       "file": "skills/sillytavern-roleplay/references/time-system.md",
-      "sha256": "d7ee23f12e315b2cd7e891c87c55dfb46c67b9c4639c1bfb44f47939492b2ca8",
-      "bytes": 6452
+      "bytes": 6452,
+      "sha256": "d7ee23f12e315b2cd7e891c87c55dfb46c67b9c4639c1bfb44f47939492b2ca8"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/world-mode.md",
+      "bytes": 7306,
+      "sha256": "6b7cd8a4f98128d6397909e334f354851e0503cd6833bbe20d471e478c769d33"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/world-plans.md",
+      "bytes": 7029,
+      "sha256": "0c3f2f90fbbf3df2eceb325edc08ef4c02720888f561beca5438667c7bf7a8f3"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/references/world-playtest.md",
+      "bytes": 5448,
+      "sha256": "302f4012be81bb95c71b90608ae8198189709198017e66b300afbc8c9190b1f2"
     },
     {
       "file": "skills/sillytavern-roleplay/references/worlds.md",
-      "sha256": "de37406b47031f1b0e861be1c371f51de88869347a4f02832de269acdf91e0a7",
-      "bytes": 4458
+      "bytes": 4458,
+      "sha256": "de37406b47031f1b0e861be1c371f51de88869347a4f02832de269acdf91e0a7"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/action_guard.py",
+      "bytes": 8682,
+      "sha256": "11a9f92b8ace6d69f7fe0f1148fa589dee5952b0d3423030b8bd5e416a9a0d21"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/action_methods.py",
+      "bytes": 3028,
+      "sha256": "510696d315593654e8444d2af62f8b7054aca611e9a8d57f78c6284b515cd739"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/activity_history.py",
+      "bytes": 4556,
+      "sha256": "d8f533030b15c6d6b7baf0976296db44b6e3149058ae2cf3601ea66bbe435c01"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/actor_context.py",
+      "bytes": 14557,
+      "sha256": "104bfb973b6ccb24e93eef2a3d4072a1e3a46fb500acaab720c860aa6f6b04ad"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/affinity.py",
-      "sha256": "941a8c4d5d1b3511905a089434c3e31bd9b20ddb68a6f91bf255c1ebc06a9f12",
-      "bytes": 7942
+      "bytes": 7942,
+      "sha256": "941a8c4d5d1b3511905a089434c3e31bd9b20ddb68a6f91bf255c1ebc06a9f12"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/authored_story.py",
-      "sha256": "931b9bb2b37677b657bf5b4841d44c3678b9d873af83ab3ea498f8bd28e78fe1",
-      "bytes": 36871
+      "bytes": 37218,
+      "sha256": "bcf67666abe5cf75581d69d9042b57c16d989cd7fd5c8d18a8de49ead0cd729e"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/basic_cards.py",
+      "bytes": 9111,
+      "sha256": "b06292e71fd037c3bf55b7db26b95ff3d081439304cf729d7c1d23d7a3ef4f7f"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/branch_store.py",
-      "sha256": "1d2a821150aaf5ced4341b46a2e661251fe0ca894ddcccbde416d56f44d0f14e",
-      "bytes": 4366
+      "bytes": 4523,
+      "sha256": "04d82845798917834f9ffc5240ed1a596ea9e3993ffba946586abc14929c3ff2"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/card_refinement.py",
+      "bytes": 18940,
+      "sha256": "712ba7edca61e4d65caefadffc2d4569c3ac03c0dff1a06af6ae6e79d3c48c30"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/card_runtime.py",
+      "bytes": 47427,
+      "sha256": "76a374ef5344608cf63a21d88444e3eba09646617eacd88307523894ef7f8d15"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/card_validation.py",
+      "bytes": 3667,
+      "sha256": "141646f61bf5483671b244fe0cfe9e8fe40ee887c05051bacc67d5ea0cf596b5"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/cast.py",
-      "sha256": "0894602d542b6669ed9375bd50d174aa41f0f6d343407ffc4f7df0dafe1c169c",
-      "bytes": 8106
+      "bytes": 7579,
+      "sha256": "86aa7184ccc27d5bb7ecb2232c7d49a4380a5d3c3710cf093f6e4587e37f4bad"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/create_script.py",
-      "sha256": "69d8b9da26e097b671ed6e59c899f26308f7e4c1ae680d4a6e4cdff5666db413",
-      "bytes": 2071
+      "bytes": 2071,
+      "sha256": "69d8b9da26e097b671ed6e59c899f26308f7e4c1ae680d4a6e4cdff5666db413"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/daily_life.py",
+      "bytes": 5363,
+      "sha256": "993d3cab9c8bfd4793bf7555939867856d9c34c7d6887306be4a3fa87d281695"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/deepseek_client.py",
-      "sha256": "a23a31ef8c070f7bc1ed2ecdce8b8772e92862820c97ae5ff2c8250d1e60c9eb",
-      "bytes": 13999
+      "bytes": 13999,
+      "sha256": "a23a31ef8c070f7bc1ed2ecdce8b8772e92862820c97ae5ff2c8250d1e60c9eb"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/diagnostic_system.py",
+      "bytes": 2405,
+      "sha256": "08b1fdf36f159ede4f8d7cdf09a49d3ce221d4380c9d572f919cde497852aad6"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/dialogue_state.py",
+      "bytes": 2956,
+      "sha256": "f2d11f3da1ca76328b23e55529d6c2e204e51d65fbf7e27d927e3b7db41f4761"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/engine_v5.py",
-      "sha256": "a86dd537defcfd8340ebcfaf924ca573deb6ba2ce4e6b4717b3c31c4a89a4230",
-      "bytes": 24352
+      "bytes": 24430,
+      "sha256": "36a8dd0b477128cb7953aa3d765251fb5715f639fec3c9d89ec84e31b150ca47"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/event_rules.py",
+      "bytes": 3651,
+      "sha256": "a462224e2d45c3b0262d354575531b3709dfc76e4ee25362136fe5e6b933319b"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/event_schema.py",
+      "bytes": 12620,
+      "sha256": "2ef4f872e10855c01753eee4d46d56eadf1c5b03541581f2d3ca8383e3d9a8dc"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/fact_ledger.py",
+      "bytes": 19155,
+      "sha256": "735ca0af5d9851427ef2f21dbd23430ea44a5342da354aab3ad5ad98c8a4ec16"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/feature_budget.py",
+      "bytes": 1627,
+      "sha256": "d35abfe378510d68b00b9244248362459f8f9637f17becd7db4c053657d6679f"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/fixed_events.py",
+      "bytes": 15691,
+      "sha256": "f1f05f6fd0355362d25788f0a0fdac31773cfb7a9552edb0d62002ff0557a79a"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/galgame.py",
-      "sha256": "c5f58abe1d97deb439239a9fae538fc623984f409032eab02e71c100abeffbe5",
-      "bytes": 73915
+      "bytes": 79194,
+      "sha256": "76a18c276a2a50034a6d19766317d0561daa6b14ce6a583a014ac95c272dd3a0"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/gameplay.py",
-      "sha256": "1c28050bc2cc40da3c4345fc62ca2eebaa3b42f86ed688f079801003dcf3cfdf",
-      "bytes": 9202
+      "bytes": 10015,
+      "sha256": "049e64b1e0832838540b16289c8892597c691427853de2644d737fbea38668f6"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/gameplay_worker.py",
-      "sha256": "dd2980f9e4bbf2d493c366c304b390ea85cea25787b268ff3b2c9c8fcfbce451",
-      "bytes": 4503
+      "bytes": 4503,
+      "sha256": "dd2980f9e4bbf2d493c366c304b390ea85cea25787b268ff3b2c9c8fcfbce451"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/goal_disclosure.py",
+      "bytes": 6252,
+      "sha256": "ecb770e1b9177b4717c40248b407f1625d1d4ac80a09d6e4654589cf7d8e0503"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/goal_feedback.py",
+      "bytes": 7142,
+      "sha256": "a3498df667ac321098d77ca2c3a0ba87f2455e921cc7f811a1326649e8357404"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/goal_motivation.py",
+      "bytes": 2214,
+      "sha256": "277242dc9018155f4f1548db4680aabb2731ecc92afccb2e53e9186da91cb193"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/goal_planner.py",
+      "bytes": 22003,
+      "sha256": "944840db9a08bab73051d980fc1fad8cef146326966817f9407082125149e82a"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/goal_sets.py",
+      "bytes": 13911,
+      "sha256": "af7014d31b3918fb18b09b82c7eb13cd89302960e69dc3d99f75a692254155bb"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/image_adjustments.py",
-      "sha256": "f307163229688da2647219077dabaccdaaba3d27e77804666db22bde8feebfa4",
-      "bytes": 11903
+      "bytes": 11903,
+      "sha256": "f307163229688da2647219077dabaccdaaba3d27e77804666db22bde8feebfa4"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/image_backends.py",
+      "bytes": 16359,
+      "sha256": "92e806f718ba42fed36e83d3555bc5a11275274e8185acc33fef0a0235222207"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/image_service.py",
-      "sha256": "bc5b18630df63831480f1908bf00a8ce17dbaa434f5bdcc35f962264c77aafcd",
-      "bytes": 7775
+      "bytes": 7831,
+      "sha256": "364282570283704dd0c8a53bf94420cffe95fca7297e44cc9805b04e13cb071b"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/input_grounding.py",
+      "bytes": 10056,
+      "sha256": "86b4abfd8f283456f31010ccb2032636b1ba002160b141a886cbb8b52f3ec5c2"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/input_program.py",
+      "bytes": 27716,
+      "sha256": "03c840a76bd53ccb90576632b4a71cf443f61ea633f1216b4e0e318bf823c442"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/inspect_world.py",
+      "bytes": 1771,
+      "sha256": "f8baef7c5a92bdae6c109b37c684e08677b3a9a8a729f456a45646f79833a2c0"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/item_rules.py",
+      "bytes": 8148,
+      "sha256": "ef21e69afcd0c5fd6885d1b0402a05b5bb1ee50c1490eb05930d79e514def6dc"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/job_retention.py",
+      "bytes": 1270,
+      "sha256": "57582e3714ef1ee7da34d3c6b5e5f0b6fd7ef79277660378e767a37950d6321b"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/language_actions.py",
+      "bytes": 7375,
+      "sha256": "aa9db6fb8e693c59a1ce2b1b263d2e5edc36d5209050de8eacfd228730ec72d9"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/launch_galgame.py",
-      "sha256": "9bc779cda7797c393caa1719e023d801df8a03b5fcca5049f8f49847b5183bab",
-      "bytes": 4012
+      "bytes": 4076,
+      "sha256": "46edb5c8ba5237576f5c161ec28f4bd67f6247cb960ff897d421f09859da53a0"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/long_memory.py",
-      "sha256": "dbb314d00da08a654aca525bf0f90a95b51cb28c5ccc318cd36f4e4c69425bc2",
-      "bytes": 8372
+      "bytes": 8372,
+      "sha256": "dbb314d00da08a654aca525bf0f90a95b51cb28c5ccc318cd36f4e4c69425bc2"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/map_exploration.py",
+      "bytes": 7325,
+      "sha256": "03792b2fc387d05343928f842af490650ad6faf4f34564e0cfda0c1c736d93be"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/map_references.py",
+      "bytes": 2662,
+      "sha256": "0ea02878c96716a163bd76b4c83575ac2792f5ed855cb00836cbc30cf915b653"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/map_runtime.py",
+      "bytes": 15556,
+      "sha256": "2757de453e9d79197d94d508bed6f9e191825c181866150183e84de694e8c5af"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/map_schema.py",
+      "bytes": 10159,
+      "sha256": "a9db97ed041d85f4b0924ab0d4c5a3238bd25c5f6666bee52e0b448c4fbecf7f"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/migrate_v46.py",
-      "sha256": "81fec80ddb7c9f91f073e5c14e016d551bba0415528b495433af79cf6eaa29e4",
-      "bytes": 7576
+      "bytes": 7576,
+      "sha256": "81fec80ddb7c9f91f073e5c14e016d551bba0415528b495433af79cf6eaa29e4"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/model_context.py",
+      "bytes": 3763,
+      "sha256": "54453681e6b047c8c0209eb016b51f254d7fc2a1a46b02ceba2d811be0f1a121"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/model_protocol.py",
+      "bytes": 4564,
+      "sha256": "55b91b9b3ccfefd98b8dc27394fbda7d01c8175c3b9ccf50bd7a2c7f69ca9999"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/npc_schedule.py",
+      "bytes": 14197,
+      "sha256": "f0bc58851d3f733a8d151d7e3ef88652b25773efbbd9ccee21d7c7acc53ca830"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/perception.py",
-      "sha256": "edfd7acf07ebc5e84239d1f3767aee9ba1f3d15c175e8041c6befbcb8ecadcc7",
-      "bytes": 37647
+      "bytes": 37647,
+      "sha256": "edfd7acf07ebc5e84239d1f3767aee9ba1f3d15c175e8041c6befbcb8ecadcc7"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/permission_language.py",
+      "bytes": 3566,
+      "sha256": "30d6c50e4aba8573f9b806af34a1495e14cc3137ba6c697685df18300f2feaaa"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/place_hours.py",
+      "bytes": 1574,
+      "sha256": "6cb336e67294ac8270982bd4e16d751ceff30bcd843977d961d1a4d973a08e13"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/player_feedback.py",
+      "bytes": 3571,
+      "sha256": "9169cfda7048e52077cd80720be766144d00c8f957554a854837f559e44bbf7b"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/portable_media.py",
-      "sha256": "7b7a48dcd22ea84c52e76a4903c2ec300478e2fd94a94ace7e5832c173936684",
-      "bytes": 759
+      "bytes": 759,
+      "sha256": "7b7a48dcd22ea84c52e76a4903c2ec300478e2fd94a94ace7e5832c173936684"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/preview_library.py",
-      "sha256": "ccc3a78e25b7ca990edd06657835ec82e8487ee269f2b8d565b2c4d22f5e5f29",
-      "bytes": 2162
+      "bytes": 2162,
+      "sha256": "ccc3a78e25b7ca990edd06657835ec82e8487ee269f2b8d565b2c4d22f5e5f29"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/process_locks.py",
+      "bytes": 1531,
+      "sha256": "42bebedc1e5e15e5ac74c6b2440c306f88dd3e19942bb28ba27232f783e6a6f4"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/profile_catalog.py",
-      "sha256": "4a38d39539d19799565094894a0f0a3c1039d9ae16dcc43f52e0bf26c97994e7",
-      "bytes": 3886
+      "bytes": 3917,
+      "sha256": "9b5729f7419c8e935f6004e032175c12db0176176ab744d953a91f83298e241a"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/prompt_cache.py",
-      "sha256": "40134b3b8d5810861903222f4aa025e7b18eac4fdf9de7b607bd223cc2c55975",
-      "bytes": 1009
+      "bytes": 3409,
+      "sha256": "5fb19effc510aabd0298968cf1729ff167a6b589fd53fbe5bb4c1acd709785d8"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/prose_facts.py",
+      "bytes": 2254,
+      "sha256": "471b72a55d71cc01cd81a4e411bf1ea69f8f1485cae6c918eb92d6f5eb0f83ee"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/read_permissions.py",
+      "bytes": 5149,
+      "sha256": "f20d8acbdee91850881e185a1beecc86884327fb8dbaced3673c3150b0948199"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/recognition.py",
-      "sha256": "a314255da515da167b8e800eb0a8657084959a174dd8178e047b69e5a98b483d",
-      "bytes": 10224
+      "bytes": 10224,
+      "sha256": "a314255da515da167b8e800eb0a8657084959a174dd8178e047b69e5a98b483d"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/relation_policy.py",
+      "bytes": 7219,
+      "sha256": "b9db8c5a0a27109a70c1cf552593973d77e95611e93a5ceb6da6b69f1fee6ed0"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/relationship_graph.py",
+      "bytes": 2809,
+      "sha256": "a3460b2798a71409bfb09f1a7ae5d1e34e4965738c2e99073ae8c887f98481ab"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/room_presence.py",
+      "bytes": 4493,
+      "sha256": "65ac3fdd17e4fce4fd4ad9cddca5aa9b3265d92cde044acba1c8e3ab64329aa0"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/runtime_budget.py",
+      "bytes": 1232,
+      "sha256": "49dc8f6fdde7f8880d635883ea04597648f299d9dcfee7bb363c0b4509fc366f"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/runtime_v4.py",
-      "sha256": "777d811a204363709a9d7b42c7e99a1a6fb96f5178baa85a2e646d16c559d0de",
-      "bytes": 45044
+      "bytes": 45830,
+      "sha256": "7ce9bec9762d7fdfe0d66e39569933a89a638a3fbeedd0550a1731039e5ec94e"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/save_manager.py",
-      "sha256": "b4224f9ca3d2ac0f3007504aade57176a863076042c71218d1e456786e00fd4b",
-      "bytes": 11308
+      "bytes": 15533,
+      "sha256": "af4363a77a265e90361e4f58d78fea7d2b875f5f82c097f479c4ffcfd1998b18"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/scene_presence.py",
+      "bytes": 2292,
+      "sha256": "13ffad9d8e49bb122c9de55d444bfcc31d35745c418dfed9fecddac6c4251711"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/schedule_runtime.py",
+      "bytes": 19766,
+      "sha256": "4381f1a7389819b92b5132ce3006667ab603c9f10b0ca7f3a35a876ffc80ce39"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/school_calendar.py",
+      "bytes": 14776,
+      "sha256": "3781474646653b88270a0807bb52f2d1eb5113861ad2e801f6d8fefddc6d97a9"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/shared_gallery.py",
-      "sha256": "fdd4a625b198698ab2d58c837203e011cbcfce3475ca4a7f3cd685833c7a5951",
-      "bytes": 7824
+      "bytes": 7879,
+      "sha256": "f0e2476a53ba08f8140266a05ae0c99418a78cf8dca38368284324c7712a3d94"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/speech_channels.py",
+      "bytes": 5420,
+      "sha256": "dd7965e8b8ad68c7523578baba78a9ff6bc4e76101a219f6ec608d7bbcc7cad4"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/speech_rules.py",
+      "bytes": 3045,
+      "sha256": "0a98cc95695a6ba35ae2e7d6e2ce8f880d4a98c5e0eb4020672db17c02fa1f2a"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/spoken_sources.py",
+      "bytes": 1972,
+      "sha256": "a20e0a0db0bfb5a0c4946b43a44738dd69802d5172e7995502a77bcd02062796"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/storage_codec.py",
+      "bytes": 3611,
+      "sha256": "1673834d354bdc4bbec4db575b47fceca7846ae181107134d9f0f8f3ded22439"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/story_engine.py",
-      "sha256": "43e1ebba708cdf30609282114926863449c103b3c1223cdac8e0dff07421f04c",
-      "bytes": 8925
+      "bytes": 8925,
+      "sha256": "43e1ebba708cdf30609282114926863449c103b3c1223cdac8e0dff07421f04c"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/story_history.py",
-      "sha256": "8cda41f8272c0fbf9812c872c3a6572c358498f94402ce1112beea6e589b9d1f",
-      "bytes": 5821
+      "bytes": 6145,
+      "sha256": "50dfa10060f2c4fe5d7eb2c63079525ce613e1abc5b203b5cf604b5e8322facd"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/story_time.py",
-      "sha256": "4beac9edcd334f2bb5a3b1a5fa5a84261d19b2e4a6e583a0d87aa35dbd5158c2",
-      "bytes": 14925
+      "bytes": 14925,
+      "sha256": "4beac9edcd334f2bb5a3b1a5fa5a84261d19b2e4a6e583a0d87aa35dbd5158c2"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/tavern.py",
-      "sha256": "a64cfbb66ee69b49570bfa59288a41a6cd2c30084bdb341dfd28a47d5ee419a5",
-      "bytes": 24502
+      "bytes": 26221,
+      "sha256": "c7af011df4e31b6f55936a225a847b4f58ccfc6836885115f43a38365e8f3c0b"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/turn_format.py",
-      "sha256": "96dd3ce2a107b4c60d8215a886fd708b95baa5521f4d288da54cb694fc56f673",
-      "bytes": 7715
+      "bytes": 7715,
+      "sha256": "96dd3ce2a107b4c60d8215a886fd708b95baa5521f4d288da54cb694fc56f673"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_activity.py",
+      "bytes": 9407,
+      "sha256": "5732944ade592a38aa33ff03828a3836a0581597fb091e8cf8b704a6e5f8265f"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_authored.py",
+      "bytes": 1379,
+      "sha256": "353133a97678db11fd79b76af3f760b968b2c89c7bed1207d80c75d4605493b1"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_choices.py",
+      "bytes": 7237,
+      "sha256": "cf7232c26657d5bade9f5b0e13e30c4fef14c1542e3608e99d2e3fe8c694b07e"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_defaults.py",
+      "bytes": 9813,
+      "sha256": "5ec2c352d985f52ec8a095fc9b4acb331a7814843856d672644db6b77b258e93"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_heartbeat.py",
+      "bytes": 13859,
+      "sha256": "dc1c19b142a1eafa421a55b63262b351d84dfd416b92d234669c59ab0dd944be"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_input_checks.py",
+      "bytes": 4388,
+      "sha256": "2d31b7e6765f9e63a5ca001c48b38c1aeb08eb9847ffc0978d07a97a2b46e6e7"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_memory.py",
+      "bytes": 9764,
+      "sha256": "c6d6c500db860f1cb2cd13eace8f11ce228a674bc2cd967c6e03e092d8218f89"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_migration.py",
+      "bytes": 2566,
+      "sha256": "6b74605e3727eacba4b1370135a5bfdf8d528bef877a46f5253f781010e7465d"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_modes.py",
+      "bytes": 2428,
+      "sha256": "b72bd03f9d4d050d7a33ada8b6ceff86b5a69ce19308187072902a819ced020e"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_modules.py",
+      "bytes": 4740,
+      "sha256": "2f57d82cdf328d1a4a7a94a277656c5eedd1acb3019c831df46dabd97303277d"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_observations.py",
+      "bytes": 1008,
+      "sha256": "38c007aa848d3f04a442e39e1b86cb6c5502a0018cdac56bec6beb78c445d316"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_presentation.py",
+      "bytes": 5339,
+      "sha256": "5cde9f169e8e8912a87d4fd0226310e30e9fad9d0d539eb13dcc9cfb3e80c7c1"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_state.py",
+      "bytes": 25272,
+      "sha256": "213f16cd4b79e2dfe2bb587c5569950dc6cecb10b6312ed4488ce2d899ed742b"
+    },
+    {
+      "file": "skills/sillytavern-roleplay/scripts/world_turn.py",
+      "bytes": 44477,
+      "sha256": "32aa2327b217bfd0824f735b24f88064acddd4db9bc4a9a03f6c4720fb061a5b"
     },
     {
       "file": "skills/sillytavern-roleplay/scripts/worlds.py",
-      "sha256": "bca4acfa47f79f5b666250997b9452ef503498913698652ca4b92e1e18d53864",
-      "bytes": 22677
+      "bytes": 25816,
+      "sha256": "ef818d30d65a4c21b657d18a8ec70f8f1bd49d3ecbace9a5b0040e4f32d1c808"
     },
     {
       "file": "skills/sillytavern-roleplay/SKILL.md",
-      "sha256": "4c865ee5244d18d05a6ceea7e990e11b34c1e2956e05015b02e999e6446c8fc5",
-      "bytes": 7767
+      "bytes": 26030,
+      "sha256": "c747f0d0558437e13e9d5c153de9fe80b1d514e9786cb19c9fdd37bf82959a06"
+    },
+    {
+      "file": "tests/test_image_backends.py",
+      "bytes": 12785,
+      "sha256": "3bcfd2b4cb80ce1f939b65e67ca19f60a491d47957b504b1279fcd3ed32cc98d"
+    },
+    {
+      "file": "tests/test_launcher.py",
+      "bytes": 14111,
+      "sha256": "d5886b45ce89bed3b4805b47e98690d61c246f7f6646fac283293e420e44458e"
+    },
+    {
+      "file": "third-party-notices/dsh-image-generation-MIT.txt",
+      "bytes": 1062,
+      "sha256": "c9d65062869dfffecd6cbd32c1a5e62dca485108acba7473c98d8c8ae3a1745d"
+    },
+    {
+      "file": "third-party-notices/kling-deepseek-plugin-MIT.txt",
+      "bytes": 1285,
+      "sha256": "427dd7a313d2a6802566c8937fa33900fd37aecf6bde238a334405602a8f667b"
     },
     {
       "file": "verify.py",
-      "sha256": "0f883971210f8bb1ffcb05c4c8cb72b0b80af94abdeb52974e8651a7b0e00545",
-      "bytes": 1791
+      "bytes": 2629,
+      "sha256": "02507b61b6363b4950ca2d2b7b81c7b948e582e7490ed528dd792e3c0e8233c2"
     },
     {
       "file": "VERSION",
-      "sha256": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
-      "bytes": 4
+      "bytes": 4,
+      "sha256": "a839ab0447b2d415fe1732387938b5e06aa9d5aba7ed0f0c927837f0e77027f2"
+    },
+    {
+      "file": "停止 Yukino0.9.bat",
+      "bytes": 774,
+      "sha256": "a80a033197de2069bba68f7d2579ec8ab4fdd27ae72ba3a45cbf66cd375120af"
+    },
+    {
+      "file": "启动 Yukino0.9.bat",
+      "bytes": 1110,
+      "sha256": "96dcfbedcac2070e98ac9c6688ca6c9178d8011e298b5f842976c5aac967edaf"
+    },
+    {
+      "file": "技术报告.md",
+      "bytes": 50143,
+      "sha256": "87c5217baaafdf6ffc2136d8faab91b4a77ffd621bb57cf772331ee8ff8a8600"
     }
   ]
 }

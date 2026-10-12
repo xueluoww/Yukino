@@ -12,7 +12,7 @@ def health(url,endpoint='/health'):
 def main():
     from galgame import APP_VERSION
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--root',default=str(pathlib.Path(__file__).resolve().parents[3]/'database/roleplay-library'))
+    parser.add_argument('--root',default=str(next((p.parent for p in pathlib.Path(__file__).resolve().parents if p.name=='.codex'), pathlib.Path.home())/'Documents/Codex/roleplay-library'))
     parser.add_argument('--card')
     parser.add_argument('--port',type=int)
     parser.add_argument('--session')
@@ -20,11 +20,11 @@ def main():
     parser.add_argument('--persistent',action='store_true')
     parser.add_argument('--open',action='store_true')
     parser.add_argument('--no-images',action='store_true')
-    parser.add_argument('--provider',choices=['deepseek','codex','bridge','demo'],default='deepseek')
+    parser.add_argument('--provider',choices=['deepseek','codex','bridge'],default='deepseek')
     args=parser.parse_args()
     root=pathlib.Path(args.root).resolve()
     if args.port is None:
-        args.port=18772
+        args.port=18765
         record=root/'browser/server.json'
         if record.exists():
             try:

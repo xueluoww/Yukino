@@ -46,7 +46,8 @@ def load_json(path, limit=MAX_CARD):
     path = Path(path)
     if path.stat().st_size > limit:
         raise TavernError(f"JSON exceeds {limit} bytes: {path.name}")
-    return json.loads(path.read_text(encoding="utf-8-sig"))
+    from storage_codec import loads
+    return loads(path.read_text(encoding="utf-8-sig"))
 
 
 def atomic_json(path, value):
@@ -54,11 +55,21 @@ def atomic_json(path, value):
     tmp = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
     try:
         with tmp.open("w", encoding="utf-8", newline="\n") as stream:
-            json.dump(value, stream, ensure_ascii=False, indent=2, allow_nan=False)
+            from storage_codec import encode_document
+            stored=encode_document(value)
+            json.dump(stored, stream, ensure_ascii=False, separators=(',',':'), allow_nan=False)
             stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
-        os.replace(tmp, path)
+        # Windows readers/antivirus may briefly hold the destination without delete sharing.
+        # Keep the complete temporary file and boundedly retry; never truncate the old save.
+        for attempt in range(6):
+            try:
+                os.replace(tmp, path)
+                break
+            except PermissionError:
+                if attempt==5:raise
+                time.sleep(.025*(2**attempt))
     finally:
         tmp.unlink(missing_ok=True)
 
@@ -73,6 +84,8 @@ def write_lock(root):
             fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
             break
         except FileExistsError as exc:
+            from process_locks import remove_dead_lock
+            if remove_dead_lock(lock):continue
             if time.monotonic() >= deadline:
                 raise TavernError("Library is being written. Retry after the other command finishes; a stale lock needs inspection.") from exc
             time.sleep(.025)
@@ -81,7 +94,9 @@ def write_lock(root):
         os.close(fd)
         yield
     finally:
-        lock.unlink(missing_ok=True)
+        # Only our own lock may be removed; a replacement is not ours.
+        if lock.exists() and lock.read_text(encoding='ascii').strip()==str(os.getpid()):
+            lock.unlink(missing_ok=True)
 
 
 def normalize_card(raw):
@@ -412,6 +427,16 @@ def run(args):
                 for key in ("user", "assistant"):
                     if not isinstance(payload.get(key), str) or not payload[key].strip():
                         raise TavernError(f"Turn requires non-empty {key} text.")
+                if payload.get('world_packet'):
+                    from world_turn import validate_packet
+                    validate_packet(payload['world_packet'],session.get('facts',{}).get('browser_world_state'))
+                    expected_state=payload['world_packet']['state_after']
+                    from world_state import state_hash
+                    supplied_state=payload.get('update',{}).get('facts',{}).get('browser_world_state',{})
+                    if state_hash(expected_state)!=state_hash(supplied_state) or supplied_state.get('journal_head')!=payload['world_packet']['head']:
+                        raise TavernError('World packet and submitted state differ.')
+                elif session.get('facts',{}).get('browser_world_state'):
+                    raise TavernError('Event-mode session requires a checked world packet.')
                 update = payload.get("update", {})
                 if not isinstance(update, dict) or set(update) - {"summary", "scene", "memories", "facts", "relationships"}:
                     raise TavernError("Unsupported session update field.")
@@ -428,7 +453,7 @@ def run(args):
                     else:
                         session[key] = value
                 session["turns"].append({"turn_id": turn_id, "fingerprint": fingerprint, "saved_at": now(),
-                                         "user": payload["user"], "assistant": payload["assistant"]})
+                                         "user": payload["user"], "assistant": payload["assistant"], **({"world_packet": payload["world_packet"]} if payload.get("world_packet") else {})})
             else:
                 session["status"] = "active" if cmd == "resume" else "paused"
             session["revision"] += 1
@@ -441,7 +466,7 @@ def run(args):
 
 def parser():
     cli = argparse.ArgumentParser(description=__doc__)
-    cli.add_argument("--root", default=str(Path(__file__).resolve().parents[3] / "database" / "roleplay-library"),
+    cli.add_argument("--root", default=str(Path.home() / "Documents" / "Codex" / "roleplay-library"),
                      help="Independent data library; use an explicit path if your Documents folder is redirected.")
     commands = cli.add_subparsers(dest="command", required=True)
     command = commands.add_parser("import")

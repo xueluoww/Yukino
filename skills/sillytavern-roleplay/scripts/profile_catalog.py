@@ -42,7 +42,7 @@ def protagonist_profiles(player):
             display={'biography':'总武高中二年级学生。惯于独来独往，善于观察人际关系，以干涩的幽默和自嘲应对日常。加入侍奉部后，开始接触不同同学的烦恼与委托。',
                 'personality':'观察敏锐，独立谨慎，带着自嘲的幽默。','summary':'观察敏锐，独立谨慎，幽默而自嘲。'}
         if card['id']=='hachiman':
-            entry.setdefault('avatar','')
+            entry.setdefault('avatar','/profiles/oregairu/hachiman.png')
             for field,value in {'school':'总武高中','class_name':'二年F班','classroom_location':'总武高中 · 二年F班教室'}.items():entry.setdefault(field,value)
         entry['display_profile']=display
         entry['biography']=display.get('biography','')

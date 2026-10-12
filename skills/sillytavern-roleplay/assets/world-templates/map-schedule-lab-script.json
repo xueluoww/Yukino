@@ -1,0 +1,373 @@
+{
+  "world": {
+    "id": "map-schedule-lab",
+    "name": "原创实验校园",
+    "time": {
+      "version": 1,
+      "start": {
+        "minute": 960
+      }
+    },
+    "game_mode": "world",
+    "event_system": {
+      "version": 1,
+      "world_mode": true,
+      "card_language": true,
+      "card_refinement": true,
+      "shell_methods": true,
+      "features": [
+        "map_v1",
+        "exploration_v1",
+        "npc_schedule_v1"
+      ],
+      "locations": {
+        "campus": {
+          "name": "实验校园",
+          "kind": "campus",
+          "walkable": false,
+          "entry_node": "hall",
+          "links": {},
+          "initial_known_by": [
+            "all"
+          ]
+        },
+        "building": {
+          "name": "实验教学楼",
+          "kind": "building",
+          "walkable": false,
+          "parent_id": "campus",
+          "entry_node": "hall",
+          "links": {},
+          "initial_known_by": [
+            "all"
+          ]
+        },
+        "hall": {
+          "name": "一层通道",
+          "kind": "floor",
+          "parent_id": "building",
+          "encounter_scope": "area",
+          "links": {
+            "club": 1,
+            "library": 2,
+            "garden": 4
+          },
+          "initial_known_by": [
+            "all"
+          ],
+          "expansion": "bounded",
+          "slots": [
+            {
+              "id": "room-1",
+              "name": "一层通道旁的无挂牌房间",
+              "kind": "room",
+              "links": {
+                "hall": 1
+              }
+            },
+            {
+              "id": "room-2",
+              "name": "一层通道旁的另一间无挂牌房间",
+              "kind": "room",
+              "links": {
+                "hall": 1
+              }
+            }
+          ]
+        },
+        "club": {
+          "name": "活动室",
+          "kind": "room",
+          "parent_id": "building",
+          "encounter_scope": "room",
+          "links": {
+            "hall": 1
+          },
+          "initial_known_by": [
+            "all"
+          ]
+        },
+        "library": {
+          "name": "资料室",
+          "kind": "room",
+          "parent_id": "building",
+          "encounter_scope": "room",
+          "links": {
+            "hall": 2
+          },
+          "initial_known_by": [
+            "a"
+          ]
+        },
+        "garden": {
+          "name": "庭院",
+          "kind": "outdoor",
+          "parent_id": "campus",
+          "encounter_scope": "area",
+          "links": {
+            "hall": 4
+          },
+          "initial_known_by": [
+            "all"
+          ]
+        },
+        "hidden": {
+          "name": "未公开的小室",
+          "kind": "room",
+          "parent_id": "building",
+          "encounter_scope": "room",
+          "secret": true,
+          "links": {},
+          "initial_known_by": [
+            "b"
+          ]
+        }
+      },
+      "actor_locations": {
+        "player": "club",
+        "a": "club",
+        "b": "garden"
+      },
+      "seed": "original-lab-v1",
+      "goal_sets": {
+        "version": 1,
+        "max_pulses": 12,
+        "windows": [
+          {
+            "id": "day",
+            "start": 0,
+            "end": 1440,
+            "actors": {
+              "a": [],
+              "b": []
+            }
+          }
+        ]
+      },
+      "map": {
+        "version": 1,
+        "nodes": {
+          "campus": {
+            "name": "实验校园",
+            "kind": "campus",
+            "walkable": false,
+            "entry_node": "hall",
+            "links": {},
+            "initial_known_by": [
+              "all"
+            ]
+          },
+          "building": {
+            "name": "实验教学楼",
+            "kind": "building",
+            "walkable": false,
+            "parent_id": "campus",
+            "entry_node": "hall",
+            "links": {},
+            "initial_known_by": [
+              "all"
+            ]
+          },
+          "hall": {
+            "name": "一层通道",
+            "kind": "floor",
+            "parent_id": "building",
+            "encounter_scope": "area",
+            "links": {
+              "club": 1,
+              "library": 2,
+              "garden": 4
+            },
+            "initial_known_by": [
+              "all"
+            ],
+            "expansion": "bounded",
+            "slots": [
+              {
+                "id": "room-1",
+                "name": "一层通道旁的无挂牌房间",
+                "kind": "room",
+                "links": {
+                  "hall": 1
+                }
+              },
+              {
+                "id": "room-2",
+                "name": "一层通道旁的另一间无挂牌房间",
+                "kind": "room",
+                "links": {
+                  "hall": 1
+                }
+              }
+            ]
+          },
+          "club": {
+            "name": "活动室",
+            "kind": "room",
+            "parent_id": "building",
+            "encounter_scope": "room",
+            "links": {
+              "hall": 1
+            },
+            "initial_known_by": [
+              "all"
+            ]
+          },
+          "library": {
+            "name": "资料室",
+            "kind": "room",
+            "parent_id": "building",
+            "encounter_scope": "room",
+            "links": {
+              "hall": 2
+            },
+            "initial_known_by": [
+              "a"
+            ]
+          },
+          "garden": {
+            "name": "庭院",
+            "kind": "outdoor",
+            "parent_id": "campus",
+            "encounter_scope": "area",
+            "links": {
+              "hall": 4
+            },
+            "initial_known_by": [
+              "all"
+            ]
+          },
+          "hidden": {
+            "name": "未公开的小室",
+            "kind": "room",
+            "parent_id": "building",
+            "encounter_scope": "room",
+            "secret": true,
+            "links": {},
+            "initial_known_by": [
+              "b"
+            ]
+          }
+        },
+        "description_generation": "none"
+      },
+      "schedules": {
+        "version": 1,
+        "generation": "none",
+        "actors": {
+          "a": [
+            {
+              "id": "afternoon",
+              "location_id": "library",
+              "window_start": 970,
+              "window_end": 980,
+              "duration": 5,
+              "purpose": "在资料室安静整理思路",
+              "activity_kind": "stay",
+              "strength": "routine"
+            }
+          ],
+          "b": [
+            {
+              "id": "visit",
+              "location_id": "club",
+              "window_start": 975,
+              "window_end": 985,
+              "duration": 3,
+              "purpose": "到活动室稍作休息",
+              "activity_kind": "rest",
+              "strength": "routine"
+            }
+          ]
+        }
+      }
+    },
+    "description": "原创两人校园实验。世界模式下查看已知地图、探索普通空间，并观察人物按安排移动。",
+    "background": "现代原创校园。人物有自己的安排，玩家自由交流或活动；未知名字不预先相识，远处安排不公开。",
+    "primary_card_id": "map-lab-a",
+    "setting_set_ids": [
+      "lab-cast"
+    ],
+    "world_modes": {
+      "version": 1,
+      "default": "world",
+      "enabled": [
+        "sandbox",
+        "world"
+      ]
+    },
+    "opening_scenes": [
+      {
+        "id": "afternoon",
+        "title": "安静的活动室",
+        "description": "下午四点，在活动室遇到一位尚未相识的同学。",
+        "scene": "第1天 · 16:00 · 活动室",
+        "location_id": "club",
+        "background": "club",
+        "opening": [
+          {
+            "kind": "narration",
+            "speaker": "",
+            "text": "活动室里有一位同学安静坐着，窗外的光落在桌上。",
+            "expression": "absent"
+          }
+        ],
+        "choices": [
+          {
+            "label": "打个招呼",
+            "text": "【语言】你好，可以在这里坐一会吗？"
+          }
+        ]
+      }
+    ]
+  },
+  "setting_sets": [
+    {
+      "id": "lab-cast",
+      "cards": [
+        {
+          "id": "a",
+          "kind": "character",
+          "name": "林岚",
+          "personality": "安静、有自己的安排，礼貌回答，也会拒绝。",
+          "card_id": "map-lab-a",
+          "description": "原创测试人物，不对应受版权保护的角色。",
+          "character_card": {
+            "name": "林岚",
+            "description": "普通学生；未设超能力。",
+            "personality": "安静、有自己的安排，礼貌回答，也会拒绝。",
+            "scenario": "原创实验校园的日常。",
+            "first_mes": "你好，有什么事吗？"
+          }
+        },
+        {
+          "id": "b",
+          "kind": "character",
+          "name": "陈晴",
+          "personality": "友好，喜欢在活动室短暂休息。",
+          "card_id": "map-lab-b",
+          "description": "原创测试人物，不对应受版权保护的角色。",
+          "character_card": {
+            "name": "陈晴",
+            "description": "普通学生；未设超能力。",
+            "personality": "友好，喜欢在活动室短暂休息。",
+            "scenario": "原创实验校园的日常。",
+            "first_mes": "你好，有什么事吗？"
+          }
+        },
+        {
+          "id": "private-book",
+          "kind": "item",
+          "name": "私有资料",
+          "capabilities": {
+            "read": {
+              "content": "确认码 LAB-849271"
+            }
+          }
+        }
+      ],
+      "name": "实验校园人物"
+    }
+  ],
+  "spec": "yukima_script_v1"
+}

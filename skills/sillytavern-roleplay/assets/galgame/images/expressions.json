@@ -1,0 +1,18 @@
+{
+  "character": "yukino",
+  "reference": "yukino-neutral.png",
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "edit_instruction": "Preserve the same character identity, hair, uniform, book, hands, body pose, framing, camera scale and art style. Change only the facial expression. True transparent alpha background, no backdrop, lettering or extra objects.",
+  "variants": {
+    "thinking": "Quietly considering a response, slightly lowered gaze, gently focused brows, closed mouth.",
+    "listening": "Attentive, composed listening, softly focused eyes and neutral closed mouth.",
+    "troubled": "Restrained uncertainty, subtly raised inner brows, thoughtful downward gaze.",
+    "surprised": "Mild genuine surprise, slightly widened eyes and softly parted mouth.",
+    "sad": "Quiet restrained sadness, lowered eyes, soft inward brows, closed mouth, no tears.",
+    "displeased": "Cool disapproval, subtly narrowed eyes and knitted eyebrows, composed closed mouth.",
+    "happy": "A small sincere happy smile, gently relaxed eyebrows and soft bright eyes.",
+    "eyes_closed": "Both eyes fully closed, relaxed brows and closed mouth, a natural blink expression."
+  },
+  "files": "yukino-<variant>.png"
+}

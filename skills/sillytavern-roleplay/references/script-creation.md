@@ -1,12 +1,8 @@
-> 本公共版本使用项目内资料库；首次运行 launch.py 后建立。预装春物完整设定包与八幡主角，另附《雨后书屋》原创教程示例和旅人主角；不附带官方人物美术或私人存档。
-
 # 创建与导入剧本（yukima_script_v1）
 
-本文适用于 Yukino 0.8 项目内的 `sillytavern-roleplay` 技能及 `yukima_script_v1` 剧本格式。最方便的方式是在任意 Codex 聊天中引用你选定位置的技能，让 Codex 根据你的描述整理并导入；网页用于选择和游玩剧本，不提供上传入口。
+本文适用于原安装或项目副本中的 `sillytavern-roleplay` 技能及 `yukima_script_v1` 剧本格式。最方便的方式是在任意 Codex 聊天中引用你选定位置的技能，让 Codex 根据你的描述整理并导入；网页用于选择和游玩剧本，不提供上传入口。
 
-## 剧本与主程序分开
-
-壳提供通用运行接口；剧本由世界观、设定集、可选 world_gameplay 和素材构成。玩法可携带自己的代码，不需要在主程序里预先实现具体规则。目录结构、创建命令、模块协议与旧档升级见 [剧本与壳](../../../docs/剧本与壳.md)；纯文字剧本继续使用以下 JSON 教程。
+最新工作副本的可选接口：[地点探索与游戏内地图](location-exploration.md)、[人物日程](npc-schedules.md)。这两项尚未安装正式技能，按开关供隔离新档验证；作者可写特殊配置，壳承担运行规则，不要求把系统代码放入剧本。
 
 ## 1. 先弄清这几个对象
 
@@ -25,9 +21,9 @@
 
 ## 2. 在 Codex 聊天里创建，推荐用法
 
-在新聊天引用你要使用的 `sillytavern-roleplay/SKILL.md`。本公共项目只使用项目内 database/roleplay-library；先运行 launch.py --demo 初始化，不自动读取其他安装位置的资料库。给出这样的请求即可：
+在新聊天引用你要使用的 `sillytavern-roleplay/SKILL.md`。原安装使用用户 Documents/Codex/roleplay-library；项目副本使用该项目的 database/roleplay-library，不要在一轮中混用。给出这样的请求即可：
 
-> 使用已引用的角色扮演技能，在选定资料库中创建一个原创剧本《雨后书屋》。背景是现代海边小镇，故事从周六傍晚的旧书店开始。主要人物是店员林灯，温和、观察细致，不轻易答应不合理的请求；另有邻居阿澈，直率但不鲁莽。主角外貌先用原创旅人卡。请创建人物卡、玩家可读简介、地点和规则卡，准备两个可选开场，导入并检查能否出现在剧本选择页。只完成创建和导入，先不开始游戏。
+> 使用已引用的角色扮演技能，在选定资料库中创建一个原创剧本《雨后书屋》。背景是现代海边小镇，故事从周六傍晚的旧书店开始。主要人物是店员林灯，温和、观察细致，不轻易答应不合理的请求；另有邻居阿澈，直率但不鲁莽。主角外貌先用默认卡。请创建人物卡、玩家可读简介、地点和规则卡，准备两个可选开场，导入并检查能否出现在剧本选择页。只完成创建和导入，先不开始游戏。
 
 你也可以提供人物 PNG/JSON 角色卡、已有设定文本或明确资料链接，说明哪些内容必须沿用，哪些可以原创。至少交代故事背景、主要人物和开始处境；年龄、外貌、旧关系等不确定内容可留空，不能补成已确认事实。
 
@@ -35,7 +31,7 @@ Codex 应完成：整理 UTF-8 剧本包 → 在临时资料库试导入 → 核
 
 ## 3. 手动编辑剧本包
 
-可直接复制技能内 `assets/world-templates/rainy-bookshop-script.json`（0.8 公共项目也提供 `examples/rainy-bookshop.json`），改 ID、标题、人设和开场。它是一个完整的原创示例，包含两个人物、地点、物品、规则和事件卡，以及两个开场；人物内嵌角色卡，所以不需要事先安装这些人物。
+可直接复制技能内 `assets/world-templates/rainy-bookshop-script.json`（0.2 项目也提供 `examples/rainy-bookshop.json`），改 ID、标题、人设和开场。它是一个完整的原创示例，包含两个人物、地点、物品、规则和事件卡，以及两个开场；人物内嵌角色卡，所以不需要事先安装这些人物。
 
 最外层必须包含：
 
@@ -57,7 +53,7 @@ Codex 应完成：整理 UTF-8 剧本包 → 在临时资料库试导入 → 核
 | `background` | 模型读取的完整背景、常识、时间和因果约束；不要写玩家尚未经历的剧情为事实 |
 | `primary_card_id` | 已有角色卡 ID，或本包内嵌人物的 `card_id` |
 | `setting_set_ids` | 要引用的设定集 ID，须与本包或库中实际设定集一致 |
-| `default_protagonist_id` | 默认主角卡 ID；省略时使用 `hachiman`；原创示例显式选择 `visitor` |
+| `default_protagonist_id` | 默认主角卡 ID；省略时使用 `hachiman` |
 | `opening_scenes` | 可选开始场景，建议至少一个，最多 20 个 |
 
 程序的 ID 只接受 1–80 个英文字母、数字、`-` 或 `_`；不要把中文标题直接当 ID。
@@ -133,13 +129,13 @@ Codex 应完成：整理 UTF-8 剧本包 → 在临时资料库试导入 → 核
 {"label":"询问书店","text":"【语言】这里可以查旧书的来源吗？【动作】在柜台前停下。"}
 ```
 
-点击建议只填入输入框，玩家确认后才发送。【语言】是发声，【动作】是行为，【环境】是场景设定，【内心】是没有说出口的想法；四者可以组合。是否被某人听到仍取决于在场、距离和接收对象。
+点击建议只填入输入框，玩家确认后才发送。语言是能被听到的话，动作是玩家行为，环境是本轮场景设定；三者可以组合。
 
 ## 4. 人物与背景图片怎样接进来
 
-仅导入剧本 JSON 不会自动下载所有人物的图片，也不会无限生成整套表情。公共壳已为原创示例准备简易 SVG 人物与场景；春物有文字身份标签和几何背景，不附带官方角色图片。需要正式美术时可在 Codex 中要求准备或导入自己有权使用的素材。
+仅导入剧本 JSON 不会自动下载所有人物的图片，也不会无限生成整套表情。示例没有预制头像和立绘，先用姓名占位；这样能验证结构而不会冒用雪乃的脸。你可在 Codex 中继续要求“为雨后书屋准备人物和场景素材”。
 
-本地素材接口支持 PNG/JPEG/WebP。把准备好的图片放在 `<root>/browser/assets/<自己的素材目录>/`。以人物 **实际 `card_id`** 为键，合并到 `<root>/browser/characters.json`，保留其他人物配置。例如：
+把准备好的图片放在 `<root>/browser/assets/<自己的素材目录>/`。以人物 **实际 `card_id`** 为键，合并到 `<root>/browser/characters.json`，保留其他人物配置。例如：
 
 ```json
 {
@@ -171,7 +167,19 @@ Codex 应完成：整理 UTF-8 剧本包 → 在临时资料库试导入 → 核
 
 ## 5. 导入和验证
 
-在 Yukino 0.8 公共项目根目录中，先启动一次演示以初始化本地库，再，使用项目内技能和独立库：
+以下 PowerShell 命令使用原安装技能和共享资料库；Documents 若有重定向，改成实际资料库的绝对路径。项目副本的对应入口见后面的说明。
+
+```powershell
+$storySkill = Join-Path $env:USERPROFILE '.codex/skills/sillytavern-roleplay'
+$storyRoot = Join-Path $env:USERPROFILE 'Documents/Codex/roleplay-library'
+$storyPackage = Join-Path $storySkill 'assets/world-templates/rainy-bookshop-script.json'
+
+python -X utf8 "$storySkill/scripts/worlds.py" --root "$storyRoot" import-script "$storyPackage"
+python -X utf8 "$storySkill/scripts/worlds.py" --root "$storyRoot" list
+python -X utf8 "$storySkill/scripts/launch_galgame.py" --root "$storyRoot" --provider deepseek --open
+```
+
+在 ai4everything0.2 项目根目录中，使用项目内技能和独立库：
 
 ```powershell
 $storySkill = Join-Path (Get-Location) 'skills/sillytavern-roleplay'
@@ -213,16 +221,25 @@ python -X utf8 "$storySkill/scripts/deepseek_client.py" --root "$storyRoot" --co
 | 简介出现模型指令 | 单独整理 `biography`、`short_personality`、展示 personality，不把 AI 约束贴进图鉴 |
 | 新背景没立即出现 | 新图异步生成；确认本机 Codex 能生图，在生成完成前保留现有画面 |
 | 更新剧本后旧档没有变化 | 这是独立存档快照的正常行为；新建故事可采用新资料 |
-| `verify.py` 提示文件变化 | 它只校验公开种子与代码；私人运行库不参与哈希校验，修改程序或 examples 后应更新发布清单 |
+| `verify.py` 提示数据库变化 | 校验针对发布快照；实际添加剧本或游玩后数据库变化正常，不代表存档混乱 |
 
-技能自带的 `assets/world-templates/oregairu-script.json` 是更大的春物范例，包含 14 位人物、校园设定和三个原创开场。公共壳已经预装该剧本并默认选择它，可直接游玩或学习其结构；自创剧本不要复制其人物关系或把未来情节写成已发生事实。
+技能自带的 `assets/world-templates/oregairu-script.json` 是更大的春物范例，包含 15 位人物、校园设定和三个原创开场。可学习其结构，不必把春物人物、默认关系或未来剧情复制到自己的原创剧本。
 
 
 ## 初始关系与共用素材字段
 
-人物的 `age` 用于图鉴；`initial_affinity` 按主角 ID 和 default 分别保存 score、relationship、basis、version，只将数值和状况展示给玩家。字段格式与春物预设说明见 [好感设定](affinity.md)。世界观可配置 `visual_revision` 和 `visual_locations`；背景身份、图库引用与三类预算见 [图库与配额](shared-gallery.md)。普通导入不改旧档；明确授权的数据迁移须备份并分别修正每个节点。
+人物的 `age` 用于图鉴；`initial_affinity` 按主角 ID 和 default 分别保存 score、relationship、basis、version，只将数值和状况展示给玩家。字段格式与春物预设说明见 [affinity.md](affinity.md)。世界观可配置 `visual_revision` 和 `visual_locations`；背景身份、图库引用与三类预算见 [shared-gallery.md](shared-gallery.md)。普通导入不改旧档；明确授权的数据迁移须备份并分别修正每个节点。
+
+### 学校、班级及教室
+
+人物卡可写 `school: "总武高中"`、`class_name: "二年F班"`、`classroom_location: "总武高中 · 二年F班教室"`；同样字段支持独立角色卡的 `data.extensions.display_profile`。它们出现在玩家小卡和详细卡，也传给模型。以 `classroom_id` 指向设定集的地点卡（例如 `classroom-2f`）；同班共用位置。缺少可靠来源的楼层/房间号不臆造，用 `class_sources` 和 `classroom_layout_note` 保存来源和未确认部分。班级归属不自动改变当前人物位置，不代替在场校验。
 
 
-### 时间与预制线
+## 预制故事线
 
-普通剧本使用world.time的标准时间配置，不必编写时间模块；特殊历法可选受限代码，协议见项目技能references/time-system.md。预制线制作与固定主线/自由目标阶段的汇合方法见references/storyline-authoring.md。人物素材需要登记，公开春物库仅有姓名标签；补图与来源见项目README前部。
+世界观可携带storylines列表，单JSON内嵌，目录包引用storylines/线名.json（相对manifest目录）。从[预制线制作方法](storyline-authoring.md)开始；完整字段、校验、分支与接口见[storylines.md](storylines.md)。新建页面选择自由开场或预制线；固定主线直接播放作者对白；free_window可开放使用文本模型的自由行动段。旧档模式不变。节点/阅读位置/选择/世界状态共用原存档和回溯，完整版本冻结到存档。人物学校、班级与教室应填写准确展示字段，所有小卡直接显示；未确认的班级与楼层不编造。
+
+
+## 时间配置与时代范围（5.5）
+
+普通剧本不需要单独的时间文件或代码：在 `world.time` 填开场日期/相对时代、时刻与可选耗时即可，省略配置时导入器提供标准默认值。新建骨架附README。特殊时间逻辑通过剧本自带模块接入壳，规则随档冻结，旧档不被目录更新改写。完整字段、时代知识检查边界、穿越人物例外与预制线起点见 [time-system.md](time-system.md)。

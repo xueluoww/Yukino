@@ -1,0 +1,3565 @@
+{
+  "id": "oregairu-campus",
+  "name": "春物 · 放学后的侍奉部",
+  "background": "现代日本的千叶校园背景，主要舞台是总武高中与侍奉部。平冢静负责生活指导并担任顾问，雪之下雪乃主持侍奉部，人物各自的社团与家庭关系见设定集。基调是克制的校园日常、不同立场的碰撞以及人际关系中的真实选择。每个开场是基于原作背景的原创故事入口，不复刻原作逐字对白或强制原作结局。自由故事从高二春季的原作开篇阶段开始；开篇四月为卷间时间线推断，具体年份与日期未确认。故事时间由剧本时间规则决定，天气与当前人物以所选开场为准。默认主角选择比企谷八幡时，采用第一季开篇已存在的家庭、师生与同学关系，初见人物不继承后续事件；剧情仍由玩家自由决定。导入替换主角时只采用其自己的设定，不继承八幡的关系。剧情可从真实委托、误会或个人目标展开，通过信息揭示、分歧、决定与后果推进；不为推进情节强行产生恋爱、极端事件或未选行为。",
+  "setting_set_ids": [
+    "oregairu-core"
+  ],
+  "revision": 16,
+  "world_gameplay": [
+    {
+      "id": "service-commissions",
+      "name": "委托簿",
+      "version": "1.0.0",
+      "sha256": "63d9fd1da68fb90788e479669519f86752f2e7a879259009cd15d38e0a7cf647",
+      "script_id": "oregairu-campus"
+    }
+  ],
+  "initial_items": {
+    "player-notebook": {
+      "id": "player-notebook",
+      "name": "随身笔记本",
+      "owner": "player",
+      "quantity": 1,
+      "location": "书包"
+    },
+    "player-bag": {
+      "id": "player-bag",
+      "name": "书包",
+      "owner": "player",
+      "quantity": 1
+    }
+  },
+  "visual_revision": "oregairu-anime-v1",
+  "visual_locations": {
+    "clubroom": [
+      "侍奉部活动室",
+      "侍奉社活动室",
+      "侍奉部",
+      "service-club"
+    ],
+    "club-door": [
+      "侍奉部门口",
+      "侍奉部门前走廊",
+      "侍奉部门口走廊"
+    ],
+    "corridor": [
+      "走廊",
+      "校内走廊",
+      "hallway"
+    ],
+    "playground": [
+      "操场",
+      "学校操场",
+      "school-ground"
+    ],
+    "courtyard": [
+      "庭院",
+      "校园庭院",
+      "中庭"
+    ],
+    "station": [
+      "车站"
+    ],
+    "shopping-street": [
+      "商店街"
+    ],
+    "classroom-2f": [
+      "二年F班教室",
+      "classroom-2f"
+    ],
+    "classroom-2j": [
+      "二年J班教室",
+      "classroom-2j"
+    ],
+    "classroom-2c": [
+      "二年C班教室",
+      "classroom-2c"
+    ],
+    "classroom-1c": [
+      "一年C班教室",
+      "classroom-1c"
+    ]
+  },
+  "description": "总武高中、侍奉部与日常委托。15 位人物资料，三个原创开场；由你的选择发展关系与群像故事。",
+  "primary_card_id": "oregairu-core-yukino",
+  "default_protagonist_id": "hachiman",
+  "opening_scenes": [
+    {
+      "id": "club-first-visit",
+      "title": "放学后 · 半掩的门",
+      "description": "初次来访侍奉部。门口仍有安静的走廊，雪乃独自在桌边读书。是否留下、交谈或离开，由你决定。",
+      "background": "clubroom",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "放学后的脚步声渐渐远去。写着侍奉部的门半掩着，窗边还留有一片暖光。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "雪之下雪乃合上书，将目光投向门口。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "雪之下雪乃",
+          "text": "有事吗？如果只是找一间空教室，这里已经有人了。",
+          "expression": "serious"
+        }
+      ],
+      "choices": [
+        {
+          "label": "说明来意",
+          "text": "【语言】我想找个安静的地方，可以在这里坐一会儿吗？"
+        },
+        {
+          "label": "询问社团",
+          "text": "【语言】侍奉部……这里平时做什么？"
+        },
+        {
+          "label": "离开",
+          "text": "【语言】抱歉，打扰了。【动作】我退回走廊。"
+        }
+      ],
+      "scene": "放学后 · 总武高中侍奉部门口"
+    },
+    {
+      "id": "rain-request",
+      "title": "雨天 · 尚未递出的申请单",
+      "description": "雨把放学时间拉长。结衣拿来一张活动申请单，雪乃还没决定如何回应。你可以听听缘由，也可以只等雨停。",
+      "background": "clubroom-rain",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "雨点轻敲着窗玻璃。桌边多了一张带着折痕的活动申请单。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "由比滨结衣",
+          "text": "我刚在门口碰到同学，他说这个申请好像一直没人接。要不要先看看？",
+          "expression": "troubled"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "雪之下雪乃",
+          "text": "先弄清楚他希望我们做什么。替别人填完表格，未必就解决了问题。",
+          "expression": "serious"
+        }
+      ],
+      "choices": [
+        {
+          "label": "先听经过",
+          "text": "【语言】申请的是什么活动？先说说具体情况吧。"
+        },
+        {
+          "label": "查看材料",
+          "text": "【动作】我看向桌上的申请单，等她们介绍内容。"
+        },
+        {
+          "label": "等雨停",
+          "text": "【语言】我先在旁边等雨停，你们不用顾虑我。"
+        }
+      ],
+      "scene": "雨天放学后 · 侍奉部"
+    },
+    {
+      "id": "courtyard-dusk",
+      "title": "黄昏 · 尚未结束的商量",
+      "description": "校园庭院里，结衣想征求意见，雪乃认为决定应由当事人作出。你可以参与商量，或沿通学路继续走。",
+      "background": "courtyard",
+      "opening": [
+        {
+          "kind": "narration",
+          "speaker": "",
+          "text": "教学楼的影子慢慢越过庭院。长椅边，两个人的交谈还没有结束。",
+          "expression": "neutral"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "由比滨结衣",
+          "text": "如果大家都说随便，那最后还是不知道怎么办嘛。",
+          "expression": "troubled"
+        },
+        {
+          "kind": "dialogue",
+          "speaker": "雪之下雪乃",
+          "text": "所以应该让他先说出自己想做什么。替他决定，和帮他想清楚是两回事。",
+          "expression": "serious"
+        }
+      ],
+      "choices": [
+        {
+          "label": "询问经过",
+          "text": "【语言】你们是在商量什么？"
+        },
+        {
+          "label": "先倾听",
+          "text": "【动作】我在不打断她们的距离停下，等交谈的间隙。"
+        },
+        {
+          "label": "继续回家",
+          "text": "【动作】我沿着通学路继续走。"
+        }
+      ],
+      "scene": "黄昏 · 总武高中庭院",
+      "time_start": {
+        "date": null,
+        "minute": 1080,
+        "label": "高二春季 · 开篇四月"
+      }
+    }
+  ],
+  "storylines": [
+    {
+      "spec": "yukima_storyline_v1",
+      "id": "oregairu-volume14-short",
+      "version": "1.2.0-time1",
+      "title": "春物·终卷短篇：下一次开门",
+      "description": "最终卷时期的原创互动短篇，含剧透与IF结局。主线目标固定，阶段中可以自由组织谈话与行动，也可采用预设方法；有证据地完成条件后汇入关键节点。没有互动次数限制，可回溯。",
+      "protagonist_id": "hachiman",
+      "start": "after-prom",
+      "sources": [
+        "https://www.shogakukan.co.jp/books/09451781",
+        "https://www.tbs.co.jp/tbs-ch/item/a0367/"
+      ],
+      "authorship": "节点、中文对白和IF分支均为项目原创；仅采用最终卷时期的关系问题与舞会、新学期事件背景。",
+      "initial_affinity": {
+        "雪之下雪乃": 78,
+        "由比滨结衣": 80,
+        "一色彩羽": 62,
+        "平冢静": 73
+      },
+      "initial_relations": {
+        "雪之下雪乃": {
+          "trust": 76,
+          "familiarity": 85,
+          "identity": "长期相处的侍奉部同伴，关系尚未明确"
+        },
+        "由比滨结衣": {
+          "trust": 78,
+          "familiarity": 86,
+          "identity": "长期相处的侍奉部同伴"
+        },
+        "一色彩羽": {
+          "trust": 65,
+          "familiarity": 70,
+          "identity": "多次合作的学妹"
+        },
+        "平冢静": {
+          "trust": 80,
+          "familiarity": 78,
+          "identity": "指导老师"
+        }
+      },
+      "nodes": {
+        "after-prom": {
+          "title": "01 · 热闹之后",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "毕业舞会已经落幕。活动室里剩下几张待归还的表格，窗外的雨把操场遮成了一片浅灰。三个人各自整理东西，却没有人提起下一次部活。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "这个箱子先留着吧。下次要是还用得到，就不用重新找了。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "可以。不过借用的东西还是要归还。不能因为舍不得结束，就把别人的东西留下。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我把归还清单带给学生会。箱子……暂时不在清单上。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣把手从箱盖上收回来。雪乃没有催促，只把清单推到桌边。那些能够用手续说明的事情，反倒最好处理。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "01 · 热闹之后",
+          "next": "hallway",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 8,
+              "reason": "整理舞会归还清单"
+            }
+          ]
+        },
+        "hallway": {
+          "title": "02 · 没有写在清单里",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "走廊的灯已经亮了。彩羽抱着资料夹站在楼梯口，一看到清单就先叹了口气。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "前辈，你现在找我的借口，只剩交东西了吗？",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "工作交接是一种非常健康的人际关系。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "那以后没工作了呢？总不能每次见面都临时申请一个活动吧。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她把清单接过去，给你留出了楼梯的方向。问题没有随着资料夹一起被收起来。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "02 · 没有写在清单里",
+          "next": "teacher"
+        },
+        "teacher": {
+          "title": "03 · 把理由说清楚",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [
+            "平冢静"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "平冢老师正在办公室外收拾纸箱。你替她扶住快要滑落的文件，她却把空着的那只手按在箱盖上。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "平冢静",
+              "text": "活动能够结束，人却不一定要因此离开。你有没有把这两件事分开想过？",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "如果留下来还需要一个理由呢？",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "平冢静",
+              "text": "可以有理由。但先问问，那是对方需要的，还是你想拿来保护自己的。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "纸箱底部压着一张旧值日表。你站在原地，没有立刻把刚才的话变成一段自嘲。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "03 · 把理由说清楚",
+          "next": "decision",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 12,
+              "reason": "归还清单后与老师交谈"
+            }
+          ]
+        },
+        "decision": {
+          "title": "04 · 仍然要走回去",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "老师搬着纸箱离开了。走廊里只剩雨声和远处的脚步。你能够照着原来的方式回家，也能够承认自己还有话没有说完。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "手机上有结衣发来的消息，问清单有没有送到。活动室的门还没有关，灯光落在走廊上。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "04 · 仍然要走回去",
+          "choices": [
+            {
+              "id": "return",
+              "text": "【动作】回到活动室，把想继续来往的理由当面说清楚。",
+              "label": "【动作】回到活动室，把想继续来往的理由当面说清楚。",
+              "target": "club-break",
+              "set": {
+                "direct": true
+              }
+            },
+            {
+              "id": "delay",
+              "text": "【动作】先回复结衣，再确认自己要说的话。",
+              "label": "【动作】先回复结衣，再确认自己要说的话。",
+              "target": "yui",
+              "set": {
+                "direct": false
+              }
+            }
+          ]
+        },
+        "yui": {
+          "title": "05 · 不替谁决定",
+          "scene": "总武高中 · 走廊",
+          "background": "corridor-spring-evening",
+          "present": [
+            "由比滨结衣"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣走到门口，把伞换到另一只手。她看见你没有离开，却没有用平时的玩笑替你解围。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "我可以听你说。但如果你想找雪之下，也要自己去找她。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我知道。不能把让谁开心，当成什么都不用说明的答案。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "嗯。我也有自己的想法，不会因为你们作了决定，就突然什么都不在意。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她站了一会儿，然后把门口的空间留出来。这不是替你决定的许可，也不是一句容易兑现的祝福。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "05 · 不替谁决定",
+          "next": "club-break",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 5,
+              "reason": "与结衣单独确认各自的想法"
+            }
+          ]
+        },
+        "honest": {
+          "title": "06 · 说出口的责任",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "活动室里，雪乃把整理好的资料按页码叠齐。你没有再把清单摆到两个人之间。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我想继续见你。不是因为有委托，也不是因为你还需要人替你收拾残局。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "如果以后没有这样的事情，你也会过来？",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "会。只是想见你。这次至少把理由说对。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "那就别再把选择藏在任务后面。你有自己的意愿，我也有。",
+              "expression": "troubled"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她没有立刻给出一个足以结束所有不安的答案。可她把旁边那张椅子拉开了。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "06 · 说出口的责任",
+          "next": "discussion-settled",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 10,
+              "reason": "回到活动室坦诚交谈"
+            }
+          ]
+        },
+        "plan": {
+          "title": "07 · 一份真正的计划",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "几天后，联合舞会的场地资料摊在桌上。那份曾经只被当作对照的方案，如今需要预算、许可和真正能完成工作的人员。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "先说好，我可以帮忙联系，但不负责让大家凭空有时间。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "预算需要重新核对。既然要办，就不能把麻烦推给下一位负责人。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "这次把各自负责的事情写出来。包括我，不搞一个人默默收场的版本。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "雪乃拿起笔，在人员分工旁留了一个空格。这个空格需要实际行动来填。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "07 · 一份真正的计划",
+          "next": "work-choice",
+          "effects": [
+            {
+              "type": "threads",
+              "id": "joint-prom",
+              "title": "联合舞会筹备",
+              "status": "active",
+              "note": "三人开始核对联合舞会的预算与工作分工",
+              "reason": "三人开始核对联合舞会的预算与工作分工"
+            },
+            {
+              "type": "time",
+              "minutes": 4320,
+              "reason": "数日后按约定开始联合舞会筹备"
+            }
+          ]
+        },
+        "work-choice": {
+          "title": "08 · 怎么一起做",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "你想先处理哪一部分？我会说明我的意见，但不会替你选。",
+              "expression": "listening"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "资料上写着两个待处理的问题：核对场地条件，或者先确认能够协助的同学。二者都要完成，眼下先走哪一步由你决定。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "08 · 怎么一起做",
+          "choices": [
+            {
+              "id": "venue",
+              "text": "【动作】和雪乃一起核对场地要求，再联系负责老师。",
+              "label": "【动作】和雪乃一起核对场地要求，再联系负责老师。",
+              "target": "venue",
+              "set": {
+                "work": "venue"
+              }
+            },
+            {
+              "id": "people",
+              "text": "【动作】先和结衣、彩羽确认分工，安排能够参加的同学。",
+              "label": "【动作】先和结衣、彩羽确认分工，安排能够参加的同学。",
+              "target": "people",
+              "set": {
+                "work": "people"
+              }
+            }
+          ]
+        },
+        "venue": {
+          "title": "09A · 条件与余地",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "雨势变小，雪乃在场地表上圈出了容量、结束时间和清理责任。你核对联系方式，没有把一张模糊的照片当成已经拿到许可。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "这里看起来合适，不代表一定能用。我们需要等负责人确认。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "那就连备选也准备好。总不能把天气预报当成合同。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "这个笑话很一般。备选方案倒是可以。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "几通电话之后，你们把确认过的条件写进表格。缺少答复的地方仍然空着。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "09A · 条件与余地",
+          "next": "pre-event-break",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 45,
+              "reason": "联系负责人并核对场地条件"
+            }
+          ]
+        },
+        "people": {
+          "title": "09B · 每个人的份额",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣拿着同学回复的消息，彩羽核对学生会的排班。有人愿意帮忙，也有人在当天已经有安排。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "这些人可以参加布置，但只能待到傍晚。别把他们算进收尾。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "前辈也一样。不许先说都可以，然后到最后突然一个人把事情全做了。",
+              "expression": "displeased"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "知道了。名单旁边写时段，谁也不靠猜。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "你把无法到场的名字移出当天排班，没有把拒绝理解成针对谁。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "09B · 每个人的份额",
+          "next": "pre-event-break",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 45,
+              "reason": "联系协助人员并记录能够参加的时段"
+            }
+          ]
+        },
+        "gather": {
+          "title": "10 · 一起收尾",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "场地和人员终于确认。活动结束的夜里，最后几只纸箱被搬到门口。彩羽检查交接单，结衣把遗漏的胶带放回箱子。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "交接签好了。我先去找还没回家的学生会成员。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "我也去把借来的东西还掉。明天要是还来学校，记得在群里说一声。",
+              "expression": "soft"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "今天辛苦了。剩下的这两张表，我和比企谷一起核对。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "没有谁替所有人完成所有事。完成的工作留下了名字，也留下了下一次见面的约定。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "10 · 一起收尾",
+          "next": "final-choice",
+          "effects": [
+            {
+              "type": "threads",
+              "id": "joint-prom",
+              "title": "联合舞会筹备",
+              "status": "resolved",
+              "note": "场地与人员确认，舞会结束并完成交接",
+              "reason": "场地与人员确认，舞会结束并完成交接"
+            },
+            {
+              "type": "time",
+              "minutes": 2880,
+              "reason": "准备完成并按安排结束联合舞会"
+            }
+          ]
+        },
+        "final-choice": {
+          "title": "11 · 还想说什么",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "结衣和彩羽已经离开。雪乃把最后一张表递给你，窗玻璃上映着两个人的影子。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "现在没有表格要交了。你还留下来，是有什么话想说？",
+              "expression": "listening"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "你知道这次没有委托可以代替回答。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "11 · 还想说什么",
+          "choices": [
+            {
+              "id": "commit",
+              "text": "【语言】我想和你交往。以后遇到问题，也希望我们一起说清楚。",
+              "label": "【语言】我想和你交往。以后遇到问题，也希望我们一起说清楚。",
+              "target": "together",
+              "set": {
+                "answer": "together"
+              }
+            },
+            {
+              "id": "take-time",
+              "text": "【语言】我想继续和你相处，但今天还不想用一句话替我们决定全部。",
+              "label": "【语言】我想继续和你相处，但今天还不想用一句话替我们决定全部。",
+              "target": "wait",
+              "set": {
+                "answer": "wait"
+              }
+            }
+          ]
+        },
+        "together": {
+          "title": "12A · 答案之后",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我想和你交往。不是要一个保证不会出错的结局，是想以后也和你一起过。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "我愿意和你交往。但有意见的时候，我还是会说。你也不能用沉默让我猜。",
+              "expression": "shy"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "这个附加条款听起来很像你。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "你现在还有机会认真听完。",
+              "expression": "soft"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她的声音比方才轻了一点。表格已经收好，明天没有因此变得简单；但这一次，两个人都把自己的选择说了出来。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "development",
+          "summary": "12A · 答案之后",
+          "next": "spring",
+          "effects": [
+            {
+              "type": "relations",
+              "actor_id": "雪之下雪乃",
+              "trust": 3,
+              "familiarity": 2,
+              "identity": "恋人",
+              "mutual_consent": true,
+              "reason": "双方在本幕明确提出并同意交往"
+            }
+          ]
+        },
+        "spring": {
+          "title": "终章 · 下一次开门",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "新的学期，活动室再次开门。结衣带来一份新的咨询，彩羽先确认是不是又要占用学生会的人手。雪乃把你的椅子往桌边挪了一点。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "今天能听我说完吗？不是舞会的事，是我自己的事。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "可以。先坐下吧。",
+              "expression": "soft"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "那就从你想说的地方开始。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "门没有替任何人把问题挡在外面。三个人仍然需要学习怎样诚实相处，而今天至少没有人把自己的愿望交给别人代说。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "resolution",
+          "summary": "终章 · 下一次开门",
+          "ending": "主线收束 · 下一次开门",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 10080,
+              "reason": "进入新学期前的时间经过"
+            },
+            {
+              "type": "time",
+              "minutes": 7200,
+              "reason": "新学期再次来到活动室"
+            }
+          ]
+        },
+        "wait": {
+          "title": "12B · 留给明天的句子",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "我想继续和你相处。但我不想靠今天气氛不错，就把还没说清的事都跳过去。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "我接受你还没想好的部分。不过，如果只是把沉默换一个好听的名字，我不会一直等。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "player",
+              "text": "那就明天继续。不是等有了委托，是我会过来。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "她点了一下头，把雨伞从桌旁拿起。你们没有在这一晚确定关系，也没有把它当成谁输掉的比赛。门外的雨已经停了。",
+              "expression": "neutral"
+            }
+          ],
+          "beat": "resolution",
+          "summary": "12B · 留给明天的句子",
+          "ending": "IF收束 · 留给明天的句子",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 5,
+              "reason": "双方约定继续交流，没有确认恋爱关系"
+            }
+          ]
+        },
+        "club-break": {
+          "title": "自由活动 · 再谈之前",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "回到活动室时，结衣正在整理纸箱，雪乃还坐在桌旁。重要的话可以等你理清以后再说。现在，你可以自己决定聊些什么、做些什么，也可以暂时离开。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "由比滨结衣",
+              "text": "我还要把这些东西收好。你不用急着帮忙，想做什么就先去做吧。",
+              "expression": "soft"
+            }
+          ],
+          "beat": "development",
+          "summary": "回到活动室，留出一段自由交流与行动的时间。",
+          "next": "honest",
+          "free_window": {
+            "description": "理清彼此今后怎样相处。可以自行讨论、思考和行动，也可以继续预设的谈话。",
+            "context": "毕业舞会已结束。八幡、雪乃、结衣长期相处，但彼此心意尚未说清，也没有确认恋爱关系。目标是用自己的表达澄清是否愿意继续来往，并尊重对方选择，不要求表白或唯一措辞。人物按本人的边界回应，允许思考、暂时离场和回来。未开始新的联合舞会。",
+            "return_text": "【动作】请雪乃谈谈她的想法，沿既定谈话继续把意愿说清楚。",
+            "goal": {
+              "title": "说清今后是否愿意继续来往，并了解对方的意愿",
+              "criteria": [
+                {
+                  "id": "express-intent",
+                  "description": "实际表达自己对继续来往的意愿，而非只在心里想"
+                },
+                {
+                  "id": "hear-response",
+                  "description": "听到雪乃自己的回应，尊重尚未确定关系的边界",
+                  "source": "scene",
+                  "actor": "雪之下雪乃"
+                }
+              ],
+              "boundaries": [
+                {
+                  "id": "coercion",
+                  "description": "强迫人物接受关系或取消其拒绝权：人物应按性格拒绝，实际强迫可降低信任；不能因休息、犹豫或不表白而处罚。"
+                }
+              ],
+              "converge": "discussion-settled",
+              "conclude_text": "【动作】保留刚才谈话的结果，和同伴商量接下来可以一起做的事。"
+            }
+          },
+          "effects": []
+        },
+        "pre-event-break": {
+          "title": "自由活动 · 筹备间隙",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "现有资料还需要汇总成真正能执行的安排。你可以自己组织核查、联系与分工，也可以请同伴按已有方案一起推进。场地许可、可用人手和交接责任都需要落到实处。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "前辈想用自己的办法也可以。最后给我能核对的安排就行，别把“应该可以”当成已经确认。",
+              "expression": "soft"
+            }
+          ],
+          "beat": "development",
+          "summary": "联合舞会仍在筹备，活动开始前留出自由行动的空档。",
+          "next": "guided-preparation",
+          "free_window": {
+            "description": "解决活动筹备的问题。可以自己协调场地与人员，也可以采用同伴准备好的方案。",
+            "context": "联合舞会处于筹备阶段，尚未举行。八幡已经完成上一幕选择的场地或人员调查，但所有条件还需要汇总确认；可以核查已有资料，也可以与负责老师、同学或同伴联系寻找替代方案，不要求使用固定方法。当前雪乃、结衣、彩羽在活动室；离场后的交流须按感知隔离。目标只涉及筹备可行性，不能跳过许可、假造人员同意或凭空宣布活动成功。关系身份仍未明确。",
+            "return_text": "【动作】与同伴逐项核查筹备，采用预设方案补齐尚未解决的问题。",
+            "goal": {
+              "title": "形成能实际执行的舞会筹备方案",
+              "criteria": [
+                {
+                  "id": "venue",
+                  "description": "确认场地许可、容量及使用时段，或落实可行替代场地"
+                },
+                {
+                  "id": "staff",
+                  "description": "确认协助者实际可用时段与分工，不能替未同意的人报名"
+                },
+                {
+                  "id": "handover",
+                  "description": "落实布置、清理与交接责任，并与实际负责人核对"
+                }
+              ],
+              "boundaries": [
+                {
+                  "id": "fake-approval",
+                  "description": "假造许可、冒充他人同意或强迫同学参与：实际负责人拒绝认可方案，要求补办确认；反复欺骗导致实际知情者信任降低。合理尝试被拒绝不算违规。"
+                },
+                {
+                  "id": "unrealistic",
+                  "description": "明显超出现实能力的直接实现：旁白说明行动不能成立，在场者按性格提供可行方向，不改变世界既有事实。"
+                }
+              ],
+              "converge": "gather",
+              "conclude_text": "【动作】按已经确认的场地、人员与交接安排进入活动阶段。"
+            }
+          },
+          "effects": []
+        },
+        "discussion-settled": {
+          "title": "阶段收束 · 谈话之后",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "这次谈话告一段落。你们已经听到彼此的意见，尚未确定的事情仍保持原样，没有人替对方作出选择。桌上的资料翻到了下一页。",
+              "expression": "neutral"
+            }
+          ],
+          "next": "plan",
+          "effects": []
+        },
+        "guided-preparation": {
+          "title": "预设方法 · 逐项核查筹备",
+          "scene": "总武高中 · 侍奉部活动室",
+          "background": "clubroom-spring-rain",
+          "present": [
+            "雪之下雪乃",
+            "由比滨结衣",
+            "一色彩羽"
+          ],
+          "frames": [
+            {
+              "kind": "narration",
+              "speaker": "",
+              "text": "你们保留已经落实的结果，只把仍未确认的事项列出来。在与场地负责人、参加同学和负责交接的人员逐项核对后，许可、时段、分工与清理责任都有了明确答复；原方案不可行的部分改用经过确认的备选。",
+              "expression": "neutral"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "雪之下雪乃",
+              "text": "已经确认的部分不用重做。还有疑问的地方，现在问清楚。",
+              "expression": "serious"
+            },
+            {
+              "kind": "dialogue",
+              "speaker": "一色彩羽",
+              "text": "这样就能交接了。每一项都知道找谁，不用临时猜。",
+              "expression": "soft"
+            }
+          ],
+          "next": "gather",
+          "effects": [
+            {
+              "type": "time",
+              "minutes": 60,
+              "reason": "补齐未确认的筹备问题并联系实际负责人"
+            }
+          ]
+        }
+      },
+      "backgrounds": {
+        "clubroom-spring-rain": {
+          "url": "/storyline-backgrounds/clubroom-spring-rain.png",
+          "name": "春雨中的侍奉部"
+        },
+        "corridor-spring-evening": {
+          "url": "/storyline-backgrounds/corridor-spring-evening.png",
+          "name": "春日薄暮的校内走廊"
+        }
+      },
+      "time_start": {
+        "date": null,
+        "minute": 960,
+        "label": "高二学年末 · 三月（终卷改编）"
+      }
+    }
+  ],
+  "time": {
+    "version": 1,
+    "start": {
+      "date": null,
+      "minute": 960,
+      "label": "高二春季 · 开篇四月"
+    },
+    "era": {
+      "label": "现代日本 · 原作开篇",
+      "knowledge_cutoff": null
+    },
+    "durations": {
+      "speech": 1,
+      "thought": 0,
+      "action": 5,
+      "environment": 0,
+      "travel": 10
+    },
+    "provenance": {
+      "precision": "学年、季节；月份为卷间时间线推断，年份与具体日未确认",
+      "sources": [
+        "https://www.tbs.co.jp/anime/oregairu/1st/chara/",
+        "https://shogakukan-comic.jp/book?isbn=9784094512625",
+        "https://zcaoi.blogspot.com/2017/02/review-oregairu-season-1-arc-i-my.html"
+      ],
+      "adaptation": "16:00 为游戏的放学后开场时刻，不声称原作明确钟点。"
+    }
+  },
+  "world_defaults": {
+    "locations": {
+      "staff-room": {
+        "name": "教职员室",
+        "links": {
+          "corridor": 3
+        }
+      },
+      "komachi-home": {
+        "name": "小町的家",
+        "secret": true,
+        "links": {}
+      },
+      "haruno-private": {
+        "name": "阳乃的私人活动地点",
+        "secret": true,
+        "links": {}
+      },
+      "hachiman-home": {
+        "name": "比企谷家",
+        "encounter_scope": "room",
+        "links": {
+          "street": 12
+        }
+      },
+      "hachiman-room": {
+        "name": "比企谷家 · 八幡的房间",
+        "encounter_scope": "room",
+        "links": {
+          "hachiman-home": 1
+        },
+        "description": "剧本为日常活动设置的地点，非原作精确户型与地址。"
+      },
+      "hachiman-kitchen": {
+        "name": "比企谷家 · 厨房",
+        "encounter_scope": "room",
+        "links": {
+          "hachiman-home": 1
+        },
+        "description": "剧本为日常活动设置的地点，非原作精确户型与地址。"
+      },
+      "hachiman-bathroom": {
+        "name": "比企谷家 · 洗漱间",
+        "encounter_scope": "room",
+        "links": {
+          "hachiman-home": 1
+        },
+        "description": "剧本为日常活动设置的地点，非原作精确户型与地址。"
+      },
+      "camp-site": {
+        "name": "林间学校营地",
+        "description": "暑期志愿活动地点；路线及耗时为游戏布局，不声称原作地图。",
+        "encounter_scope": "area",
+        "links": {
+          "station": 90
+        },
+        "open": true
+      },
+      "yukino-private-home": {
+        "name": "雪之下雪乃的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "yui-private-home": {
+        "name": "由比滨结衣的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "iroha-private-home": {
+        "name": "一色彩羽的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "saki-private-home": {
+        "name": "川崎沙希的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "hayama-private-home": {
+        "name": "叶山隼人的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "shizuka-private-home": {
+        "name": "平冢静的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "saika-private-home": {
+        "name": "户冢彩加的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "tobe-private-home": {
+        "name": "户部翔的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "zaimokuza-private-home": {
+        "name": "材木座义辉的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "yumiko-private-home": {
+        "name": "三浦优美子的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "hina-private-home": {
+        "name": "海老名姬菜的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "sagami-private-home": {
+        "name": "相模南的私人生活范围",
+        "secret": true,
+        "encounter_scope": "room",
+        "links": {
+          "station": 15
+        },
+        "description": "为日程闭环提供的粗略私人地点，不设定原作未知门牌或户型；不能通过公共地图得知路线。"
+      },
+      "library": {
+        "name": "校内图书馆",
+        "description": "补写校园日常使用的公共阅览地点；相对位置与路线为游戏模拟，不声称原著楼层。",
+        "encounter_scope": "room",
+        "links": {
+          "corridor": 3
+        },
+        "open": true
+      }
+    },
+    "links": {
+      "corridor": {
+        "staff-room": 3,
+        "library": 3
+      },
+      "street": {
+        "hachiman-home": 12
+      },
+      "hachiman-home": {
+        "hachiman-room": 1,
+        "hachiman-kitchen": 1,
+        "hachiman-bathroom": 1
+      },
+      "station": {
+        "camp-site": 90,
+        "yukino-private-home": 15,
+        "yui-private-home": 15,
+        "iroha-private-home": 15,
+        "saki-private-home": 15,
+        "hayama-private-home": 15,
+        "shizuka-private-home": 15,
+        "saika-private-home": 15,
+        "tobe-private-home": 15,
+        "zaimokuza-private-home": 15,
+        "yumiko-private-home": 15,
+        "hina-private-home": 15,
+        "sagami-private-home": 15
+      }
+    },
+    "actor_locations": {
+      "shizuka": "staff-room",
+      "komachi": "komachi-home",
+      "haruno": "haruno-private"
+    },
+    "initial": [
+      {
+        "effect": {
+          "template": "builtin.spawn",
+          "item": "zaimokuza-draft",
+          "instance": "zaimokuza-draft",
+          "owner": "zaimokuza",
+          "location": "classroom-2c",
+          "quantity": 1
+        }
+      },
+      {
+        "effect": {
+          "template": "builtin.spawn",
+          "item": "club-notice",
+          "instance": "club-notice",
+          "owner": "shizuka",
+          "location": "staff-room",
+          "quantity": 1
+        }
+      },
+      {
+        "effect": {
+          "template": "builtin.spawn",
+          "item": "yukino-book",
+          "instance": "yukino-book",
+          "owner": "yukino",
+          "location": "clubroom",
+          "quantity": 1
+        }
+      },
+      {
+        "opening_ids": [
+          "club-first-visit",
+          "courtyard-dusk"
+        ],
+        "effect": {
+          "template": "builtin.spawn",
+          "item": "form",
+          "instance": "yui-form",
+          "owner": "yui",
+          "location": "classroom-2f",
+          "quantity": 1
+        }
+      }
+    ],
+    "goal_sets": {
+      "version": 1,
+      "generation": "shell",
+      "max_active": 2,
+      "max_pulses": 12,
+      "windows": [
+        {
+          "id": "morning-classes",
+          "start": 520,
+          "end": 760,
+          "actors": {
+            "yukino": [],
+            "yui": [],
+            "iroha": [],
+            "komachi": [],
+            "saki": [],
+            "haruno": [],
+            "hayama": [],
+            "shizuka": [],
+            "saika": [],
+            "tobe": [],
+            "zaimokuza": [],
+            "yumiko": [],
+            "hina": [],
+            "hachiman": [],
+            "sagami": []
+          },
+          "school_days_only": true
+        },
+        {
+          "id": "lunch-break",
+          "start": 760,
+          "end": 805,
+          "actors": {
+            "yukino": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "yui": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "iroha": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "komachi": [],
+            "saki": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "haruno": [],
+            "hayama": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "shizuka": [],
+            "saika": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "tobe": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "zaimokuza": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "yumiko": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "hina": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "hachiman": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ],
+            "sagami": [
+              {
+                "id": "lunch-rest",
+                "kind": "rest",
+                "title": "午休时留一点自己的休息时间",
+                "probability": 0.4,
+                "priority": 20
+              }
+            ]
+          },
+          "school_days_only": true
+        },
+        {
+          "id": "afternoon-classes",
+          "start": 805,
+          "end": 930,
+          "actors": {
+            "yukino": [],
+            "yui": [],
+            "iroha": [],
+            "komachi": [],
+            "saki": [],
+            "haruno": [],
+            "hayama": [],
+            "shizuka": [],
+            "saika": [],
+            "tobe": [],
+            "zaimokuza": [],
+            "yumiko": [],
+            "hina": [],
+            "hachiman": [],
+            "sagami": []
+          },
+          "school_days_only": true
+        },
+        {
+          "id": "after-school",
+          "start": 930,
+          "end": 1080,
+          "actors": {
+            "yukino": [
+              {
+                "id": "club-reading",
+                "kind": "read",
+                "title": "把手头的这一页读完",
+                "probability": 1,
+                "priority": 40,
+                "target": "yukino-book"
+              }
+            ],
+            "yui": [
+              {
+                "id": "visit-club",
+                "kind": "visit",
+                "title": "去侍奉部看看大家",
+                "probability": 1,
+                "priority": 60,
+                "target": "clubroom"
+              }
+            ],
+            "zaimokuza": [
+              {
+                "id": "corridor-draft",
+                "kind": "visit",
+                "title": "到走廊寻找愿意看短稿的人",
+                "probability": 1,
+                "priority": 55,
+                "target": "corridor"
+              }
+            ],
+            "saika": [
+              {
+                "id": "tennis-practice",
+                "kind": "visit",
+                "title": "去网球场准备练习",
+                "probability": 1,
+                "priority": 60,
+                "target": "tennis"
+              }
+            ],
+            "shizuka": [
+              {
+                "id": "corridor-notice",
+                "kind": "visit",
+                "title": "到走廊确认活动室的使用情况",
+                "probability": 1,
+                "priority": 55,
+                "target": "corridor"
+              }
+            ],
+            "sagami": [
+              {
+                "id": "leave-class",
+                "kind": "visit",
+                "title": "收拾东西后去庭院",
+                "probability": 0.65,
+                "priority": 40,
+                "target": "courtyard"
+              }
+            ],
+            "iroha": [
+              {
+                "id": "council-work",
+                "kind": "visit",
+                "title": "去学生会室查看待办",
+                "probability": 0.8,
+                "priority": 40,
+                "target": "student-council"
+              }
+            ],
+            "saki": [
+              {
+                "id": "leave-school",
+                "kind": "visit",
+                "title": "放学后前往车站",
+                "probability": 0.8,
+                "priority": 40,
+                "target": "station"
+              }
+            ],
+            "hayama": [
+              {
+                "id": "sports-field",
+                "kind": "visit",
+                "title": "去操场看看社团练习",
+                "probability": 0.8,
+                "priority": 40,
+                "target": "playground"
+              }
+            ],
+            "tobe": [
+              {
+                "id": "sports-field",
+                "kind": "visit",
+                "title": "去操场参加放学后的活动",
+                "probability": 0.7,
+                "priority": 40,
+                "target": "playground"
+              }
+            ],
+            "yumiko": [
+              {
+                "id": "courtyard-chat",
+                "kind": "visit",
+                "title": "到庭院休息片刻",
+                "probability": 0.7,
+                "priority": 40,
+                "target": "courtyard"
+              }
+            ],
+            "hina": [
+              {
+                "id": "courtyard-break",
+                "kind": "visit",
+                "title": "去庭院看看同学",
+                "probability": 0.7,
+                "priority": 40,
+                "target": "courtyard"
+              }
+            ],
+            "komachi": [
+              {
+                "id": "home-rest",
+                "kind": "rest",
+                "title": "在家休息片刻",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "haruno": [
+              {
+                "id": "own-break",
+                "kind": "rest",
+                "title": "暂时处理自己的事情",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "hachiman": [
+              {
+                "id": "quiet-break",
+                "kind": "rest",
+                "title": "放学后安静休息片刻",
+                "probability": 1,
+                "priority": 40
+              }
+            ]
+          }
+        },
+        {
+          "id": "evening",
+          "start": 1080,
+          "end": 1440,
+          "actors": {
+            "yukino": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "yui": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "zaimokuza": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "saika": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "shizuka": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "sagami": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "iroha": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "saki": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "hayama": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "tobe": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "yumiko": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "hina": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "komachi": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "haruno": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ],
+            "hachiman": [
+              {
+                "id": "evening-rest",
+                "kind": "rest",
+                "title": "放学后的短暂休息",
+                "probability": 1,
+                "priority": 40
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "doors": {
+      "club-door-panel": {
+        "name": "侍奉部的门",
+        "location": "club-door",
+        "destination": "clubroom",
+        "lock_id": "club-lock",
+        "locked": false,
+        "open": true
+      }
+    },
+    "daily_life": {
+      "enabled": true,
+      "accounting": "abstract",
+      "services": {
+        "shopping-street": [
+          "daily-water",
+          "daily-coffee",
+          "daily-snack",
+          "daily-book"
+        ],
+        "station": [
+          "daily-ticket",
+          "daily-water"
+        ]
+      }
+    },
+    "opening_hours": {
+      "corridor": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "club-door": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "clubroom": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "classroom-2f": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "classroom-2j": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "classroom-2c": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "classroom-1c": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "playground": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "courtyard": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "tennis": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "student-council": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "staff-room": [
+        [
+          420,
+          1140
+        ]
+      ],
+      "shopping-street": [
+        [
+          540,
+          1200
+        ]
+      ],
+      "library": [
+        [
+          420,
+          1140
+        ]
+      ]
+    },
+    "fixed_events": [
+      {
+        "id": "spring-tennis",
+        "title": "网球场的练习与场地协商",
+        "day": 6,
+        "minute": 960,
+        "duration": 45,
+        "location": "tennis",
+        "participants": [
+          "saika",
+          "hayama",
+          "yumiko"
+        ],
+        "description": "网球练习进行中，使用球场的安排需要协商。路过者可旁观、询问或自行离开；结果不预先指定。",
+        "sources": [
+          "https://www.tbs.co.jp/anime/oregairu/1st/disc/"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "tennis",
+          "corridor"
+        ],
+        "date_basis": "原作事件依据官方梗概；第6天与钟点是从开篇春季起算的游戏模拟排期，不是原著明确日期。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-9",
+        "title": "放学后的网球练习",
+        "day": 9,
+        "minute": 960,
+        "duration": 40,
+        "location": "tennis",
+        "participants": [
+          "saika",
+          "hayama"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "tennis"
+        ],
+        "description": "场地开放练习，路过者可以旁观、提出协商或离开；比赛结果与参与不预先指定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-11",
+        "title": "学生会公告与活动咨询",
+        "day": 11,
+        "minute": 960,
+        "duration": 40,
+        "location": "student-council",
+        "participants": [
+          "iroha",
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "student-council"
+        ],
+        "description": "学生会开放校园活动咨询。可以看看公开公告、询问安排，是否报名由你决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "health-check",
+        "title": "春季健康检查安排",
+        "day": 16,
+        "minute": 765,
+        "duration": 40,
+        "location": "staff-room",
+        "participants": [
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "staff-room"
+        ],
+        "description": "校内公布健康检查与提交资料的安排，可以询问流程。个人检查结果须以实际检查为准。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-16",
+        "title": "侍奉部的日常讨论机会",
+        "day": 16,
+        "minute": 960,
+        "duration": 40,
+        "location": "clubroom",
+        "participants": [
+          "yukino",
+          "yui"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "clubroom"
+        ],
+        "description": "活动室可以讨论最近遇到的小问题，是否回应、协助或离开由各方决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-18",
+        "title": "休日前的日用品采购时段",
+        "day": 18,
+        "minute": 960,
+        "duration": 40,
+        "location": "shopping-street",
+        "participants": [
+          "yui",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "shopping-street"
+        ],
+        "description": "临近休息日，商店街开始热闹起来。可以采购普通日用品，也可以与实际遇见的人交流。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-23",
+        "title": "图书馆午间借阅与归还时段",
+        "day": 23,
+        "minute": 765,
+        "duration": 40,
+        "location": "library",
+        "participants": [
+          "yukino",
+          "zaimokuza"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "图书馆开放午间借阅与归还，可以寻找想读的书、整理手边的资料或安静阅读。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-25",
+        "title": "中庭的午休交流时间",
+        "day": 25,
+        "minute": 765,
+        "duration": 40,
+        "location": "courtyard",
+        "participants": [
+          "yui",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "courtyard"
+        ],
+        "description": "中庭开放午休交流，可以与实际遇见的人聊天，也可以自己安静休息。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-30",
+        "title": "放学后的网球练习",
+        "day": 30,
+        "minute": 960,
+        "duration": 40,
+        "location": "tennis",
+        "participants": [
+          "saika",
+          "hayama"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "tennis"
+        ],
+        "description": "场地开放练习，路过者可以旁观、提出协商或离开；比赛结果与参与不预先指定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-32",
+        "title": "学生会公告与活动咨询",
+        "day": 32,
+        "minute": 960,
+        "duration": 40,
+        "location": "student-council",
+        "participants": [
+          "iroha",
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "student-council"
+        ],
+        "description": "学生会开放校园活动咨询。可以看看公开公告、询问安排，是否报名由你决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "midterm-prepare",
+        "title": "期中考查前的复习交流",
+        "day": 37,
+        "minute": 960,
+        "duration": 50,
+        "location": "library",
+        "participants": [
+          "yui",
+          "yukino",
+          "zaimokuza"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "临近考查，可以讨论复习方法或整理自己已有的笔记；不预设任何人的成绩。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-37",
+        "title": "侍奉部的日常讨论机会",
+        "day": 37,
+        "minute": 1025,
+        "duration": 40,
+        "location": "clubroom",
+        "participants": [
+          "yukino",
+          "yui"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "clubroom"
+        ],
+        "description": "活动室可以讨论最近遇到的小问题，是否回应、协助或离开由各方决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-39",
+        "title": "休日前的日用品采购时段",
+        "day": 39,
+        "minute": 960,
+        "duration": 40,
+        "location": "shopping-street",
+        "participants": [
+          "yui",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "shopping-street"
+        ],
+        "description": "临近休息日，商店街开始热闹起来。可以采购普通日用品，也可以与实际遇见的人交流。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "midterm-1",
+        "title": "期中考查第一日",
+        "day": 40,
+        "minute": 540,
+        "duration": 120,
+        "location": "classroom-2f",
+        "participants": [
+          "shizuka",
+          "yui",
+          "hayama",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "classroom-2f"
+        ],
+        "description": "当天改为考查安排，不上普通课程。教室里正在准备考查，成绩尚未公布。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "midterm-2",
+        "title": "期中考查第二日",
+        "day": 41,
+        "minute": 540,
+        "duration": 120,
+        "location": "classroom-2f",
+        "participants": [
+          "shizuka",
+          "yui",
+          "hayama",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "classroom-2f"
+        ],
+        "description": "考查继续，是否到场和如何准备由玩家决定；成绩尚未公布。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-44",
+        "title": "图书馆午间借阅与归还时段",
+        "day": 44,
+        "minute": 765,
+        "duration": 40,
+        "location": "library",
+        "participants": [
+          "yukino",
+          "zaimokuza"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "图书馆开放午间借阅与归还，可以寻找想读的书、整理手边的资料或安静阅读。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-46",
+        "title": "中庭的午休交流时间",
+        "day": 46,
+        "minute": 765,
+        "duration": 40,
+        "location": "courtyard",
+        "participants": [
+          "yui",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "courtyard"
+        ],
+        "description": "中庭开放午休交流，可以与实际遇见的人聊天，也可以自己安静休息。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "ball-games",
+        "title": "校内球技交流日",
+        "day": 47,
+        "minute": 600,
+        "duration": 120,
+        "location": "playground",
+        "participants": [
+          "saika",
+          "hayama",
+          "yumiko",
+          "tobe",
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "playground"
+        ],
+        "description": "当天普通课程让位于校内球技活动。可旁观、协商或按自己的安排行动，不自动参赛。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-51",
+        "title": "放学后的网球练习",
+        "day": 51,
+        "minute": 960,
+        "duration": 40,
+        "location": "tennis",
+        "participants": [
+          "saika",
+          "hayama"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "tennis"
+        ],
+        "description": "场地开放练习，路过者可以旁观、提出协商或离开；比赛结果与参与不预先指定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-53",
+        "title": "学生会公告与活动咨询",
+        "day": 53,
+        "minute": 960,
+        "duration": 40,
+        "location": "student-council",
+        "participants": [
+          "iroha",
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "student-council"
+        ],
+        "description": "学生会开放校园活动咨询。可以看看公开公告、询问安排，是否报名由你决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-58",
+        "title": "侍奉部的日常讨论机会",
+        "day": 58,
+        "minute": 960,
+        "duration": 40,
+        "location": "clubroom",
+        "participants": [
+          "yukino",
+          "yui"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "clubroom"
+        ],
+        "description": "活动室可以讨论最近遇到的小问题，是否回应、协助或离开由各方决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-60",
+        "title": "休日前的日用品采购时段",
+        "day": 60,
+        "minute": 960,
+        "duration": 40,
+        "location": "shopping-street",
+        "participants": [
+          "yui",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "shopping-street"
+        ],
+        "description": "临近休息日，商店街开始热闹起来。可以采购普通日用品，也可以与实际遇见的人交流。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-65",
+        "title": "图书馆午间借阅与归还时段",
+        "day": 65,
+        "minute": 765,
+        "duration": 40,
+        "location": "library",
+        "participants": [
+          "yukino",
+          "zaimokuza"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "图书馆开放午间借阅与归还，可以寻找想读的书、整理手边的资料或安静阅读。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-67",
+        "title": "中庭的午休交流时间",
+        "day": 67,
+        "minute": 765,
+        "duration": 40,
+        "location": "courtyard",
+        "participants": [
+          "yui",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "courtyard"
+        ],
+        "description": "中庭开放午休交流，可以与实际遇见的人聊天，也可以自己安静休息。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "rain-library",
+        "title": "梅雨时节的图书馆整理",
+        "day": 68,
+        "minute": 960,
+        "duration": 50,
+        "location": "library",
+        "participants": [
+          "yukino",
+          "zaimokuza"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "图书馆安排资料整理与借阅交流；天气仍以本档实际状态为准，不强制下雨。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-72",
+        "title": "放学后的网球练习",
+        "day": 72,
+        "minute": 960,
+        "duration": 40,
+        "location": "tennis",
+        "participants": [
+          "saika",
+          "hayama"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "tennis"
+        ],
+        "description": "场地开放练习，路过者可以旁观、提出协商或离开；比赛结果与参与不预先指定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-74",
+        "title": "学生会公告与活动咨询",
+        "day": 74,
+        "minute": 960,
+        "duration": 40,
+        "location": "student-council",
+        "participants": [
+          "iroha",
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "student-council"
+        ],
+        "description": "学生会开放校园活动咨询。可以看看公开公告、询问安排，是否报名由你决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "career-talk",
+        "title": "进路与选课咨询",
+        "day": 79,
+        "minute": 960,
+        "duration": 50,
+        "location": "staff-room",
+        "participants": [
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "staff-room"
+        ],
+        "description": "老师提供进路咨询时间。玩家可以提问或不参加，职业与升学决定不由系统代替。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-79",
+        "title": "侍奉部的日常讨论机会",
+        "day": 79,
+        "minute": 960,
+        "duration": 40,
+        "location": "clubroom",
+        "participants": [
+          "yukino",
+          "yui"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "clubroom"
+        ],
+        "description": "活动室可以讨论最近遇到的小问题，是否回应、协助或离开由各方决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-81",
+        "title": "休日前的日用品采购时段",
+        "day": 81,
+        "minute": 960,
+        "duration": 40,
+        "location": "shopping-street",
+        "participants": [
+          "yui",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "shopping-street"
+        ],
+        "description": "临近休息日，商店街开始热闹起来。可以采购普通日用品，也可以与实际遇见的人交流。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-86",
+        "title": "图书馆午间借阅与归还时段",
+        "day": 86,
+        "minute": 765,
+        "duration": 40,
+        "location": "library",
+        "participants": [
+          "yukino",
+          "zaimokuza"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "图书馆开放午间借阅与归还，可以寻找想读的书、整理手边的资料或安静阅读。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "final-prepare",
+        "title": "期末考查前的复习讨论",
+        "day": 86,
+        "minute": 960,
+        "duration": 50,
+        "location": "library",
+        "participants": [
+          "yui",
+          "yukino",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "可交流复习办法、提出问题或自己准备，不预设学习成果。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-88",
+        "title": "中庭的午休交流时间",
+        "day": 88,
+        "minute": 765,
+        "duration": 40,
+        "location": "courtyard",
+        "participants": [
+          "yui",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "courtyard"
+        ],
+        "description": "中庭开放午休交流，可以与实际遇见的人聊天，也可以自己安静休息。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "final-1",
+        "title": "期末考查第一日",
+        "day": 89,
+        "minute": 540,
+        "duration": 120,
+        "location": "classroom-2f",
+        "participants": [
+          "shizuka",
+          "yui",
+          "hayama",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "classroom-2f"
+        ],
+        "description": "当天采用期末考查安排，普通课程暂停。可以按自己的计划准备和前往，成绩尚未公布。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "final-2",
+        "title": "期末考查第二日",
+        "day": 90,
+        "minute": 540,
+        "duration": 120,
+        "location": "classroom-2f",
+        "participants": [
+          "shizuka",
+          "yui",
+          "hayama",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "classroom-2f"
+        ],
+        "description": "期末考查继续，校内保持安静，考查结束后有时间交流准备情况。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-93",
+        "title": "放学后的网球练习",
+        "day": 93,
+        "minute": 960,
+        "duration": 40,
+        "location": "tennis",
+        "participants": [
+          "saika",
+          "hayama"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "tennis"
+        ],
+        "description": "场地开放练习，路过者可以旁观、提出协商或离开；比赛结果与参与不预先指定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-95",
+        "title": "学生会公告与活动咨询",
+        "day": 95,
+        "minute": 960,
+        "duration": 40,
+        "location": "student-council",
+        "participants": [
+          "iroha",
+          "shizuka"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "student-council"
+        ],
+        "description": "学生会开放校园活动咨询。可以看看公开公告、询问安排，是否报名由你决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-100",
+        "title": "侍奉部的日常讨论机会",
+        "day": 100,
+        "minute": 960,
+        "duration": 40,
+        "location": "clubroom",
+        "participants": [
+          "yukino",
+          "yui"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "clubroom"
+        ],
+        "description": "活动室可以讨论最近遇到的小问题，是否回应、协助或离开由各方决定。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-102",
+        "title": "休日前的日用品采购时段",
+        "day": 102,
+        "minute": 960,
+        "duration": 40,
+        "location": "shopping-street",
+        "participants": [
+          "yui",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "shopping-street"
+        ],
+        "description": "临近休息日，商店街开始热闹起来。可以采购普通日用品，也可以与实际遇见的人交流。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "term-cleanup",
+        "title": "学期结束前的整理与安全提醒",
+        "day": 103,
+        "minute": 600,
+        "duration": 90,
+        "location": "playground",
+        "participants": [
+          "shizuka",
+          "yui",
+          "hayama"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "playground"
+        ],
+        "description": "学校进行学期收尾与暑期提醒。可以参与整理，也可以与老师确认其他安排。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "summer-volunteer",
+        "title": "暑期林间学校志愿活动",
+        "day": 110,
+        "minute": 600,
+        "duration": 120,
+        "location": "camp-site",
+        "participants": [
+          "shizuka",
+          "yukino",
+          "yui",
+          "hayama",
+          "yumiko",
+          "tobe",
+          "hina"
+        ],
+        "description": "暑期营地开始组织志愿活动。可帮助处理孩子们的活动问题，也可拒绝加入；人物是否实际到场按路线结算。",
+        "sources": [
+          "https://e-comi.shogakukan.co.jp/books/094513320000d0000000"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "camp-site",
+          "corridor"
+        ],
+        "date_basis": "原作事件依据官方梗概；第110天与钟点是从开篇春季起算的游戏模拟排期，不是原著明确日期。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "summer-fireworks",
+        "title": "夏日烟花大会",
+        "day": 125,
+        "minute": 1140,
+        "duration": 60,
+        "location": "street",
+        "participants": [
+          "yui"
+        ],
+        "description": "夏日烟花活动开始，沿街能看见远处的烟花。陪同、邀请和个人关系由本档实际选择发展，不预设八幡赴约。",
+        "sources": [
+          "https://www.tbs.co.jp/anime/oregairu/1st/disc/"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "street",
+          "corridor"
+        ],
+        "date_basis": "原作事件依据官方梗概；第125天与钟点是从开篇春季起算的游戏模拟排期，不是原著明确日期。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "new-term",
+        "title": "新学期的始业安排",
+        "day": 148,
+        "minute": 600,
+        "duration": 60,
+        "location": "playground",
+        "participants": [
+          "shizuka",
+          "yui",
+          "hayama",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "playground"
+        ],
+        "description": "新学期开始，今天采用始业安排；下一正常上课日恢复日课。玩家可询问计划或自行活动。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-149",
+        "title": "图书馆午间借阅与归还时段",
+        "day": 149,
+        "minute": 765,
+        "duration": 40,
+        "location": "library",
+        "participants": [
+          "yukino",
+          "zaimokuza"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "library"
+        ],
+        "description": "图书馆开放午间借阅与归还，可以寻找想读的书、整理手边的资料或安静阅读。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "culture-preparation",
+        "title": "文化祭筹备安排",
+        "day": 150,
+        "minute": 960,
+        "duration": 90,
+        "location": "student-council",
+        "participants": [
+          "sagami",
+          "yukino"
+        ],
+        "description": "文化祭进入筹备阶段，执行委员开始处理工作安排。可以了解任务或提出不同办法，未接受的工作不分派给主角。",
+        "sources": [
+          "https://www.tbs.co.jp/anime/oregairu/1st/disc/"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "student-council",
+          "corridor"
+        ],
+        "date_basis": "原作事件依据官方梗概；第150天与钟点是从开篇春季起算的游戏模拟排期，不是原著明确日期。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "school-life-151",
+        "title": "中庭的午休交流时间",
+        "day": 151,
+        "minute": 765,
+        "duration": 40,
+        "location": "courtyard",
+        "participants": [
+          "yui",
+          "saika",
+          "saki"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "courtyard"
+        ],
+        "description": "中庭开放午休交流，可以与实际遇见的人聊天，也可以自己安静休息。",
+        "sources": [
+          "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+          "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+        ],
+        "date_basis": "游戏模拟排期：参考日本高中日课与年度活动类型补写的原创校园机会；日期、人物安排及具体内容不是原著既定事件。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "culture-opening",
+        "title": "总武高中文化祭",
+        "day": 155,
+        "minute": 600,
+        "duration": 180,
+        "location": "playground",
+        "participants": [
+          "hayama",
+          "yumiko",
+          "tobe",
+          "hina",
+          "sagami",
+          "shizuka"
+        ],
+        "description": "文化祭开始，校内举办活动。主角可以参观、协助已接受的工作或保持自己的安排，不能自动成为委员。",
+        "sources": [
+          "https://www.tbs.co.jp/anime/oregairu/1st/disc/"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "playground",
+          "corridor"
+        ],
+        "date_basis": "原作事件依据官方梗概；第155天与钟点是从开篇春季起算的游戏模拟排期，不是原著明确日期。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      },
+      {
+        "id": "culture-closing",
+        "title": "文化祭闭幕准备",
+        "day": 155,
+        "minute": 900,
+        "duration": 60,
+        "location": "playground",
+        "participants": [
+          "sagami",
+          "shizuka"
+        ],
+        "description": "文化祭进入闭幕准备阶段，需要确认负责人的安排。相模是否离场、谁去寻找、问题怎样解决，由本档状态决定。",
+        "sources": [
+          "https://www.tbs.co.jp/anime/oregairu/1st/disc/"
+        ],
+        "excluded": [],
+        "schedule_override": true,
+        "notice_locations": [
+          "playground",
+          "corridor"
+        ],
+        "date_basis": "原作事件依据官方梗概；第155天与钟点是从开篇春季起算的游戏模拟排期，不是原著明确日期。",
+        "public_schedule": true,
+        "participation_policy": "choice"
+      }
+    ],
+    "school_calendar": {
+      "version": 1,
+      "start_weekday": 0,
+      "school_weekdays": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "periods": [
+        {
+          "id": "period-1",
+          "start": 530,
+          "end": 580,
+          "title": "第一节课"
+        },
+        {
+          "id": "period-2",
+          "start": 590,
+          "end": 640,
+          "title": "第二节课"
+        },
+        {
+          "id": "period-3",
+          "start": 650,
+          "end": 700,
+          "title": "第三节课"
+        },
+        {
+          "id": "period-4",
+          "start": 710,
+          "end": 760,
+          "title": "第四节课"
+        },
+        {
+          "id": "period-5",
+          "start": 805,
+          "end": 855,
+          "title": "第五节课"
+        },
+        {
+          "id": "period-6",
+          "start": 865,
+          "end": 915,
+          "title": "第六节课"
+        }
+      ],
+      "holidays": [
+        {
+          "day": 22,
+          "name": "昭和の日"
+        },
+        {
+          "day": 26,
+          "name": "憲法記念日"
+        },
+        {
+          "day": 27,
+          "name": "みどりの日"
+        },
+        {
+          "day": 28,
+          "name": "こどもの日"
+        },
+        {
+          "day": 29,
+          "name": "休日"
+        },
+        {
+          "day": 99,
+          "name": "海の日"
+        },
+        {
+          "day": 162,
+          "name": "敬老の日"
+        },
+        {
+          "day": 169,
+          "name": "秋分の日"
+        },
+        {
+          "day": 190,
+          "name": "体育の日"
+        },
+        {
+          "day": 210,
+          "name": "文化の日"
+        },
+        {
+          "day": 211,
+          "name": "休日"
+        },
+        {
+          "day": 230,
+          "name": "勤労感謝の日"
+        },
+        {
+          "day": 260,
+          "name": "天皇誕生日"
+        },
+        {
+          "day": 269,
+          "name": "元日"
+        },
+        {
+          "day": 281,
+          "name": "成人の日"
+        },
+        {
+          "day": 310,
+          "name": "建国記念の日"
+        },
+        {
+          "day": 348,
+          "name": "春分の日"
+        }
+      ],
+      "vacations": [
+        {
+          "start": 106,
+          "end": 147,
+          "name": "暑假"
+        },
+        {
+          "start": 261,
+          "end": 275,
+          "name": "寒假"
+        },
+        {
+          "start": 351,
+          "end": 365,
+          "name": "学年末春假"
+        }
+      ],
+      "teachers": {
+        "shizuka": {
+          "location": "classroom-2f",
+          "periods": [
+            "period-1",
+            "period-5"
+          ]
+        }
+      },
+      "notice_locations": [
+        "corridor",
+        "classroom-2f",
+        "classroom-2j",
+        "classroom-2c",
+        "classroom-1c",
+        "clubroom",
+        "courtyard",
+        "playground"
+      ],
+      "consequence": "reminder",
+      "sources": [
+        "https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv",
+        "https://cms2.chiba-c.ed.jp/abikohigh/wysiwyg/file/download/14/11195",
+        "https://www.chiba-c.ed.jp/toke-hs/topnav/gakushuu/nittukahyou.html"
+      ],
+      "basis": "第1天星期一；祝日按2013-04-08起的参考校历映射，仅游戏排期，不设定原著年份。课程、平冢授课安排及假期起止为校园生活模拟。",
+      "special_days": [
+        {
+          "day": 40,
+          "name": "期中考查日",
+          "classes": false
+        },
+        {
+          "day": 41,
+          "name": "期中考查日",
+          "classes": false
+        },
+        {
+          "day": 47,
+          "name": "球技活动日",
+          "classes": false
+        },
+        {
+          "day": 89,
+          "name": "期末考查日",
+          "classes": false
+        },
+        {
+          "day": 90,
+          "name": "期末考查日",
+          "classes": false
+        },
+        {
+          "day": 103,
+          "name": "学期结束与整理日",
+          "classes": false
+        },
+        {
+          "day": 148,
+          "name": "新学期始业日",
+          "classes": false
+        },
+        {
+          "day": 155,
+          "name": "文化祭日",
+          "classes": false
+        },
+        {
+          "day": 156,
+          "name": "文化祭后补休日",
+          "classes": false
+        }
+      ]
+    }
+  },
+  "player_homes": {
+    "hachiman": "hachiman-home"
+  },
+  "protagonist_defaults": {
+    "hachiman": {
+      "home_id": "hachiman-home",
+      "classroom_id": "classroom-2f",
+      "room_id": "hachiman-room"
+    }
+  },
+  "schedules": {
+    "version": 1,
+    "generation": "shell",
+    "actors": {
+      "yukino": [
+        {
+          "id": "after-school-club",
+          "location_id": "clubroom",
+          "window_start": 930,
+          "window_end": 1020,
+          "duration": 20,
+          "purpose": "放学后前往侍奉部，在活动室停留",
+          "strength": "routine",
+          "activity_kind": "stay",
+          "timing": "arrival",
+          "flexibility": 0,
+          "school_days_only": true
+        },
+        {
+          "id": "home_id",
+          "location_id": "yukino-private-home",
+          "window_start": 1050,
+          "window_end": 1110,
+          "duration": 20,
+          "purpose": "回家休息",
+          "strength": "routine",
+          "activity_kind": "stay",
+          "timing": "departure",
+          "flexibility": 0
+        }
+      ]
+    }
+  }
+}

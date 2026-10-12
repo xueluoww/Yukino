@@ -9,7 +9,7 @@ from pathlib import Path
 from cast import registry,bind_frames,asset_key,player_snapshot,player_cards,DEFAULT_PLAYER
 from worlds import WorldLibrary,world_context
 from preview_library import PreviewLibrary
-from image_service import ImageService
+from image_backends import make_image_service, read_config
 from deepseek_client import FlashClient
 from branch_store import metadata
 from turn_format import suggestion
@@ -25,7 +25,8 @@ class RuntimeV4:
         self.shared_gallery.bootstrap(self.cache)
         self.planner=FlashClient(self.root) if self.provider=='deepseek' else None
         self.planning=set();self.work_queue=queue.PriorityQueue();self.job_order=0
-        self.image_service=ImageService(self.cli,self.root,self.engine_env()) if self.cli else None
+        self.image_provider=read_config(self.root)['provider']
+        self.image_service=make_image_service(self.root,self.cli,self.engine_env())
         self.closed=False
         for key,task in self.image_tasks.items():
             if task.get('speculative') and task.get('scope') and task.get('status')=='failed':self.previews.update(task['scope'],key,status='failed')
@@ -49,7 +50,10 @@ class RuntimeV4:
         return copy.deepcopy(s.get('protagonist_snapshot') or s['facts'].get('browser_protagonist_snapshot') or player_snapshot(self.root))
 
     def actors(self,session=None):
-        s=copy.deepcopy(session or self.current);s['world_snapshot']=self.world_snapshot(s)
+        # Registry reads metadata and explicitly copies mutable cast entries. History
+        # packets are unrelated to a portrait lookup; copying them made polling grow
+        # with every saved world snapshot.
+        s=dict(session or self.current);s['world_snapshot']=self.world_snapshot(s)
         actors=registry(s,self.descriptor(s['card_id']))
         try:
             _,record=self.tavern.find_record(self.root,'cards',s['card_id'])
@@ -121,7 +125,8 @@ class RuntimeV4:
             'protagonists':[{'id':p['id'],'name':p['name']} for p in player_cards(self.root)],
             'protagonist':{'id':self.protagonist()['id'],'name':self.protagonist()['name']},
             'prediction_library':self.previews.public(self.scope()),
-            'image_service':{'persistent':True,'running':bool(self.image_service and self.image_service.proc and self.image_service.proc.poll() is None)}})
+            'image_service':{'persistent':True,'provider':self.image_provider,
+                'running':bool(self.image_service and (self.image_provider=='api' or (self.image_service.proc and self.image_service.proc.poll() is None)))}})
         result['story']['choices']=[c|{'text':suggestion(c['text'])} for c in result['story'].get('choices',[])]
         unlocked=self.shared_gallery.unlocked(self.current)
         generated=[x for key,x in unlocked]
@@ -164,7 +169,7 @@ class RuntimeV4:
                 'legacy_card_ids':sorted(legacy),'display_name':world['name'],'bio':world.get('description') or world['background'][:250],
                 'scene_intro':'、'.join(s['title'] for s in world['opening_scenes']), 'scenarios':world['opening_scenes'],
                 'sprite':main['sprite'],'avatar':main['avatar'],'backgrounds':main['backgrounds'],'cast':cast,
-                'default_protagonist_id':world.get('default_protagonist_id','hachiman'),'storylines':world.get('storylines',[])})
+                'default_protagonist_id':world.get('default_protagonist_id','hachiman'),'storylines':world.get('storylines',[]),'world_modes':world.get('world_modes')})
         # Standalone existing cards remain playable as small legacy scripts.
         for cid,card in cards.items():
             if cid in covered:continue
@@ -172,7 +177,7 @@ class RuntimeV4:
             if record.get('source','').startswith('setting-set:'):continue
             result.append(card|{'id':'card-'+cid,'card_id':cid,'world_id':'','setting_set_ids':[],
                 'display_name':card['display_name']+' · 角色卡剧本','cast':[card['display_name']],'default_protagonist_id':'hachiman'})
-        return sorted(result,key=lambda item:item['id']!='oregairu-campus')
+        return result
 
     def chinese_name(self,item,kind):
         label=item.get('name','')
@@ -338,9 +343,9 @@ class RuntimeV4:
     def native_image(self,prompt,references,asset_id,scope=None,speculative=False):
         if not self.image_service:raise ValueError('找不到原生生图引擎。')
         job=self.root/'browser/image-jobs'/asset_id
-        instruction=('Generate exactly ONE image using the BUILT-IN image generation tool. Do not use shell, scripts, APIs, browser, apps or agents. If unavailable, report UNAVAILABLE and stop. Return only the actual saved image path.\n'+prompt)
+        instruction=prompt if self.image_provider=='api' else ('Generate exactly ONE image using the BUILT-IN image generation tool. Do not use shell, scripts, APIs, browser, apps or agents. If unavailable, report UNAVAILABLE and stop. Return only the actual saved image path.\n'+prompt)
         paths=self.image_service.generate(instruction,references,scope or self.current['id']+':background',job)
-        env=self.engine_env();allowed=(Path(env.get('CODEX_HOME',str(Path.home()/'.codex')))/'generated_images').resolve()
+        env=self.engine_env();allowed=(self.root/'browser/image-jobs').resolve() if self.image_provider=='api' else (Path(env.get('CODEX_HOME',str(Path.home()/'.codex')))/'generated_images').resolve()
         for candidate in reversed(paths):
             source=Path(candidate).resolve()
             if source.is_relative_to(allowed) and source.is_file() and source.suffix.lower() in {'.png','.jpg','.webp','.jpeg'}:
@@ -393,6 +398,10 @@ class RuntimeV4:
             def ref(url):
                 if url:
                     p=self.asset_path(url)
+                    # Public name-label SVGs are explicitly marked placeholders,
+                    # not character or scene reference images. Real references
+                    # still reach the backend and must never be silently dropped.
+                    if p.suffix.lower()=='.svg' and 'placeholders' in p.parts:return
                     if p.is_file():refs.append(p)
             if kind=='background':
                 bg=descriptor.get('backgrounds',{});ref(bg.get(descriptor.get('default_background'),''))

@@ -391,7 +391,8 @@ class AuthoredRuntime:
                 if frames[0]['kind']=='narration':frames[0]['text']=movement+'\n\n'+frames[0]['text']
                 facts['browser_latest_frames']=frames
                 minutes=facts['browser_engine'].get('time_policy',{}).get('durations',{}).get('travel',10)
-                story_engine.apply_effect(facts['browser_engine'],{'type':'time','minutes':minutes,'reason':'结束自由活动并回到主线地点'},self.actors(),time_store=self.modules)
+                if not facts.get('browser_world_state'):
+                    story_engine.apply_effect(facts['browser_engine'],{'type':'time','minutes':minutes,'reason':'结束自由活动并回到主线地点'},self.actors(),time_store=self.modules)
             from galgame import canonical_text
             timeline=copy.deepcopy(previous['facts']['browser_story'])
             timeline['nodes'].append({'id':request_id,'title':newnode['title'],'beat':newnode.get('beat','development'),'milestone':True,'scene':newnode['scene'],'turn_index':len(previous['turns']),'story_time':story_engine.public(facts['browser_engine'])['clock']})
@@ -399,11 +400,15 @@ class AuthoredRuntime:
             facts.update({'browser_story':timeline,'browser_turn_frames':previous['facts'].get('browser_turn_frames',{})|{request_id:copy.deepcopy(frames)},'browser_authored_receipts':ledger|{request_id:receipt}})
             update={'scene':newnode['scene'],'summary':newnode.get('summary',newnode['title']),'facts':facts,'relationships':{},'memories':[]}
             payload={'turn_id':request_id,'expected_revision':previous['revision'],'user':text,'assistant':canonical_text(frames),'update':update}
+            packet=facts.pop('browser_world_packet_pending',None)
+            if packet:
+                from world_turn import validate_packet
+                validate_packet(packet,previous['facts']['browser_world_state']);payload['world_packet']=packet
             if self.persistent:
                 path=self.root/'browser/jobs'/session_id/request_id/'turn.json';self.tavern.atomic_json(path,payload)
                 self.command('commit',session_id,path);_,self.current=self.tavern.find_record(self.root,'sessions',session_id)
             else:
-                candidate=copy.deepcopy(previous);candidate['facts'].update(facts);candidate['scene']=update['scene'];candidate['summary']=update['summary'];candidate['turns'].append({k:payload[k] for k in ('turn_id','user','assistant')});candidate['revision']+=1;candidate['updated_at']=self.tavern.now();self.current=candidate
+                candidate=copy.deepcopy(previous);candidate['facts'].update(facts);candidate['scene']=update['scene'];candidate['summary']=update['summary'];candidate['turns'].append({k:payload[k] for k in ('turn_id','user','assistant','world_packet')if k in payload});candidate['revision']+=1;candidate['updated_at']=self.tavern.now();self.current=candidate
             self.frames=frames;self.visual=visual;self.activity={};self.error='';self.version+=1;self.checkpoint()
             self.activate_visuals()
             self.tavern.atomic_json(self.cache_file,self.cache)

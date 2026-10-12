@@ -5,7 +5,7 @@ import json
 import re
 from pathlib import Path
 
-DEFAULT_PLAYER = {'id': 'hachiman', 'name': '比企谷八幡', 'age': '16岁（高二）', 'appearance': '瘦削男高中生，短黑发、略翘发梢与呆毛，细长而倦怠的眼睛，深色男式校服。', 'description': '外貌参考比企谷八幡；既有关系按所选世界观与当前存档确定，不替玩家决定行为。', 'source': 'https://www.tbs.co.jp/anime/oregairu/character/chara01.html', 'avatar': '/images/oregairu/hachiman-label.svg', 'display_profile': {'age': '16岁（高二）', 'biography': '总武高中二年级学生，惯于独来独往。观察群体时常带怀疑与自嘲，对人际关系有自己的判断。', 'summary': '独来独往，观察敏锐，带着自嘲的幽默。', 'personality': '独来独往，观察敏锐，带着自嘲的幽默。', 'appearance': '瘦削男高中生，短黑发、略翘发梢与呆毛，细长而倦怠的眼睛，深色男式校服。', 'avatar': '/images/oregairu/hachiman-label.svg'}}
+DEFAULT_PLAYER = {'id':'hachiman','name':'比企谷八幡','age':'16岁（第一季开篇）','appearance':'日本男高中生，瘦削身形，短黑发、略翘的发梢和呆毛，细长而略显倦怠的眼睛。深色高中制服，白衬衫。男性。','description':'默认仅采用比企谷八幡的外貌，不强制其原作经历、关系、台词或行动。','source':'https://www.tbs.co.jp/anime/oregairu/character/chara01.html'}
 
 def player_cards(root):
     result={DEFAULT_PLAYER['id']:copy.deepcopy(DEFAULT_PLAYER)}

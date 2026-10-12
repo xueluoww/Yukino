@@ -73,12 +73,12 @@ class ModuleStore:
             module=copy.deepcopy(raw);module['id']=key(module.get('id'))
             if module['id'] in seen:raise ValueError('玩法 ID 重复。')
             seen.add(module['id'])
-            if module.get('api_version')!=API or module.get('runtime')!='python-restricted-v1':
+            if module.get('api_version')not in (1,2) or module.get('runtime')!='python-restricted-v1':
                 raise ValueError('不兼容的玩法 API 或运行时。')
             if not isinstance(module.get('version'),str) or not re.fullmatch(r'[A-Za-z0-9_.-]{1,80}',module['version']):raise ValueError('玩法版本格式不正确。')
             if not isinstance(module.get('name'),str) or not 1<=len(module['name'])<=100:raise ValueError('玩法需要名称。')
             caps=module.get('capabilities',[])
-            if not isinstance(caps,list) or not set(caps)<=CAPABILITIES:raise ValueError('不支持的玩法能力。')
+            if not isinstance(caps,list) or not set(caps)<=(CAPABILITIES|({'events'}if module.get('api_version')==2 else set())):raise ValueError('不支持的玩法能力。')
             if not isinstance(module.get('config',{}),dict) or len(json.dumps(module.get('config',{})))>32768:raise ValueError('玩法配置不正确或过大。')
             check(module.get('source'))
             dependencies=module.get('dependencies',{})
@@ -118,8 +118,13 @@ class ModuleStore:
         if module.get('id')!=ref['id'] or module.get('version')!=ref['version'] or digest({k:v for k,v in module.items() if k!='sha256'})!=ref['sha256']:raise ValueError('玩法文件被修改，不能继续结算。')
         return module
     def call(self,ref,mode,state,context,event=None):
+        from runtime_budget import consume
+        consume('module')
         module=self.load(ref)
         context=copy.deepcopy(context)
+        if mode.startswith('world_') or mode=='actor_context':
+            if module.get('api_version')!=2:raise ValueError('World hooks require API2')
+            if mode not in {'world_initialize','world_dependencies','world_evaluate','world_apply','actor_context'}:raise ValueError('Unknown world hook')
         context['modules']={k:v for k,v in context.get('modules',{}).items() if k in module.get('dependencies',{})}
         request={'mode':mode,'state':copy.deepcopy(state),'config':module.get('config',{}),
                  'context':copy.deepcopy(context),'event':event or {}}
@@ -136,9 +141,14 @@ class ModuleStore:
         if len(process.stdout)>128*1024:raise ValueError('玩法输出过大。')
         result=json.loads(process.stdout)
         if not isinstance(result,dict) or not isinstance(result.get('state'),dict) or not isinstance(result.get('effects',[]),list):raise ValueError('玩法返回格式错误。')
-        if mode in {'view','context'} and (result['state']!=state or result.get('effects')):raise ValueError('查看玩法不能修改存档。')
+        if mode in {'view','context','world_dependencies','world_evaluate','actor_context'} and (result['state']!=state or result.get('effects')):raise ValueError('查看玩法不能修改存档。')
         if mode=='view':validate_view(result.get('view',{}))
         if mode=='context' and isinstance(result.get('context'),dict):validate_actions(result['context'].get('natural_actions',[]))
         for effect in result.get('effects',[]):
             if not isinstance(effect,dict) or effect.get('type') not in module.get('capabilities',[]):raise ValueError('玩法调用了未声明的能力。')
+            if effect.get('type')=='events':
+                from event_schema import validate_effect
+                validate_effect(effect['event'])
+                domain=effect['event']['template']
+                if domain not in module.get('event_writes',[]):raise ValueError('Undeclared event write capability')
         return result

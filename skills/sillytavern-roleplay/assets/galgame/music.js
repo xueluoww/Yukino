@@ -1,10 +1,10 @@
 "use strict";
 (() => {
   const clamp = value => Math.max(0, Math.min(1, value));
-  const rawVolume = Number(localStorage.getItem("yukino-public-music-volume") ?? .25);
+  const rawVolume = Number(localStorage.getItem("yukima-music-volume") ?? .25);
   let volume = Number.isFinite(rawVolume) ? clamp(rawVolume) : .25;
-  let enabled = localStorage.getItem("yukino-public-music-enabled") !== "false";
-  let manual = localStorage.getItem("yukino-public-music-track") || "auto";
+  let enabled = localStorage.getItem("yukima-music-enabled") !== "false";
+  let manual = localStorage.getItem("yukima-music-track") || "auto";
   let library = [], unlocked = false, active = 0, current = "", desired = "", switching = false;
   let generation = 0, lastSwitch = 0, lastState, inGame = false, failed = "";
   const players = [0, 1].map(() => {
@@ -23,7 +23,7 @@
     if (["serious", "thinking", "troubled", "displeased"].includes(state?.visual?.expression) || /rain|night|dusk|evening/.test(state?.visual?.background || "") || /雨|夜|黄昏|沉思|暮色/.test(state?.location || "")) return "reflective";
     return "calm";
   }
-  function notify() { document.dispatchEvent(new CustomEvent("yukino-public-music-change")); }
+  function notify() { document.dispatchEvent(new CustomEvent("yukima-music-change")); }
   function stop() {
     generation++; switching = false;
     players.forEach(audio => { audio.pause(); audio.volume = 0; });
@@ -71,16 +71,16 @@
   window.YukimaMusic = {
     refresh,
     setEnabled(value) {
-      enabled = Boolean(value); localStorage.setItem("yukino-public-music-enabled", String(enabled));
+      enabled = Boolean(value); localStorage.setItem("yukima-music-enabled", String(enabled));
       if (!enabled) stop(); else { unlocked = true; playDesired(true); } notify();
     },
     setVolume(value) {
-      volume = clamp(Number(value) || 0); localStorage.setItem("yukino-public-music-volume", String(volume));
+      volume = clamp(Number(value) || 0); localStorage.setItem("yukima-music-volume", String(volume));
       if (!switching) players[active].volume = enabled ? volume : 0; notify();
     },
     setTrack(value) {
       manual = library.some(t => t.id === value) ? value : "auto";
-      localStorage.setItem("yukino-public-music-track", manual); refresh(lastState, inGame); playDesired(true); notify();
+      localStorage.setItem("yukima-music-track", manual); refresh(lastState, inGame); playDesired(true); notify();
     },
     snapshot: () => ({enabled, volume, manual, tracks: library, current, failed, playing: players.some(p => !p.paused)}),
   };

@@ -50,7 +50,8 @@ def create_fork(root, tavern, parent, snapshot, node_id, kind='rollback'):
                 earlier['memory_scope'] = fork['id']
                 earlier['branch'] = copy.deepcopy(fork['branch'])
                 earlier['facts']['browser_branch'] = copy.deepcopy(fork['facts']['browser_branch'])
-                tavern.atomic_json(root/'browser/checkpoints'/fork['id']/(tid+'.json'), earlier)
+                from storage_codec import pack_checkpoint
+                tavern.atomic_json(root/'browser/checkpoints'/fork['id']/(tid+'.json'), pack_checkpoint(earlier))
         tavern.atomic_json(target, fork)
         from long_memory import MemoryStore
         MemoryStore(root,tavern).inherit(parent,fork)
@@ -63,8 +64,9 @@ def session_listing(root, tavern):
         branch = metadata(session)
         world_id=(session.get('world_snapshot') or session.get('facts',{}).get('browser_world_snapshot',{})).get('id','')
         latest = session.get('facts', {}).get('browser_story', {}).get('nodes', [])
+        from world_presentation import save_projection
         result.append({key: session[key] for key in ('id','title','card_id','mode','status','updated_at')} |
             {'branch': branch, 'summary': session.get('summary') or session.get('scene') or '故事刚刚开始。',
              'note':session.get('save_note',''), 'scene': session.get('scene', ''), 'script_id':session.get('script_id') or world_id, 'world_id':world_id, 'turn_count': max(0, len(session['turns'])-1),
-             'latest_event': latest[-1].get('title', '') if latest else '', 'memory_scope': session['id']})
+             'latest_event': latest[-1].get('title', '') if latest else '', 'memory_scope': session['id']} | save_projection(session))
     return {'root': str(root), 'sessions': sorted(result, key=lambda s: s['updated_at'], reverse=True)}

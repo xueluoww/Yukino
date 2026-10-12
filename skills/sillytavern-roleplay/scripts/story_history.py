@@ -1,3 +1,4 @@
+from storage_codec import loads as storage_loads
 """Read/export one branch's recorded story without replaying or altering it."""
 import copy,json,re
 from pathlib import Path
@@ -21,10 +22,13 @@ def history(root,session):
             # of sibling saves; verify the full prefix even inside this folder.
             path=Path(root)/'browser/checkpoints'/session['id']/(tid+'.json')
             try:
-                checkpoint=json.loads(path.read_text(encoding='utf-8-sig'))
+                checkpoint=storage_loads(path.read_text(encoding='utf-8-sig'))
                 if checkpoint.get('id')==session['id'] and same_prefix(checkpoint,session,index):
                     frames=checkpoint.get('facts',{}).get('browser_latest_frames')
             except (OSError,ValueError):pass
+        if facts.get('browser_world_state'):
+            from speech_channels import reader_frames
+            frames=reader_frames(frames or [])
         public=[copy.deepcopy(f) for f in (frames or []) if f.get('kind')!='thought']
         result.append({k:t.get(k,'') for k in ('turn_id','user','assistant','saved_at')}|
             {'frames':public,'structured':bool(public)})
@@ -49,7 +53,9 @@ def export(session,turns,scope='story',format='txt'):
             else:lines.extend(['历史文本（原记录未保存分镜署名）：',t['assistant'],''])
     if scope in {'plot','all'}:
         heading('剧情脉络')
-        for i,n in enumerate(session.get('facts',{}).get('browser_story',{}).get('nodes',[])):
+        from world_presentation import story_projection
+        plotted=story_projection(session,session.get('facts',{}).get('browser_story',{}))
+        for i,n in enumerate(plotted.get('nodes',[])):
             heading(f"{i+1}. {n['title']}",3);lines.extend([n.get('story_time',''),n.get('scene',''),''])
         thread=session.get('facts',{}).get('browser_story',{}).get('thread')
         if thread:lines.extend(['当前线索：'+thread,''])
@@ -61,7 +67,8 @@ def export(session,turns,scope='story',format='txt'):
             for event in world_state['threads']:lines.extend([event['title']+' · '+event['status'],event['note'],''])
     if scope in {'thoughts','all'}:
         heading('人物心声（独立附录）')
-        for e in session.get('facts',{}).get('browser_inner_thoughts',[]):
+        from speech_channels import reader_thoughts
+        for e in reader_thoughts(session):
             lines.extend([e.get('name','')+' · '+e.get('scene',''),e['text'],''])
     return '\n'.join(lines).encode('utf-8-sig')
 
